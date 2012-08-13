@@ -1,4 +1,5 @@
 require "gugg-web_api-collection-db/version"
+require "gugg-web_api-collection-db/object_context"
 require "gugg-web_api-collection-db/text_entry"
 require "gugg-web_api-collection-db/title_type"
 

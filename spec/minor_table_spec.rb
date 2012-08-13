@@ -11,6 +11,20 @@ require 'gugg-web_api-collection-db'
 
 MDL = Gugg::WebApi::Collection::Db
 
+describe MDL::ObjectContext do
+  it "should return rows" do
+    # There are 977 object contexts as of Aug 2012
+    MDL::ObjectContext.all().count.should be >= 977
+  end
+
+  it "should contain expected fields" do
+    context = MDL::ObjectContext.first
+    context.longtext7.should be
+    context.flag5.should be
+    context.flag6.should be
+  end
+end
+
 describe MDL::TextEntry do
   it "should return rows" do
     # There are 346 text entries as of Aug 2012
