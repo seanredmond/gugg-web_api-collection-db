@@ -53,6 +53,17 @@ describe MDL::ObjectContext do
   end
 end
 
+describe MDL::Role do
+  it "should return rows" do
+    # There are 88 roles as of Aug 2012
+    MDL::Role.all().count.should be >= 88
+  end
+
+  it "should contain expected values" do
+    MDL::Role[1].role.should eq('Artist')
+  end
+end
+
 describe MDL::TextEntry do
   it "should return rows" do
     # There are 346 text entries as of Aug 2012
