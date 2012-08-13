@@ -1,3 +1,9 @@
+# Tests for tables without any extra implementation beyond Sequel
+#
+# Author:: Sean Redmond <sredmond@guggenheim.org>
+# Copyright:: Copyright © 2012 Solomon R. Guggenheim Foundation
+# License GPLv3
+
 require "rubygems"
 require "sequel"
 require "yaml"
@@ -10,6 +16,28 @@ db = cfg['db']['mysql']
 require 'gugg-web_api-collection-db'
 
 MDL = Gugg::WebApi::Collection::Db
+
+describe MDL::LanguageCode do
+  it "should return rows" do
+    # There are 12 language codes as of Aug 2012
+    MDL::LanguageCode.all().count.should be >= 12
+  end
+
+  it "should contain expected values" do
+    MDL::LanguageCode[1].language_code.should eq('en')
+  end
+end
+
+describe MDL::MediaType do
+  it "should return rows" do
+    # There are 9 media types as of Aug 2012
+    MDL::MediaType.all().count.should be >= 9
+  end
+
+  it "should contain expected values" do
+    MDL::MediaType[1].mediatype.should eq('Image')
+  end
+end
 
 describe MDL::ObjectContext do
   it "should return rows" do
