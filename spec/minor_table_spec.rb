@@ -53,6 +53,17 @@ describe MDL::ObjectContext do
   end
 end
 
+describe MDL::SortFields do
+  it "should return rows" do
+    # There are 88 roles as of Aug 2012
+    MDL::SortFields.all().count.should be >= 977
+  end
+
+  it "should contain expected values" do
+    MDL::SortFields[2].title.should eq('Villa Borghese')
+  end
+end
+
 describe MDL::Role do
   it "should return rows" do
     # There are 88 roles as of Aug 2012

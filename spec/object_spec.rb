@@ -27,6 +27,10 @@ describe MDL::CollectionObject do
     MDL::CollectionObject.all().count.should be >= 977
   end
 
+  it "should have sort fields" do
+    @pwb.sort_fields.should be_an_instance_of(MDL::SortFields)
+  end
+
   it "should have an object context" do
     @pwb.contexts.should be_an_instance_of(MDL::ObjectContext)
   end
@@ -75,6 +79,18 @@ describe MDL::CollectionObject do
     end
   end
 
+  describe '#sort_title' do
+    it "should have a sort title" do
+      @pwb.sort_title.should be
+    end
+  end
+
+  describe '#sort_name' do
+    it "should have a sort name" do
+      @pwb.sort_name.should be
+    end
+  end
+
   describe '#as_resource' do
     it "should be a hash" do
       @pwb.as_resource.should be_an_instance_of(Hash)
@@ -87,6 +103,18 @@ describe MDL::CollectionObject do
 
       it "should have the accession number 37.245" do
         @r[:accession].should eq('37.245')
+      end
+
+      it "should have the right sort number" do
+        @r[:sort_number].should eq('    37   245')
+      end
+
+      it "should have the right sort title" do
+        @r[:sort_title].should eq('Painting with White Border')
+      end
+
+      it "should have the right sort name" do
+        @r[:sort_name].should eq('Kandinsky, Vasily')
       end
 
       it "should be a highlight" do

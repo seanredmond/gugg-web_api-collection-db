@@ -13,6 +13,9 @@ module Gugg
         	one_to_one :contexts, 
         		:class => Gugg::WebApi::Collection::Db::ObjectContext,
         		:key => :objectid
+          one_to_one :sort_fields, 
+            :class => Gugg::WebApi::Collection::Db::SortFields, 
+            :key => :objectid
 
         	def copyright
         		contexts.shorttext7
@@ -34,11 +37,21 @@ module Gugg
         		contexts.flag5 == 1
         	end
 
+          def sort_title
+            sort_fields.title
+          end
+
+          def sort_name
+            sort_fields.constituent
+          end
+
         	def as_resource
         		resource = {
         			:id => pk,
         			:accession => objectnumber,
-        			:sortnumber => sortnumber,
+        			:sort_number => sortnumber,
+              :sort_title => sort_title,
+              :sort_name => sort_name,
         			:dates => {
         				:begin => datebegin,
         				:end => dateend,
