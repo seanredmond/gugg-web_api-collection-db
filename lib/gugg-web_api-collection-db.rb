@@ -8,6 +8,7 @@ require "gugg-web_api-collection-db/role"
 require "gugg-web_api-collection-db/sort_fields"
 require "gugg-web_api-collection-db/text_entry"
 require "gugg-web_api-collection-db/title_type"
+require "gugg-web_api-collection-db/object_title"
 require "gugg-web_api-collection-db/collection_object"
 
 module Gugg
