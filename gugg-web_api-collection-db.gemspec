@@ -4,8 +4,8 @@ require File.expand_path('../lib/gugg-web_api-collection-db/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Sean Redmond"]
   gem.email         = ["github-smr@sneakemail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = "Guggenheim collections API data"
+  gem.summary       = "Classes for output of collections data for API"
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
