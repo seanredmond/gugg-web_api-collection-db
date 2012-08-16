@@ -115,7 +115,8 @@ module Gugg
         			:sort_number => sortnumber,
               :sort_title => sort_title,
               :sort_name => sort_name,
-              :titles => titles,
+              :titles => titles.as_resource,
+              :series => series == nil ? nil : series.as_resource,
         			:dates => {
         				:begin => datebegin,
         				:end => dateend,
