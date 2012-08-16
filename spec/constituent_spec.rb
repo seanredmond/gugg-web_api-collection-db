@@ -49,8 +49,32 @@ describe MDL::Constituent do
 
   describe "#as_resource" do
     it "should return a Hash" do
-      puts @kandinsky.as_resource.inspect
       @kandinsky.as_resource.should be_an_instance_of Hash
     end
   end
 end
+
+describe MDL::ConstituentXref do
+  before :all do
+    @xref = MDL::ConstituentXref[1973]
+  end
+
+  it "should be a ConstituentXref" do
+    @xref.should be_an_instance_of MDL::ConstituentXref
+  end
+
+  it "should be connected to a CollectionObject" do
+    @xref.object.should be_an_instance_of MDL::CollectionObject
+  end
+
+  it "should be connected to a Constituent" do
+    @xref.constituent.should be_an_instance_of MDL::Constituent
+  end
+
+  it "should be connected to a Role" do
+    puts @xref.as_resource.inspect
+    @xref.role.should be_an_instance_of MDL::Role
+  end
+
+end
+

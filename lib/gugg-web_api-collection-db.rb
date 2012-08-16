@@ -11,6 +11,7 @@ require "gugg-web_api-collection-db/text_entry"
 require "gugg-web_api-collection-db/title_type"
 require "gugg-web_api-collection-db/object_title"
 require "gugg-web_api-collection-db/collection_object"
+require "gugg-web_api-collection-db/constituent_xref"
 
 module Gugg
   module WebApi
