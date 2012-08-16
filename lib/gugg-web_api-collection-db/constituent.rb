@@ -9,6 +9,24 @@ module Gugg
     module Collection
       module Db
         class Constituent < Sequel::Model(:collection_tms_constituents)
+          def as_resource
+            {
+              :id => pk,
+              :firstname => firstname,
+              :middlename => middlename,
+              :lastname => lastname,
+              :suffix => suffix,
+              :display => displayname,
+              :sort => alphasort,
+              :nationality => nationality,
+              :dates => {
+                :begin => begindate,
+                :end => enddate,
+                :display => displaydate
+              },
+              :objects => {}
+            }
+          end
         end
       end
     end

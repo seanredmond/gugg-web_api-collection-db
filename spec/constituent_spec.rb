@@ -19,7 +19,7 @@ MDL = Gugg::WebApi::Collection::Db
 
 describe MDL::Constituent do
   before :all do
-    @kandinsky = Constituent[1515]
+    @kandinsky = MDL::Constituent[1515]
   end
 
   it "should return rows" do
@@ -28,23 +28,29 @@ describe MDL::Constituent do
   end
 
   it "should have a last name" do
-    @kandinsky.last_name.should eq "Kandinksy"
+    @kandinsky.lastname.should eq "Kandinsky"
   end
 
   it "should have a first name" do
-    @kandinsky.first_name.should eq "Vasily"
+    @kandinsky.firstname.should eq "Vasily"
   end
 
   it "should have a middle name" do
-    @kandinsky.middle_name.should be_nil
+    @kandinsky.middlename.should be_nil
   end
 
   it "should have a display name" do
-    @kandinsky.middle_name.should eq "Vasily Kandinsky"
+    @kandinsky.displayname.should eq "Vasily Kandinsky"
   end
 
   it "should have a sort name" do
     @kandinsky.alphasort.should eq "Kandinsky, Vasily"
   end
 
+  describe "#as_resource" do
+    it "should return a Hash" do
+      puts @kandinsky.as_resource.inspect
+      @kandinsky.as_resource.should be_an_instance_of Hash
+    end
+  end
 end
