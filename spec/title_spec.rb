@@ -26,5 +26,12 @@ describe MDL::CollectionObject do
     it "should return a hash" do
       @pwb.titles.should be_an_instance_of Hash
     end
+
+    it "should not have a sort title" do
+    	puts @pwb.titles.inspect
+    	# We used to include a sort title in the titles resource, but this is 
+    	# redundant as the main object already has a sort_title property
+    	@pwb.titles[:sort].should_not be
+  	end
   end
 end

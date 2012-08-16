@@ -70,11 +70,9 @@ module Gugg
             # Make a list of all titles but the preferred
             other = all_titles.filter(~:titleid => primary.titleid)
         
-            sort_title = objtitles_dataset(:titletypeid => 17).first
             {
-              'primary' => primary.as_resource,
-              'other' => other.count > 0 ? other.map {|t| t.as_resource} : nil,
-              'sort' => sort_title == nil ? primary.title : sort_title.title
+              :primary => primary.as_resource,
+              :other => other.count > 0 ? other.map {|t| t.as_resource} : nil,
             }
 
           end
