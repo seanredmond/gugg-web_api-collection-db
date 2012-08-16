@@ -1,4 +1,5 @@
 require "gugg-web_api-collection-db/version"
+require "gugg-web_api-collection-db/constituent"
 require "gugg-web_api-collection-db/language_code"
 require "gugg-web_api-collection-db/language"
 require "gugg-web_api-collection-db/media_type"
