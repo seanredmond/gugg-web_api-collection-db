@@ -16,11 +16,9 @@ module Gugg
 	          # Return nil for all of these
 
 	          resource = {
-	            'id' => pk,
-	            'language' => [nil, 0, 7].include?(languageid) ? nil : languages.language,
-	            'language_code' => [nil, 0, 7].include?(languageid) ? nil : languages.codes.language_code,
-	            'type' => titletypes.titletype,
-	            'order' => displayorder
+	            :language => [nil, 0, 7].include?(languageid) ? nil : languages.codes.language_code,
+	            :type => titletypes.titletype,
+	            :order => displayorder
 	          }
 	    
 	          if [7, 15, 16].include?(titletypeid)

@@ -28,10 +28,15 @@ describe MDL::CollectionObject do
     end
 
     it "should not have a sort title" do
-    	puts @pwb.titles.inspect
     	# We used to include a sort title in the titles resource, but this is 
     	# redundant as the main object already has a sort_title property
     	@pwb.titles[:sort].should_not be
+  	end
+
+  	it "should not have ids for titles" do
+  		# Title resources used to have an id, but this has no meaning to the end 
+  		#user
+  		@pwb.titles[:primary][:id].should_not be
   	end
   end
 end
