@@ -72,7 +72,6 @@ describe MDL::ConstituentXref do
   end
 
   it "should be connected to a Role" do
-    puts @xref.as_resource.inspect
     @xref.role.should be_an_instance_of MDL::Role
   end
 

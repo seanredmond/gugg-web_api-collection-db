@@ -8,8 +8,13 @@ module Gugg
   module WebApi
     module Collection
       module Db
+        class ConstituentXref < Sequel::Model(:collection_tms_conxrefs)
+          # Temporary dummy class because of circular dependency
+        end
+
         class CollectionObject < Sequel::Model(:collection_tms_objects)
         	set_primary_key :objectid
+          one_to_many :conxrefs, :class => ConstituentXref, :key => :id
           one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
         	one_to_one :contexts, :class => ObjectContext, :key => :objectid
           one_to_one :sort_fields, :class => SortFields, :key => :objectid
@@ -36,6 +41,10 @@ module Gugg
 
           def sort_name
             sort_fields.constituent
+          end
+
+          def constituents
+            conxrefs
           end
 
           def titles(preferred_language = 1)
@@ -105,6 +114,7 @@ module Gugg
         			:sort_number => sortnumber,
               :sort_title => sort_title,
               :sort_name => sort_name,
+              :constituents => constituents.map {|c| c.as_resource},
               :titles => titles.as_resource,
               :series => series == nil ? nil : series.as_resource,
         			:dates => {

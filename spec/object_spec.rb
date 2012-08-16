@@ -39,6 +39,18 @@ describe MDL::CollectionObject do
     @pwb.objectnumber.should eq('37.245')
   end
 
+  describe "#constituents" do
+    it "should return an Array" do
+      @pwb.constituents.should be_an_instance_of Array
+    end
+
+    it "should return an Array of ConstituentXref objects" do
+      @pwb.constituents.each do |xref|
+        xref.should be_an_instance_of MDL::ConstituentXref
+      end
+    end
+  end
+
   describe '#copyright' do
     it "should have the right copyright" do
       @pwb.copyright.should eq(
@@ -92,6 +104,7 @@ describe MDL::CollectionObject do
       end
 
       it "should have the accession number 37.245" do
+        puts @r.inspect
         @r[:accession].should eq('37.245')
       end
 
