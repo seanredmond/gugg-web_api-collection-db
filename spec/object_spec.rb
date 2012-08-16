@@ -47,19 +47,9 @@ describe MDL::CollectionObject do
     end
   end
 
-  describe '#has_essay?' do
-    it "should have an essay" do
-      @pwb.has_essay?.should be_true
-    end
-
-    it "should not have an essay" do
-      MDL::CollectionObject[116].has_essay?.should be_false
-    end
-  end
-
   describe '#essay' do
     it "should have an essay" do
-      @pwb.essay.should match(/^<p>With its undulating colored ovals/)
+      @pwb.essay.should start_with "<p>With its undulating colored ovals"
     end
   end
 
@@ -126,7 +116,7 @@ describe MDL::CollectionObject do
       end
 
       it "should have an essay" do
-        @r[:has_essay].should be_true
+        @r[:essay].should start_with "<p>With its undulating colored ovals"
       end
     end
 
@@ -148,7 +138,7 @@ describe MDL::CollectionObject do
       end
 
       it "should not have an essay" do
-        @r[:has_essay].should be_false
+        @r[:essay].should be_nil
       end
     end
   end

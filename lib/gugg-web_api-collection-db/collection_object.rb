@@ -28,10 +28,6 @@ module Gugg
         		contexts.longtext7
         	end
 
-        	def has_essay?
-        		contexts.longtext7 != nil
-        	end
-
         	def is_highlight?
         		contexts.flag6 == 1
         	end
@@ -128,7 +124,7 @@ module Gugg
         			:credit => creditline,
         			:highlight => is_highlight?,
         			:recent_acquisition => is_recent_acquisition?,
-        			:has_essay => has_essay?
+        			:essay => essay
         		}
         	end
         end
