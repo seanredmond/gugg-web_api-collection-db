@@ -10,15 +10,9 @@ module Gugg
       module Db
         class CollectionObject < Sequel::Model(:collection_tms_objects)
         	set_primary_key :objectid
-          one_to_many :objtitles, 
-            :class => ObjectTitle, 
-            :key => :objectid
-        	one_to_one :contexts, 
-        		:class => Gugg::WebApi::Collection::Db::ObjectContext,
-        		:key => :objectid
-          one_to_one :sort_fields, 
-            :class => Gugg::WebApi::Collection::Db::SortFields, 
-            :key => :objectid
+          one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
+        	one_to_one :contexts, :class => ObjectContext, :key => :objectid
+          one_to_one :sort_fields, :class => SortFields, :key => :objectid
 
         	def copyright
         		contexts.shorttext7
