@@ -28,6 +28,6 @@ describe MDL::Language do
   end
 
   it "should be able to retrieve associated language code" do
-    MDL::Language[1].languages.language_code.should eq('en')
+    MDL::Language[1].codes.language_code.should eq('en')
   end
 end
