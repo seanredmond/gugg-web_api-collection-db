@@ -49,32 +49,63 @@ module Gugg
           end
 
           def titles(preferred_language = 1)
+            # titletypeid's 7, 15, & 16 are series titles, 17 is sort title
             all_titles = objtitles_dataset.
               where(:displayed => 1).
               where(~:active => 0).
-              where(~:titletypeid => [7, 15, 16, 17]).
+              where(~:titletypeid => [7, 15, 16, 17]). 
               order(:displayorder)
 
+            group = TitleGroup.new
+
             if all_titles.count == 0
-              {}
+              return group
             end
 
             # The primary title is the first title in the preferred language
             # (Default: English)
-            primary = all_titles.filter(:languageid => preferred_language).first
-            if primary == nil
+            group.primary = all_titles.filter(:languageid => preferred_language).first
+            if group.primary == nil
               # or the first title if none is in the preferred language
-              primary = all_titles.first
+              group.primary = all_titles.first
             end
 
             # Make a list of all titles but the preferred
-            other = all_titles.filter(~:titleid => primary.titleid)
+            group.other = all_titles.filter(~:titleid => group.primary.titleid).all
         
-            {
-              :primary => primary.as_resource,
-              :other => other.count > 0 ? other.map {|t| t.as_resource} : nil,
-            }
+            # {
+            #   :primary => primary.as_resource,
+            #   :other => other.count > 0 ? other.map {|t| t.as_resource} : nil,
+            # }
 
+            group
+
+          end
+
+          def series(preferred_language = 1)
+            # Guanaroca & Iyaré (98.5238) is the only object (so far) to have two series
+            # titles. They don't look properly coded in TMS. We're going to just 
+            # pick the first even though is the second that's displayed on gugg.org
+        
+            all_series = objtitles_dataset.
+              where(:displayed => 1).
+              where(~:active => 0).
+              where(:titletypeid => [7, 15, 16]).
+              order(:displayorder)
+          
+            # The primary series is the first series in the preferred language
+            # (Default: English)
+            primary = all_series.filter(:languageid => preferred_language).first
+            if primary == nil
+              # or the first title if none is in the preferred language
+              primary = all_series.first
+            end
+        
+            if primary == nil
+              return nil
+            else
+              return primary
+            end
           end
 
         	def as_resource
