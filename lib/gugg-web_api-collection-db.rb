@@ -1,3 +1,4 @@
+require "gugg-web_api-collection-db/linkable"
 require "gugg-web_api-collection-db/version"
 require "gugg-web_api-collection-db/constituent"
 require "gugg-web_api-collection-db/language_code"

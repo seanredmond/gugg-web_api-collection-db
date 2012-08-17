@@ -13,6 +13,7 @@ module Gugg
         end
 
         class CollectionObject < Sequel::Model(:collection_tms_objects)
+          include Linkable
         	set_primary_key :objectid
           one_to_many :conxrefs, :class => ConstituentXref, :key => :id
           one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
@@ -107,7 +108,9 @@ module Gugg
             end
           end
 
+
         	def as_resource
+            links = self_link
         		resource = {
         			:id => pk,
         			:accession => objectnumber,
@@ -129,7 +132,8 @@ module Gugg
         			:highlight => is_highlight?,
         			:recent_acquisition => is_recent_acquisition?,
         			:essay => essay,
-              :copyright => copyright
+              :copyright => copyright,
+              :_links => links
         		}
         	end
         end
