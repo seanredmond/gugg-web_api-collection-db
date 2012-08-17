@@ -33,11 +33,17 @@ describe MDL::Acquisition do
     end
 
     it "has a list of Acquisition resources" do
-
       @acq[:acquisitions].each do |a|
         a.should be_an_instance_of Hash
         a[:id].should be
         a[:name].should be
+      end
+    end
+
+    it "has CollectionObject objects" do
+      @acq[:acquisitions].each do |a|
+        a[:objects].should be_an_instance_of Array
+        a[:objects].count.should be > 0
       end
     end
 

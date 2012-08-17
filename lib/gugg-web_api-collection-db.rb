@@ -12,7 +12,10 @@ require "gugg-web_api-collection-db/text_entry"
 require "gugg-web_api-collection-db/title_type"
 require "gugg-web_api-collection-db/object_title"
 require "gugg-web_api-collection-db/collection_object"
+require "gugg-web_api-collection-db/acquisition"
 require "gugg-web_api-collection-db/constituent_xref"
+
+Sequel.extension :pagination
 
 module Gugg
   module WebApi

@@ -25,10 +25,12 @@ module Gugg
             }
           end
 
-          def as_resource(options = {})            
+          def as_resource(options = {})
+            objects_r = objects_dataset.paginate(1, 5)          
             {
               :id => pk,
               :name => acquisition,
+              :objects => objects_r.map { |o| o.as_resource },
               :_links => self_link
             }
           end
