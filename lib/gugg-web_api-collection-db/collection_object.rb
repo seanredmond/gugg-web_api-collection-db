@@ -128,7 +128,8 @@ module Gugg
         			:credit => creditline,
         			:highlight => is_highlight?,
         			:recent_acquisition => is_recent_acquisition?,
-        			:essay => essay
+        			:essay => essay,
+              :copyright => copyright
         		}
         	end
         end
