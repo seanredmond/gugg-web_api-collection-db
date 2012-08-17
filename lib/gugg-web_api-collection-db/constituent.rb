@@ -9,7 +9,10 @@ module Gugg
     module Collection
       module Db
         class Constituent < Sequel::Model(:collection_tms_constituents)
+          include Linkable
+
           def as_resource
+            links = self_link
             {
               :id => pk,
               :firstname => firstname,
@@ -24,7 +27,8 @@ module Gugg
                 :end => enddate,
                 :display => displaydate
               },
-              :objects => {}
+              :objects => {},
+              :_links => links
             }
           end
         end
