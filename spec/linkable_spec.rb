@@ -28,7 +28,7 @@ describe Gugg::WebApi::Collection do
   end
 
   it "returns a link" do
-    @pwb.self_link.should eq 786432
+    @pwb.self_link[:_self][:href].should eq 'http://u.r.i/collection/objects/1867'
   end
 end
 

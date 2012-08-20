@@ -31,7 +31,7 @@ module Gugg
           path = [Linkable::root, Linkable::pathmap[self.class]].join('/')
           {
             :_self => {
-              :href => "#{path}/#{pk} "
+              :href => "#{path}/#{pk}"
             }
           }
         end
