@@ -16,6 +16,11 @@ module Gugg
             :join_table=>:collection_acquisitionxrefs, 
             :left_key=>:acquisitionid, :right_key=>:objectid
           include Linkable
+          include Collectible
+
+          def after_initialize
+            @obj_dataset = objects_dataset
+          end
 
           def self.list
             {
@@ -26,7 +31,7 @@ module Gugg
           end
 
           def as_resource(options = {})
-            objects_r = objects_dataset.paginate(1, 5)          
+            objects_r = paginated_objects         
             {
               :id => pk,
               :name => acquisition,
