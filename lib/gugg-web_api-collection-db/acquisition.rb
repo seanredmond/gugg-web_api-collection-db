@@ -35,7 +35,7 @@ module Gugg
             {
               :id => pk,
               :name => acquisition,
-              :objects => objects_r.map { |o| o.as_resource },
+              :objects => objects_r,
               :_links => self_link
             }
           end

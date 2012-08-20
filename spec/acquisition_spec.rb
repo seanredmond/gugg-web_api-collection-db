@@ -23,6 +23,64 @@ describe MDL::Acquisition do
     MDL::Acquisition.all().count.should be >= 12
   end
 
+  describe "One Acquisition object" do
+    before :all do 
+      # Solomon R. Guggenheim Collection
+      @acq = MDL::Acquisition[6]
+    end
+
+    it "should be an Acquisition" do
+      @acq.should be_an_instance_of MDL::Acquisition
+    end
+
+    it "should have the right ID" do
+      @acq.pk.should eq 6
+    end
+
+    it "should have the right name" do
+      @acq.acquisition.should eq 'Solomon R. Guggenheim Founding Collection'
+    end
+  end
+
+  describe "#as_resource" do
+    before :all do 
+      # Solomon R. Guggenheim Collection
+      @acq = MDL::Acquisition[6]
+      @res = @acq.as_resource
+    end
+
+    it "should return a Hash" do
+      @res.should be_an_instance_of Hash
+    end
+
+    it "should have objects" do
+      @res[:objects].should be_an_instance_of Hash
+    end
+
+    it "should have an Array of items" do
+      @res[:objects][:items].should be_an_instance_of Array
+      @res[:objects][:items].each do |i|
+        puts i[:_links].inspect
+      end
+    end
+
+    it "should be on the first page of objects" do
+      @res[:objects][:page].should eq 1
+    end
+
+    it "should have pages of objects" do
+      @res[:objects][:pages].should be >= 1
+    end
+
+    it "should have an item count" do
+      @res[:objects][:count].should be >= 1
+    end
+
+    it "should have a total item count" do
+      @res[:objects][:total_count].should be >= 1
+    end
+  end
+
   describe ".List" do
     before :all do
       @acq = MDL::Acquisition.list
@@ -37,13 +95,6 @@ describe MDL::Acquisition do
         a.should be_an_instance_of Hash
         a[:id].should be
         a[:name].should be
-      end
-    end
-
-    it "has CollectionObject objects" do
-      @acq[:acquisitions].each do |a|
-        a[:objects].should be_an_instance_of Array
-        a[:objects].count.should be > 0
       end
     end
 
