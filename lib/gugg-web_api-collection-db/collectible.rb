@@ -10,8 +10,8 @@ module Gugg
       module Collectible
         attr :obj_dataset
 
-        def paginated_objects
-          pages = @obj_dataset.paginate(1, 7)
+        def paginated_objects(page=1, per_page=20)
+          pages = @obj_dataset.paginate(page, per_page)
           {
             :page => pages.current_page,
             :pages => pages.page_count,
