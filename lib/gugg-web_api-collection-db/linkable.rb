@@ -39,7 +39,7 @@ module Gugg
         end
 
 
-        def self_link
+        def self_link(options = {})
           path = [Linkable::root, Linkable::pathmap[self.class]].join('/')
           pagination = {}
 
@@ -49,7 +49,7 @@ module Gugg
                 :page => @obj_pages.prev_page, 
                 :per_page => @obj_pages.page_size
               }
-              q = format_params({}, params)
+              q = format_params(options, params)
               pagination[:prev] = {
                 :href => "#{path}/#{pk}#{q}"
               }
@@ -60,18 +60,17 @@ module Gugg
                 :page => @obj_pages.next_page, 
                 :per_page => @obj_pages.page_size
               }
-              q = format_params({}, params)
+              q = format_params(options, params)
               pagination[:next] = {
                 :href => "#{path}/#{pk}#{q}"
               }
             end
-
-            puts pagination.inspect
           end
 
+          q = format_params(options)
           {
             :_self => {
-              :href => "#{path}/#{pk}"
+              :href => "#{path}/#{pk}#{q}"
             }
           }.merge!(pagination)
         end

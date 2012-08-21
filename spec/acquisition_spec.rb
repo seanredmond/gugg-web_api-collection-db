@@ -43,18 +43,35 @@ describe MDL::Acquisition do
   end
 
   describe "#as_resource" do
-    before :all do 
+    before :all do
       # Solomon R. Guggenheim Collection
       @acq = MDL::Acquisition[6]
-      @res = @acq.as_resource
     end
 
-    it "should return a Hash" do
-      @res.should be_an_instance_of Hash
+    context "with defaults" do
+      before :all do 
+        @res = @acq.as_resource
+      end
+
+      it "should return a Hash" do
+        @res.should be_an_instance_of Hash
+      end
+
+      it "should have objects" do
+        @res[:objects].should be_an_instance_of Hash
+      end
     end
 
-    it "should have objects" do
-      @res[:objects].should be_an_instance_of Hash
+    context "with options" do
+      context "for page" do
+        before :all do
+          @res = @acq.as_resource({:page => 2})
+        end
+
+        it "should return page 2" do
+          @res[:objects][:page].should eq 2
+        end
+      end
     end
   end
 

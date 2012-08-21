@@ -23,12 +23,106 @@ describe Gugg::WebApi::Collection do
     Gugg::WebApi::Collection::Linkable::map_path(
       Gugg::WebApi::Collection::Db::CollectionObject, 'objects'
     )
+    Gugg::WebApi::Collection::Linkable::map_path(
+      Gugg::WebApi::Collection::Db::Acquisition, 'acquisitions'
+    )
     @pwb = MDL::CollectionObject[1867]
 
   end
 
-  it "returns a link" do
-    @pwb.self_link[:_self][:href].should eq 'http://u.r.i/collection/objects/1867'
+  describe "#self_link" do
+    it "returns a link" do
+      @pwb.self_link[:_self][:href].should eq 'http://u.r.i/collection/objects/1867'
+    end
+
+    context "with an object that implements Collectible" do
+      before :all do
+        # Solomon R. Guggenheim Collection
+        @acq_id = 6
+        @acq = MDL::Acquisition[@acq_id]
+      end
+
+      context "with defaults" do
+        before :all do
+          @res = @acq.as_resource
+        end
+
+        it "should return a Hash" do
+          @res.should be_an_instance_of Hash
+        end
+
+        it "should have objects" do
+          @res[:objects].should be_an_instance_of Hash
+        end
+
+        it "should link to itself" do
+          @res[:_links][:_self][:href].
+            should eq "http://u.r.i/collection/acquisitions/#{@acq_id}"
+        end
+        it "should link to page 2" do
+          @res[:_links][:next][:href].
+            should start_with "http://u.r.i/collection/acquisitions/#{@acq_id}"
+          @res[:_links][:next][:href].should include "page=2"
+          @res[:_links][:next][:href].should include "per_page=20"
+        end
+      end
+
+      context "with options" do
+        context "for page" do
+          before :all do
+            @res = @acq.as_resource({:page => 2})
+          end
+
+          it "should link to itself" do
+            @res[:_links][:_self][:href].should include "page=2"
+          end
+
+          it "should link to previous page 1" do
+            @res[:_links][:prev][:href].should include "page=1"
+          end
+
+          it "should link to next page 3" do
+            @res[:_links][:next][:href].should include "page=3"
+          end
+        end
+
+        context "for items per page" do
+          before :all do
+            @res = @acq.as_resource({:per_page => 5})
+          end
+
+          it "should link to itself" do
+            @res[:_links][:_self][:href].should include "per_page=5"
+          end
+
+          it "should link to next page 3" do
+            @res[:_links][:next][:href].should include "page=2"
+            @res[:_links][:next][:href].should include "per_page=5"
+          end
+        end
+
+        context "for page and items per page" do
+          before :all do
+            @res = @acq.as_resource({:page => 2, :per_page => 5})
+          end
+
+          it "should link to itself" do
+            @res[:_links][:_self][:href].should include "page=2"
+            @res[:_links][:_self][:href].should include "per_page=5"
+          end
+
+          it "should link to previous page 1" do
+            @res[:_links][:prev][:href].should include "page=1"
+            @res[:_links][:prev][:href].should include "per_page=5"
+          end
+
+          it "should link to next page 3" do
+            @res[:_links][:next][:href].should include "page=3"
+            @res[:_links][:next][:href].should include "per_page=5"
+          end
+        end
+      end
+    end
   end
 end
 

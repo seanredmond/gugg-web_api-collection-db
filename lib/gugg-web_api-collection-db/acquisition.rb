@@ -32,12 +32,12 @@ module Gugg
           end
 
           def as_resource(options = {})
-            objects_r = paginated_resource      
+            objects_r = paginated_resource(options)      
             {
               :id => pk,
               :name => acquisition,
               :objects => objects_r,
-              :_links => self_link
+              :_links => self_link(options)
             }
           end
         end
