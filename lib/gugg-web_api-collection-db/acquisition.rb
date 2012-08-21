@@ -23,11 +23,11 @@ module Gugg
             @obj_pages = nil
           end
 
-          def self.list
+          def self.list(options = {})
             {
               :acquisitions => all.
                 reject{|a| a.objects_dataset.count == 0}.
-                map{|a| a.as_resource({:per_page => 5})}
+                map{|a| a.as_resource({:per_page => 5}.merge!(options))}
             }
           end
 

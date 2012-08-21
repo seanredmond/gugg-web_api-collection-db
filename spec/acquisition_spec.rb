@@ -76,21 +76,62 @@ describe MDL::Acquisition do
   end
 
   describe ".List" do
-    before :all do
-      @acq = MDL::Acquisition.list
-    end
+    context "with defaults" do
+      before :all do
+        @acq = MDL::Acquisition.list
+      end
 
-    it "should return a Hash" do
-      @acq.should be_an_instance_of Hash
-    end
+      it "should return a Hash" do
+        @acq.should be_an_instance_of Hash
+      end
 
-    it "has a list of Acquisition resources" do
-      @acq[:acquisitions].each do |a|
-        a.should be_an_instance_of Hash
-        a[:id].should be
-        a[:name].should be
+      it "has a list of Acquisition resources" do
+        @acq[:acquisitions].each do |a|
+          a.should be_an_instance_of Hash
+          a[:id].should be
+          a[:name].should be
+        end
+      end
+
+      it "should have Acquisition resources with 5 items" do
+        @acq[:acquisitions].each do |a|
+          a[:objects][:items].should have_at_least(1).items
+          a[:objects][:items].should have_at_most(5).items
+        end
       end
     end
 
+    context "with options" do
+      context "for items per page" do
+        before :all do
+          @acq = MDL::Acquisition.list({:per_page => 10})
+        end
+
+        it "should have Acquisition resources with 10 items" do
+          @acq[:acquisitions].each do |a|
+            a[:objects][:items].should have_at_least(1).items
+            a[:objects][:items].should have_at_most(10).items
+          end
+        end
+      end
+      
+      context "with no_objects" do
+        before :all do
+          @acq = MDL::Acquisition.list({:no_objects => 1})
+        end
+
+        it "should have Acquisition resources without objects" do
+          @acq[:acquisitions].each do |a|
+            a[:objects][:items].should be_nil
+          end
+        end
+
+        it "should have Acquisition objects with counts" do
+          @acq[:acquisitions].each do |a|
+            a[:objects][:count].should be >= 1
+          end
+        end
+      end
+    end
   end
 end
