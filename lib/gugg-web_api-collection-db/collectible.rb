@@ -1,4 +1,4 @@
-# Create API links
+# Handle paginated lists of CollectionObject objects
 #
 # Author:: Sean Redmond <sredmond@guggenheim.org>
 # Copyright:: Copyright © 2012 Solomon R. Guggenheim Foundation
@@ -19,15 +19,6 @@ module Gugg
             :count => pages.count,
             :total_count => pages.pagination_record_count,
             :items => pages.count > 0 ? pages.map{|i| i.as_resource} : nil
-          }
-        end
-
-        def self_link
-          path = [Linkable::root, Linkable::pathmap[self.class]].join('/')
-          {
-            :_self => {
-              :href => "#{path}/#{pk} "
-            }
           }
         end
       end
