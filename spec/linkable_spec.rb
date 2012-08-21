@@ -121,6 +121,25 @@ describe Gugg::WebApi::Collection do
             @res[:_links][:next][:href].should include "per_page=5"
           end
         end
+
+        context "with no_objects" do
+          before :all do
+            @res = @acq.as_resource(:no_objects => 1)
+          end
+
+          it "should link to itself" do
+            @res[:_links][:_self][:href].
+              should start_with "http://u.r.i/collection/acquisitions/#{@acq_id}"
+          end
+
+          it "should not repeat the no_objects parameter" do
+            @res[:_links][:_self][:href].should_not include "no_objects"
+          end
+
+          it "should not link to another page" do
+            @res[:_links][:next].should be_nil
+          end
+        end
       end
     end
   end

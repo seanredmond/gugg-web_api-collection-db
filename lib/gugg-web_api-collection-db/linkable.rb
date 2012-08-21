@@ -28,7 +28,12 @@ module Gugg
         end
 
         def format_params(current, new={})
-          p = current.merge(new)
+          # merge current and new parameters and throw out parameters that we 
+          # don't wnat to repeat in the links we're going to construct
+          no_repeat = [:no_objects] 
+          p = current.merge(new).reject{|k,v| no_repeat.include?(k)}
+
+          # No parameters to format? Goodbye!
           if p.count == 0
             return ''
           end

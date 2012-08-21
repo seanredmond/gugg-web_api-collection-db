@@ -149,6 +149,20 @@ describe Gugg::WebApi::Collection::Collectible do
         (items1 & items2).should eq []
       end
     end
+
+    context "with no_objects" do
+      before :all do
+        @objects = @acq.paginated_resource({:no_objects => 1})
+      end
+
+      it "should have a count of objects" do
+        @objects[:count].should be >= 55
+      end
+
+      it "should not have an array of items" do
+        @objects[:items].should be_nil
+      end
+    end
   end
 end
 
