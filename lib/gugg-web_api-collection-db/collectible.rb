@@ -10,7 +10,9 @@ module Gugg
       module Collectible
         attr :obj_dataset
 
-        def paginated_resource(page=1, per_page=20)
+        def paginated_resource(options = {})
+          page = options[:page] || 1
+          per_page = options[:per_page] || 20
           if @obj_pages == nil || 
               @obj_pages.current_page != page || 
               @obj_pages.page_size != per_page
