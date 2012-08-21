@@ -70,7 +70,7 @@ describe Gugg::WebApi::Collection do
       context "with options" do
         context "for page" do
           before :all do
-            @res = @acq.as_resource({:page => 2})
+            @res = @acq.as_resource({'page' => 2})
           end
 
           it "should link to itself" do
@@ -88,7 +88,7 @@ describe Gugg::WebApi::Collection do
 
         context "for items per page" do
           before :all do
-            @res = @acq.as_resource({:per_page => 5})
+            @res = @acq.as_resource({'per_page' => 5})
           end
 
           it "should link to itself" do
@@ -103,7 +103,7 @@ describe Gugg::WebApi::Collection do
 
         context "for page and items per page" do
           before :all do
-            @res = @acq.as_resource({:page => 2, :per_page => 5})
+            @res = @acq.as_resource({'page' => 2, 'per_page' => 5})
           end
 
           it "should link to itself" do
@@ -124,7 +124,7 @@ describe Gugg::WebApi::Collection do
 
         context "with no_objects" do
           before :all do
-            @res = @acq.as_resource(:no_objects => 1)
+            @res = @acq.as_resource({'no_objects' => 1})
           end
 
           it "should link to itself" do

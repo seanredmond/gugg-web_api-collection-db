@@ -64,7 +64,7 @@ describe Gugg::WebApi::Collection::Collectible do
     context "with a specified page" do
       before :all do
         @page1 = @acq.paginated_resource
-        @page2 = @acq.paginated_resource({:page => 2})
+        @page2 = @acq.paginated_resource({'page' => 2})
       end
 
       it "should return 20 items" do
@@ -96,7 +96,7 @@ describe Gugg::WebApi::Collection::Collectible do
 
     context "with a specified number of items per page" do
       before :all do
-        @objects = @acq.paginated_resource({:per_page => 5})
+        @objects = @acq.paginated_resource({'per_page' => 5})
       end
 
       it "should return 5 items" do
@@ -119,8 +119,8 @@ describe Gugg::WebApi::Collection::Collectible do
 
     context "with a specified page and number of items per page" do
       before :all do
-        @page1 = @acq.paginated_resource({:per_page => 5})
-        @page2 = @acq.paginated_resource({:page => 2, :per_page => 5})
+        @page1 = @acq.paginated_resource({'per_page' => 5})
+        @page2 = @acq.paginated_resource({'page' => 2, 'per_page' => 5})
       end
 
       it "should return 5 items" do
@@ -152,7 +152,7 @@ describe Gugg::WebApi::Collection::Collectible do
 
     context "with no_objects" do
       before :all do
-        @objects = @acq.paginated_resource({:no_objects => 1})
+        @objects = @acq.paginated_resource({'no_objects' => 1})
       end
 
       it "should have a count of objects" do

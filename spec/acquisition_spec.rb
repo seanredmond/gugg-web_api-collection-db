@@ -65,7 +65,7 @@ describe MDL::Acquisition do
     context "with options" do
       context "for page" do
         before :all do
-          @res = @acq.as_resource({:page => 2})
+          @res = @acq.as_resource({'page' => 2})
         end
 
         it "should return page 2" do
@@ -117,7 +117,7 @@ describe MDL::Acquisition do
       
       context "with no_objects" do
         before :all do
-          @acq = MDL::Acquisition.list({:no_objects => 1})
+          @acq = MDL::Acquisition.list({'no_objects' => 1})
         end
 
         it "should have Acquisition resources without objects" do
