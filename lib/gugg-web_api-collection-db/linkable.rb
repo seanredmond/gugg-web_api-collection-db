@@ -27,13 +27,53 @@ module Gugg
           @@pathmap[cls] = path
         end
 
+        def format_params(current, new={})
+          p = current.merge(new)
+          if p.count == 0
+            return ''
+          end
+
+          pairs = p.map{|k, v| "#{k}=#{v}"}
+          query = pairs.join('&')
+          return "?#{query}"
+        end
+
+
         def self_link
           path = [Linkable::root, Linkable::pathmap[self.class]].join('/')
+          pagination = {}
+
+          if @obj_pages != nil
+            if ! @obj_pages.first_page?
+              params = {
+                :page => @obj_pages.prev_page, 
+                :per_page => @obj_pages.page_size
+              }
+              q = format_params({}, params)
+              pagination[:prev] = {
+                :href => "#{path}/#{pk}#{q}"
+              }
+            end
+
+            if ! @obj_pages.last_page?
+              params = {
+                :page => @obj_pages.next_page, 
+                :per_page => @obj_pages.page_size
+              }
+              q = format_params({}, params)
+              pagination[:next] = {
+                :href => "#{path}/#{pk}#{q}"
+              }
+            end
+
+            puts pagination.inspect
+          end
+
           {
             :_self => {
               :href => "#{path}/#{pk}"
             }
-          }
+          }.merge!(pagination)
         end
       end
     end

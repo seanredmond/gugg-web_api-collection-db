@@ -20,6 +20,7 @@ module Gugg
 
           def after_initialize
             @obj_dataset = objects_dataset
+            @obj_pages = nil
           end
 
           def self.list
@@ -31,7 +32,7 @@ module Gugg
           end
 
           def as_resource(options = {})
-            objects_r = paginated_objects         
+            objects_r = paginated_resource      
             {
               :id => pk,
               :name => acquisition,

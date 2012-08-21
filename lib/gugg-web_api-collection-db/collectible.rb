@@ -10,15 +10,21 @@ module Gugg
       module Collectible
         attr :obj_dataset
 
-        def paginated_objects(page=1, per_page=20)
-          pages = @obj_dataset.paginate(page, per_page)
+        def paginated_resource(page=1, per_page=20)
+          if @obj_pages == nil || 
+              @obj_pages.current_page != page || 
+              @obj_pages.page_size != per_page
+            @obj_pages = @obj_dataset.paginate(page, per_page)
+          end
+
           {
-            :page => pages.current_page,
-            :pages => pages.page_count,
-            :items_per_page => pages.page_size,
-            :count => pages.count,
-            :total_count => pages.pagination_record_count,
-            :items => pages.count > 0 ? pages.map{|i| i.as_resource} : nil
+            :page => @obj_pages.current_page,
+            :pages => @obj_pages.page_count,
+            :items_per_page => @obj_pages.page_size,
+            :count => @obj_pages.count,
+            :total_count => @obj_pages.pagination_record_count,
+            :items => @obj_pages.count > 0 ? 
+              @obj_pages.map{|i| i.as_resource} : nil
           }
         end
       end
