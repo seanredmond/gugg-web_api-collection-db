@@ -73,10 +73,6 @@ describe Gugg::WebApi::Collection do
             @res = @acq.as_resource({'page' => 2})
           end
 
-          it "should link to itself" do
-            @res[:_links][:_self][:href].should include "page=2"
-          end
-
           it "should link to previous page 1" do
             @res[:_links][:prev][:href].should include "page=1"
           end
@@ -91,10 +87,6 @@ describe Gugg::WebApi::Collection do
             @res = @acq.as_resource({'per_page' => 5})
           end
 
-          it "should link to itself" do
-            @res[:_links][:_self][:href].should include "per_page=5"
-          end
-
           it "should link to next page 3" do
             @res[:_links][:next][:href].should include "page=2"
             @res[:_links][:next][:href].should include "per_page=5"
@@ -104,11 +96,6 @@ describe Gugg::WebApi::Collection do
         context "for page and items per page" do
           before :all do
             @res = @acq.as_resource({'page' => 2, 'per_page' => 5})
-          end
-
-          it "should link to itself" do
-            @res[:_links][:_self][:href].should include "page=2"
-            @res[:_links][:_self][:href].should include "per_page=5"
           end
 
           it "should link to previous page 1" do

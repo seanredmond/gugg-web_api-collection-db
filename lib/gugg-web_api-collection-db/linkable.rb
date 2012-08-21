@@ -72,10 +72,9 @@ module Gugg
             end
           end
 
-          q = format_params(options)
           {
             :_self => {
-              :href => "#{path}/#{pk}#{q}"
+              :href => "#{path}/#{pk}"
             }
           }.merge!(pagination)
         end
