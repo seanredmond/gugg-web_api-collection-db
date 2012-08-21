@@ -56,29 +56,6 @@ describe MDL::Acquisition do
     it "should have objects" do
       @res[:objects].should be_an_instance_of Hash
     end
-
-    it "should have an Array of items" do
-      @res[:objects][:items].should be_an_instance_of Array
-      @res[:objects][:items].each do |i|
-        puts i[:_links].inspect
-      end
-    end
-
-    it "should be on the first page of objects" do
-      @res[:objects][:page].should eq 1
-    end
-
-    it "should have pages of objects" do
-      @res[:objects][:pages].should be >= 1
-    end
-
-    it "should have an item count" do
-      @res[:objects][:count].should be >= 1
-    end
-
-    it "should have a total item count" do
-      @res[:objects][:total_count].should be >= 1
-    end
   end
 
   describe ".List" do
