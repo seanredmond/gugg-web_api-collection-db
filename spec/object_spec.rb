@@ -104,7 +104,6 @@ describe MDL::CollectionObject do
       end
 
       it "should have the accession number 37.245" do
-        puts @r.inspect
         @r[:accession].should eq('37.245')
       end
 
