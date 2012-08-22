@@ -166,7 +166,7 @@ describe Gugg::WebApi::Collection::Collectible do
       end
 
       it "should have a count of objects" do
-        @objects[:count].should be >= 55
+        @objects[:total_count].should be >= 55
       end
 
       it "should not have an array of items" do

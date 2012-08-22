@@ -14,7 +14,7 @@ module Gugg
           if options.keys.include?('no_objects')
             @obj_pages = nil
             return {
-              :count => @obj_dataset.count
+              :total_count => @obj_dataset.count
             }
           end
 

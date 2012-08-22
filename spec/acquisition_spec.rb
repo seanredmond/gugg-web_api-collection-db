@@ -75,6 +75,7 @@ describe MDL::Acquisition do
     end
   end
 
+
   describe ".List" do
     context "with defaults" do
       before :all do
@@ -128,7 +129,7 @@ describe MDL::Acquisition do
 
         it "should have Acquisition objects with counts" do
           @acq[:acquisitions].each do |a|
-            a[:objects][:count].should be >= 1
+            a[:objects][:total_count].should be >= 1
           end
         end
       end
