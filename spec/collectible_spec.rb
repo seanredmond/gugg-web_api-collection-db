@@ -150,6 +150,16 @@ describe Gugg::WebApi::Collection::Collectible do
       end
     end
 
+    context "with strings passed as options" do      
+      before :all do
+        @options = {'page' => '2', 'per_page' => '5'}
+      end
+
+      it "should not raise an error" do
+        expect { obj = @acq.paginated_resource(@options)}.
+          to_not raise_error
+      end
+    end 
     context "with no_objects" do
       before :all do
         @objects = @acq.paginated_resource({'no_objects' => 1})

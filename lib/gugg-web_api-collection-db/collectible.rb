@@ -11,15 +11,16 @@ module Gugg
         attr :obj_dataset
 
         def paginated_resource(options = {})
-          page = options['page'] || 1
-          per_page = options['per_page'] || 20
-
           if options.keys.include?('no_objects')
             @obj_pages = nil
             return {
               :count => @obj_dataset.count
             }
           end
+
+          page = options['page'] == nil ? 1 : Integer(options['page'])
+          per_page = options['per_page'] == nil ? 
+            20 : Integer(options['per_page'])
 
           if @obj_pages == nil || 
               @obj_pages.current_page != page || 
