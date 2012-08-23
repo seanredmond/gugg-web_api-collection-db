@@ -1,3 +1,4 @@
+require "gugg-web_api-collection-db/errors"
 require "gugg-web_api-collection-db/linkable"
 require "gugg-web_api-collection-db/collectible"
 require "gugg-web_api-collection-db/version"
