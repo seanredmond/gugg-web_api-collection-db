@@ -159,7 +159,18 @@ describe Gugg::WebApi::Collection::Collectible do
         expect { obj = @acq.paginated_resource(@options)}.
           to_not raise_error
       end
-    end 
+    end
+
+    context "with bad strings passed as options" do
+      it "should raise a BadParameterError" do
+        # Options that cannot be converted into integers
+        @options = {'page' => 'abc', 'per_page' => 'xyz'}
+        expect {
+          @acq.paginated_resource(@options)
+        }.to raise_error(MDL::BadParameterError)
+      end
+    end
+
     context "with no_objects" do
       before :all do
         @objects = @acq.paginated_resource({'no_objects' => 1})

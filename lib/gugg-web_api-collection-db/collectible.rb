@@ -18,9 +18,13 @@ module Gugg
             }
           end
 
-          page = options['page'] == nil ? 1 : Integer(options['page'])
-          per_page = options['per_page'] == nil ? 
-            20 : Integer(options['per_page'])
+          begin
+            page = options['page'] == nil ? 1 : Integer(options['page'])
+            per_page = options['per_page'] == nil ? 
+              20 : Integer(options['per_page'])
+          rescue ArgumentError => e
+            raise Db::BadParameterError, e.message
+          end
 
           if @obj_pages == nil || 
               @obj_pages.current_page != page || 
