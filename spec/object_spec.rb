@@ -39,6 +39,21 @@ describe MDL::CollectionObject do
     @pwb.objectnumber.should eq('37.245')
   end
 
+  describe "#movements" do 
+    it "should return an Array" do
+      @pwb.movements.should be_an_instance_of Array
+    end
+
+    it "should have 1 item" do
+      @pwb.movements.count.should eq 1
+    end
+
+    it "should be Expressionism" do
+      @pwb.movements.first.name.should eq "Expressionism"
+    end
+  end
+  
+
   describe "#constituents" do
     it "should return an Array" do
       @pwb.constituents.should be_an_instance_of Array
@@ -130,6 +145,10 @@ describe MDL::CollectionObject do
       it "should have an essay" do
         @r[:essay].should start_with "<p>With its undulating colored ovals"
       end
+
+      it "should have movements" do
+        @r[:movements].should be_an_instance_of Array
+      end
     end
 
     context "For an Anniversary" do
@@ -151,6 +170,25 @@ describe MDL::CollectionObject do
 
       it "should not have an essay" do
         @r[:essay].should be_nil
+      end
+
+      it "should have no movements" do
+        @r[:movements].should be_nil
+      end
+    end
+
+    context "Gaugin, In the Vanilla Grove" do
+      before :all do
+        @r = MDL::CollectionObject[1413].as_resource
+      end
+
+      it "should have 3 movements" do
+        @r[:movements].count.should eq 3
+      end
+
+      it "should be classed Primitivism, Post-Impressionism & Symbolism" do
+        movements = @r[:movements].map{|m| m[:name]}
+        movements.sort.should eq ['Post-Impressionism', 'Primitivism', 'Symbolism']
       end
     end
   end

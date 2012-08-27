@@ -12,6 +12,10 @@ module Gugg
           # Temporary dummy class because of circular dependency
         end
 
+        class Movement < Sequel::Model(:collection_movements)
+          # Temporary dummy class because of circular dependency
+        end
+
         class CollectionObject < Sequel::Model(:collection_tms_objects)
           include Linkable
         	set_primary_key :objectid
@@ -19,6 +23,9 @@ module Gugg
           one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
         	one_to_one :contexts, :class => ObjectContext, :key => :objectid
           one_to_one :sort_fields, :class => SortFields, :key => :objectid
+          many_to_many :movements, :class => Movement, 
+            :join_table => :collection_objmovementxrefs, :left_key => :id, 
+            :right_key => :termid
 
         	def copyright
         		contexts.shorttext7
@@ -133,6 +140,8 @@ module Gugg
         			:recent_acquisition => is_recent_acquisition?,
         			:essay => essay,
               :copyright => copyright,
+              :movements => movements.count > 0 ? movements.map {
+                |m| m.as_resource({'no_objects' => true})} : nil,
               :_links => links
         		}
         	end
