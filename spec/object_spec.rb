@@ -39,6 +39,17 @@ describe MDL::CollectionObject do
     @pwb.objectnumber.should eq('37.245')
   end
 
+  describe "#acquisition" do
+    it "should return an Acquisition" do
+      @pwb.acquisition.should be_an_instance_of MDL::Acquisition
+    end
+
+    it "should be Expressionism" do
+      @pwb.acquisition.acquisition.
+        should eq "Solomon R. Guggenheim Founding Collection"
+    end
+  end
+
   describe "#movements" do 
     it "should return an Array" do
       @pwb.movements.should be_an_instance_of Array
@@ -149,6 +160,11 @@ describe MDL::CollectionObject do
       it "should have movements" do
         @r[:movements].should be_an_instance_of Array
       end
+
+      it "should have an acquisition" do
+        @r[:acquisition][:name].
+          should eq 'Solomon R. Guggenheim Founding Collection'
+      end
     end
 
     context "For an Anniversary" do
@@ -174,6 +190,10 @@ describe MDL::CollectionObject do
 
       it "should have no movements" do
         @r[:movements].should be_nil
+      end
+
+      it "should have not have an acquisition" do
+        @r[:acquisition].should be_nil
       end
     end
 

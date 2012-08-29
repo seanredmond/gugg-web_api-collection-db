@@ -8,6 +8,10 @@ module Gugg
   module WebApi
     module Collection
       module Db
+        class Acquisition < Sequel::Model(:collection_acquisitions)
+          # Temporary dummy class because of circular dependency
+        end
+
         class ConstituentXref < Sequel::Model(:collection_tms_conxrefs)
           # Temporary dummy class because of circular dependency
         end
@@ -23,6 +27,9 @@ module Gugg
           one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
         	one_to_one :contexts, :class => ObjectContext, :key => :objectid
           one_to_one :sort_fields, :class => SortFields, :key => :objectid
+          many_to_many :acquisitions, :class => Acquisition, 
+            :join_table => :collection_acquisitionxrefs, 
+            :left_key => :objectid, :right_key => :acquisitionid
           many_to_many :movements, :class => Movement, 
             :join_table => :collection_objmovementxrefs, :left_key => :id, 
             :right_key => :termid
@@ -115,6 +122,15 @@ module Gugg
             end
           end
 
+          # There is a many-to-one (or none) association between objects
+          # and acquisitions but it is mapped as a many-to-many because the 
+          # association has to be made in the database through an intermediate
+          # table. In this method we are reducing the many-to-many array to
+          # a single value or nil.
+          def acquisition
+            return acquisitions.count > 0 ? acquisitions[0] : nil
+          end
+
 
         	def as_resource
             links = self_link
@@ -132,6 +148,10 @@ module Gugg
         				:end => dateend,
         				:display => dated
         			},
+              :movements => movements.count > 0 ? movements.map {
+                |m| m.as_resource({'no_objects' => true})} : nil,
+              :acquisition => acquisition != nil ? 
+                acquisition.as_resource({'no_objects' => true}) : nil,
         			:edition => edition,
         			:medium => medium,
         			:dimensions => dimensions,
@@ -140,8 +160,6 @@ module Gugg
         			:recent_acquisition => is_recent_acquisition?,
         			:essay => essay,
               :copyright => copyright,
-              :movements => movements.count > 0 ? movements.map {
-                |m| m.as_resource({'no_objects' => true})} : nil,
               :_links => links
         		}
         	end
