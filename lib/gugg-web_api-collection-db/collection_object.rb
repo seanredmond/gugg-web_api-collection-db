@@ -20,6 +20,10 @@ module Gugg
           # Temporary dummy class because of circular dependency
         end
 
+        class Site < Sequel::Model(:collection_tms_sites)
+          # Temporary dummy class because of circular dependency
+        end
+
         class CollectionObject < Sequel::Model(:collection_tms_objects)
           include Linkable
         	set_primary_key :objectid
@@ -33,6 +37,9 @@ module Gugg
           many_to_many :movements, :class => Movement, 
             :join_table => :collection_objmovementxrefs, :left_key => :id, 
             :right_key => :termid
+          many_to_many :sites, :class => Site, 
+            :join_table => :collection_objsitexrefs, :left_key => :objectid, 
+            :right_key => :siteid
 
         	def copyright
         		contexts.shorttext7
@@ -148,6 +155,8 @@ module Gugg
         				:end => dateend,
         				:display => dated
         			},
+              :sites => sites.count > 0 ? sites.map {
+                |s| s.as_resource({'no_objects' => true})} : nil,
               :movements => movements.count > 0 ? movements.map {
                 |m| m.as_resource({'no_objects' => true})} : nil,
               :acquisition => acquisition != nil ? 

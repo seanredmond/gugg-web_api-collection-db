@@ -63,7 +63,20 @@ describe MDL::CollectionObject do
       @pwb.movements.first.name.should eq "Expressionism"
     end
   end
-  
+
+  describe "#sites" do
+    it "should return an Array" do
+      @pwb.sites.should be_an_instance_of Array
+    end
+
+    it "should have 1 item" do
+      @pwb.sites.count.should eq 1
+    end
+
+    it "should be Expressionism" do
+      @pwb.sites.first.name.should eq "Solomon R. Guggenheim Museum"
+    end
+  end
 
   describe "#constituents" do
     it "should return an Array" do
@@ -159,6 +172,10 @@ describe MDL::CollectionObject do
 
       it "should have movements" do
         @r[:movements].should be_an_instance_of Array
+      end
+
+      it "should have sites" do
+        @r[:sites].should be_an_instance_of Array
       end
 
       it "should have an acquisition" do
