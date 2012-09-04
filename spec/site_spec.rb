@@ -57,8 +57,33 @@ describe MDL::Site do
         @site[:objects][:items].count.should eq 20
         @site[:objects][:total_count].should be >= 823
       end
+    end
+  end
 
+  describe ".list" do
+    context "with defaults" do
+      before :all do
+        @site = MDL::Site.list
+      end
 
+      it "should return a Hash" do
+        @site.should be_an_instance_of Hash
+      end
+
+      it "has a list of Site resources" do
+        @site[:sites].each do |s|
+          s.should be_an_instance_of Hash
+          s[:id].should be
+          s[:name].should be
+        end
+      end
+
+      it "should have Site resources with 5 items" do
+        @site[:sites].each do |s|
+          s[:objects][:items].should have_at_least(1).items
+          s[:objects][:items].should have_at_most(5).items
+        end
+      end
     end
   end
 end

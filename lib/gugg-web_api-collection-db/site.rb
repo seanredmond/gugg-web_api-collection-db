@@ -16,14 +16,21 @@ module Gugg
           include Linkable
           include Collectible
 
+          # id 21 = 'Historical Images' which is not a real site
+          set_dataset(dataset.filter(~:siteid =>  21))
+
           def after_initialize
             @obj_dataset = objects_dataset
             @obj_pages = nil
           end
 
-
-          # id 21 = 'Historical Images' which is not a real site
-          set_dataset(dataset.filter(~:siteid =>  21))
+          def self.list(options = {})
+            {
+              :sites => all.
+                reject{|a| a.objects_dataset.count == 0}.
+                map{|a| a.as_resource({'per_page' => 5}.merge!(options))}
+            }
+          end
 
           def as_resource(options = {})
             {
