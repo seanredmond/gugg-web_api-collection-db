@@ -17,7 +17,8 @@ module Gugg
           include Collectible
 
           # id 21 = 'Historical Images' which is not a real site
-          set_dataset(dataset.filter(~:siteid =>  21))
+          set_dataset(dataset.filter(
+            ~:siteid.qualify(:collection_tms_sites) =>  21))
 
           def after_initialize
             @obj_dataset = objects_dataset
