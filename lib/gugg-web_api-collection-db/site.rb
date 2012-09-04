@@ -33,6 +33,14 @@ module Gugg
             }
           end
 
+          def name
+            sitename
+          end
+
+          def location
+            sitenumber
+          end
+
           def as_resource(options = {})
             {
               :id => pk,
