@@ -29,3 +29,10 @@ describe "Rauschenberg's 'Barges'" do
     @barges.sites.count.should eq 2
   end
 end
+
+describe "Objects with more than one site" do
+	it "should exist" do
+		MDL::CollectionObject.all.select{|o| o.sites.count > 1}.
+			should have_at_least(1).items
+	end
+end
