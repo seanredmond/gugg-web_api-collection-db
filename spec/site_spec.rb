@@ -45,9 +45,20 @@ describe MDL::Site do
         @site[:_links].should be
       end
 
-      it "should contain objects" do
-        @site[:objects].should be
+      it "should link to the next page" do
+        @site[:_links][:next][:href].should include "page=2"
       end
+
+      it "should contain objects" do
+        @site[:objects].should be_an_instance_of Hash
+      end
+
+      it "should contain pages of objects" do
+        @site[:objects][:items].count.should eq 20
+        @site[:objects][:total_count].should be >= 823
+      end
+
+
     end
   end
 end
