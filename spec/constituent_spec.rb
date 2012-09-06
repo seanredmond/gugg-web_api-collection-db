@@ -23,8 +23,8 @@ describe MDL::Constituent do
   end
 
   it "should return rows" do
-    # There are 4054 constituents as of Aug 2012
-    MDL::Constituent.all().count.should be >= 4054
+    # There are 410 publically viewable constituents as of Aug 2012
+    MDL::Constituent.all().count.should be >= 410
   end
 
   it "should have a last name" do
@@ -45,6 +45,12 @@ describe MDL::Constituent do
 
   it "should have a sort name" do
     @kandinsky.alphasort.should eq "Kandinsky, Vasily"
+  end
+
+  describe ".list" do
+    it "should work" do
+      puts MDL::Constituent.list[:constituents].count
+    end
   end
 
   describe "#as_resource" do
