@@ -13,11 +13,11 @@ module Gugg
           many_to_one :constituent, :class => Constituent, :key => :constituentid
           many_to_one :role, :class => Role, :key => :roleid
 
-          def as_resource
+          def as_resource(options = {})
             {
               :order => displayorder,
               :role => role.role,
-              :constituent => constituent.as_resource
+              :constituent => constituent.as_resource(options)
             }
           end
         end

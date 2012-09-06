@@ -12,6 +12,10 @@ module Gugg
           # Temporary dummy class because of circular dependency
         end
 
+        class Constituent < Sequel::Model(:collection_tms_constituents)
+          # Temporary dummy class because of circular dependency
+        end
+
         class ConstituentXref < Sequel::Model(:collection_tms_conxrefs)
           # Temporary dummy class because of circular dependency
         end
@@ -147,7 +151,7 @@ module Gugg
         			:sort_number => sortnumber,
               :sort_title => sort_title,
               :sort_name => sort_name,
-              :constituents => constituents.map {|c| c.as_resource},
+              :constituents => constituents.map {|c| c.as_resource({'no_objects' => true})},
               :titles => titles.as_resource,
               :series => series == nil ? nil : series.as_resource,
         			:dates => {

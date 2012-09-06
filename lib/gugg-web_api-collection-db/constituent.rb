@@ -9,10 +9,20 @@ module Gugg
     module Collection
       module Db
         class Constituent < Sequel::Model(:collection_tms_constituents)
-          include Linkable
+          set_primary_key :constituentid
+          many_to_many :objects, :class=>CollectionObject, 
+            :join_table=>:collection_tms_conxrefs, 
+            :left_key=>:constituentid, :right_key=>:id
 
-          def as_resource
-            links = self_link
+          include Linkable
+          include Collectible
+
+          def after_initialize
+            @obj_dataset = objects_dataset
+            @obj_pages = nil
+          end
+
+          def as_resource(options = {})
             {
               :id => pk,
               :firstname => firstname,
@@ -27,8 +37,8 @@ module Gugg
                 :end => enddate,
                 :display => displaydate
               },
-              :objects => {},
-              :_links => links
+              :objects => paginated_resource(options),
+              :_links => self_link(options)
             }
           end
         end
