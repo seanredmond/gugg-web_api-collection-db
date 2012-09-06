@@ -13,6 +13,7 @@ module Gugg
           many_to_many :objects, :class=>CollectionObject, 
             :join_table=>:collection_tms_conxrefs, 
             :left_key=>:constituentid, :right_key=>:id
+          one_to_many :conxrefs, :class => ConstituentXref, :key => :constituentid
 
           include Linkable
           include Collectible
@@ -20,6 +21,27 @@ module Gugg
           def after_initialize
             @obj_dataset = objects_dataset
             @obj_pages = nil
+          end
+
+          dataset_module do
+            def all
+              filter()
+            end
+
+            def publicview
+              filter(:conxrefs => ConstituentXref.filter(:displayed => 1)).
+              filter(:objects => CollectionObject.filter(
+                :publicaccess => 1, :curatorapproved => 1))
+            end
+          end
+
+          set_dataset(self.publicview)
+
+          def self.list(options = {})
+            {
+              :constituents => all.
+                map{|a| a.as_resource({'no_objects' => true}.merge!(options))}
+            }
           end
 
           def as_resource(options = {})
