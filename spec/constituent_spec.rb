@@ -48,8 +48,33 @@ describe MDL::Constituent do
   end
 
   describe ".list" do
-    it "should work" do
-      puts MDL::Constituent.list[:constituents].count
+    context "with defaults" do
+      it "should work" do
+        MDL::Constituent.list[:constituents].count.should be_within(5).of(410)
+      end
+    end
+
+    context "with initial parameter" do
+      it "should return only names beginning with the given letter" do
+        with_b = MDL::Constituent.list({'initial' => 'b'})
+        with_b[:constituents].map{|c| c[:sort][0,1].upcase}.uniq.should eq ["B"]
+      end
+
+      context "that is not a string" do
+        it "should raise a BadParameterError" do 
+          expect {
+            MDL::Constituent.list({'initial' => false})            
+          }.to raise_error(MDL::BadParameterError, /must be a single letter/)
+        end
+      end
+
+      context "that is an invalid string" do
+        it "should raise a BadParameterError" do 
+          expect {
+            MDL::Constituent.list({'initial' => '0'})            
+          }.to raise_error(MDL::BadParameterError, /must be a single letter/)
+        end
+      end
     end
   end
 

@@ -38,8 +38,33 @@ module Gugg
           set_dataset(self.publicview)
 
           def self.list(options = {})
+            if options.keys.include?('initial')
+              begin
+                match = options['initial'].match(/^[a-zA-Z]$/)
+                if match != nil
+                  selection = where(:alphasort.ilike("#{match[0]}%")).
+                    order(:alphasort).all
+                else
+                  # Getting here means that a string was passed via the 
+                  # "initial" parameter but it wasn't a single letter
+                  raise Db::BadParameterError, 
+                    "'initial' option must be a single letter, a-z or A-Z, "\
+                    "not '#{options['initial']}'" 
+                  end
+              rescue NoMethodError => e
+                # Getting here means that whatever was passed in the "initial"
+                # option, couldn't be treated as a string (only strings have
+                # a match method)
+                raise Db::BadParameterError, 
+                  "'initial' option must be a single letter, a-z or A-Z, "\
+                  "not '#{options['initial']}'" 
+              end
+            else
+              selection = all
+            end
+
             {
-              :constituents => all.
+              :constituents => selection.
                 map{|a| a.as_resource({'no_objects' => true}.merge!(options))}
             }
           end
