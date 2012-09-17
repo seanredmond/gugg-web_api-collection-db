@@ -54,6 +54,10 @@ module Gugg
         		contexts.longtext7
         	end
 
+          def is_collection?
+            contexts.flag11 == 1
+          end
+
         	def is_highlight?
         		contexts.flag6 == 1
         	end

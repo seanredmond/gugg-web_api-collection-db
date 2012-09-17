@@ -104,6 +104,12 @@ describe MDL::CollectionObject do
     end
   end
 
+  describe '#is_collection?' do
+    it "'Painting with White Border' should be in Collection Online" do
+      @pwb.is_collection?.should be_true
+    end
+  end
+
   describe '#is_highlight?' do
     it "'Painting with White Border' should be a highlight" do
       @pwb.is_highlight?.should be_true
