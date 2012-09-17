@@ -70,7 +70,6 @@ describe MDL::CollectionObject do
     end
 
     it "should have 1 item" do
-      puts @pwb.sites.inspect
       @pwb.sites.count.should eq 1
     end
 
