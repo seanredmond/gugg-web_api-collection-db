@@ -30,6 +30,7 @@ module Gugg
 
         class CollectionObject < Sequel::Model(:collection_tms_objects)
           include Linkable
+          include Dateable
         	set_primary_key :objectid
           one_to_many :conxrefs, :class => ConstituentXref, :key => :id
           one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
@@ -146,7 +147,7 @@ module Gugg
         	def as_resource
             links = self_link
         		resource = {
-        			:id => pk,
+              :id => pk,
         			:accession => objectnumber,
         			:sort_number => sortnumber,
               :sort_title => sort_title,
@@ -154,11 +155,7 @@ module Gugg
               :constituents => constituents.map {|c| c.as_resource({'no_objects' => true})},
               :titles => titles.as_resource,
               :series => series == nil ? nil : series.as_resource,
-        			:dates => {
-        				:begin => datebegin,
-        				:end => dateend,
-        				:display => dated
-        			},
+        			:dates => date_resource(datebegin, dateend, dated),
               :sites => sites.count > 0 ? sites.map {
                 |s| s.as_resource({'no_objects' => true})} : nil,
               :movements => movements.count > 0 ? movements.map {

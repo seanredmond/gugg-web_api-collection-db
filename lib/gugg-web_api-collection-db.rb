@@ -1,6 +1,7 @@
 require "gugg-web_api-collection-db/errors"
 require "gugg-web_api-collection-db/linkable"
 require "gugg-web_api-collection-db/collectible"
+require "gugg-web_api-collection-db/dateable"
 require "gugg-web_api-collection-db/version"
 require "gugg-web_api-collection-db/language_code"
 require "gugg-web_api-collection-db/language"
@@ -26,6 +27,14 @@ module Gugg
     module Collection
       module Db
         # Your code goes here...
+
+        def self.date_resource(begin_date, end_date, display)
+          {
+            :begin => begin_date,
+            :end => (end_date == nil || end_date == 0) ? nil : end_date,
+            :display => display
+          }
+        end
       end
     end
   end
