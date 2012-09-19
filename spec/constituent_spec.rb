@@ -50,7 +50,7 @@ describe MDL::Constituent do
   describe ".list" do
     context "with defaults" do
       it "should work" do
-        MDL::Constituent.list[:constituents].count.should be_within(5).of(410)
+        MDL::Constituent.list[:constituents].count.should be_within(5).of(445)
       end
     end
 
