@@ -29,9 +29,7 @@ module Gugg
             end
 
             def publicview
-              filter(:conxrefs => ConstituentXref.filter(:displayed => 1)).
-              filter(:objects => CollectionObject.filter(
-                :publicaccess => 1, :curatorapproved => 1))
+              filter(:conxrefs => ConstituentXref.filter(:displayed => 1))
             end
           end
 
