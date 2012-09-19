@@ -23,6 +23,14 @@ module Gugg
             @obj_pages = nil
           end
 
+          def self.list(options = {})
+            {
+              :exhibitions => all.
+                reject{|m| m.objects_dataset.count == 0}.
+                map{|m| m.as_resource({'per_page' => 5}.merge!(options))}
+            }
+          end
+
           def name
             exhtitle
           end

@@ -65,4 +65,25 @@ describe MDL::Exhibition do
       end
     end
   end
+
+  describe ".list" do
+    context "with defaults" do
+      before :all do
+        @exh = MDL::Exhibition.list
+      end
+      it "should return a Hash" do
+        @exh.should be_an_instance_of Hash
+      end
+
+      it "should have a list of Exhibition resources" do
+        @exh[:exhibitions].each do |e|
+          e.should be_an_instance_of Hash
+          e[:name].should be
+          e[:dates].should be
+          e[:objects].should be
+          e[:_links].should be
+        end
+      end
+    end
+  end
 end
