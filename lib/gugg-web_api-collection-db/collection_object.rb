@@ -20,6 +20,10 @@ module Gugg
           # Temporary dummy class because of circular dependency
         end
 
+        class Exhibition < Sequel::Model(:collection_tms_exhibitions)
+          # Temporary dummy class because of circular dependency
+        end
+
         class Movement < Sequel::Model(:collection_movements)
           # Temporary dummy class because of circular dependency
         end
@@ -39,6 +43,9 @@ module Gugg
           many_to_many :acquisitions, :class => Acquisition, 
             :join_table => :collection_acquisitionxrefs, 
             :left_key => :objectid, :right_key => :acquisitionid
+          many_to_many :exhibitions, :class => Exhibition, 
+            :join_table => :collection_tms_exhobjxrefs, 
+            :left_key => :objectid, :right_key => :exhibitionid
           many_to_many :movements, :class => Movement, 
             :join_table => :collection_objmovementxrefs, :left_key => :id, 
             :right_key => :termid
@@ -166,6 +173,8 @@ module Gugg
                 |m| m.as_resource({'no_objects' => true})} : nil,
               :acquisition => acquisition != nil ? 
                 acquisition.as_resource({'no_objects' => true}) : nil,
+              :exhibitions => exhibitions.count > 0 ? exhibitions.map {
+                |e| e.as_resource({'no_objects' => true})} : nil,
         			:edition => edition,
         			:medium => medium,
         			:dimensions => dimensions,

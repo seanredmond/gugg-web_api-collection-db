@@ -234,5 +234,17 @@ describe MDL::CollectionObject do
         movements.sort.should eq ['Post-Impressionism', 'Primitivism', 'Symbolism']
       end
     end
+
+    context "Picasso, Woman Ironing" do
+      before :all do
+        @r = MDL::CollectionObject[3417].as_resource
+      end
+
+      it "should be in Picasso B&W" do
+        @r[:exhibitions].map{|e| e[:name] }.should 
+          include('Picasso Black and White')
+      end
+    end
+
   end
 end
