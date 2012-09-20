@@ -188,6 +188,10 @@ describe MDL::CollectionObject do
         @r[:acquisition][:name].
           should eq 'Solomon R. Guggenheim Founding Collection'
       end
+
+      it "should have a web link" do
+        @r[:_links][:web][:href].should include(@r[:accession])
+      end
     end
 
     context "For an Anniversary" do
@@ -246,5 +250,19 @@ describe MDL::CollectionObject do
       end
     end
 
+    context "Load for Gutai" do
+      before :all do
+        @r = MDL::CollectionObject[25905].as_resource
+      end
+
+      it "should be in GUTAI" do
+        @r[:exhibitions].map{|e| e[:name] }.should 
+          include('GUTAI')
+      end
+
+      it "should not have a link to Collection Online" do
+        @r[:_links][:web].should_not be
+      end
+    end
   end
 end

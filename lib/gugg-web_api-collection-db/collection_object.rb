@@ -53,6 +53,8 @@ module Gugg
             :join_table => :collection_objsitexrefs, :left_key => :objectid, 
             :right_key => :siteid
 
+          @@web_url = 'http://www.guggenheim.org/new-york/collections/collection-online/show-full/piece/?&search=&f=Title&object='
+
         	def copyright
         		contexts.shorttext7
         	end
@@ -157,6 +159,13 @@ module Gugg
 
         	def as_resource
             links = self_link
+
+            if is_collection?
+              links[:web] = {
+                :href => @@web_url + objectnumber
+              }
+            end
+            
         		resource = {
               :id => pk,
         			:accession => objectnumber,
