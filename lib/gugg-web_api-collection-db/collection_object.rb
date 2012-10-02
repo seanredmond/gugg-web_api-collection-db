@@ -24,6 +24,10 @@ module Gugg
           # Temporary dummy class because of circular dependency
         end
 
+        class ExhibitionXref < Sequel::Model(:collection_tms_exhobjxrefs)
+          # Temporary dummy class because of circular dependency
+        end
+
         class Movement < Sequel::Model(:collection_movements)
           # Temporary dummy class because of circular dependency
         end
@@ -43,6 +47,8 @@ module Gugg
           many_to_many :acquisitions, :class => Acquisition, 
             :join_table => :collection_acquisitionxrefs, 
             :left_key => :objectid, :right_key => :acquisitionid
+          one_to_many :exhibition_xrefs, :class => ExhibitionXref, 
+            :key => :objectid
           many_to_many :exhibitions, :class => Exhibition, 
             :join_table => :collection_tms_exhobjxrefs, 
             :left_key => :objectid, :right_key => :exhibitionid
@@ -81,6 +87,10 @@ module Gugg
 
           def sort_name
             sort_fields.constituent
+          end
+
+          def location
+            sort_fields.location
           end
 
           def constituents
@@ -156,7 +166,6 @@ module Gugg
             return acquisitions.count > 0 ? acquisitions[0] : nil
           end
 
-
         	def as_resource
             links = self_link
 
@@ -192,6 +201,7 @@ module Gugg
         			:recent_acquisition => is_recent_acquisition?,
         			:essay => essay,
               :copyright => copyright,
+              :location => location,
               :_links => links
         		}
         	end
