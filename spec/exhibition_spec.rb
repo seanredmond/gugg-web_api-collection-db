@@ -29,7 +29,7 @@ describe MDL::Exhibition do
 
   it "should have objects" do
     # 160 objects in Gutai as of Sept 2012
-    @gutai.objects.count.should be_within(5).of(160)
+    @gutai.objects.count.should be_within(5).of(177)
   end
 
   it "should have Guggenheim objects" do
