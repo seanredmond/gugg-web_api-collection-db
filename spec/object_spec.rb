@@ -192,6 +192,10 @@ describe MDL::CollectionObject do
       it "should have a web link" do
         @r[:_links][:web][:href].should include(@r[:accession])
       end
+
+      it "should have a location" do
+        @r.keys().include?(:location).should be_true
+      end
     end
 
     context "For an Anniversary" do
