@@ -36,9 +36,15 @@ module Gugg
           # Temporary dummy class because of circular dependency
         end
 
+        class SortFields < Sequel::Model(:collection_sort_fields)
+          # Temporary dummy class because of circular dependency
+        end
+
         class CollectionObject < Sequel::Model(:collection_tms_objects)
           include Linkable
           include Dateable
+          extend Collectible
+
         	set_primary_key :objectid
           one_to_many :conxrefs, :class => ConstituentXref, :key => :id
           one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
@@ -60,6 +66,18 @@ module Gugg
             :right_key => :siteid
 
           @@web_url = 'http://www.guggenheim.org/new-york/collections/collection-online/show-full/piece/?&search=&f=Title&object='
+
+          def self.on_view(options = {})
+            @obj_dataset = where(:objectid => 
+              SortFields.select(:objectid).where(~ :location => nil))
+            @obj_pages = @obj_dataset.paginate(1, 20)
+            objects_r = self.paginated_resource(options)
+            {
+              :objects => objects_r,
+              :_links => Linkable::make_links(@obj_pages, options)              
+            }
+          end
+
 
         	def copyright
         		contexts.shorttext7

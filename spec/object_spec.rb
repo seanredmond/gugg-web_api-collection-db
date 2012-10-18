@@ -269,4 +269,9 @@ describe MDL::CollectionObject do
       end
     end
   end
+
+  # describe '#on_view' do
+  #   puts MDL::CollectionObject.on_view().inspect
+  # end
+
 end

@@ -27,7 +27,45 @@ module Gugg
           @@pathmap[cls] = path
         end
 
-        def format_params(current, new={})
+        def self.make_links(cls = nil, paginated_r = nil, pk = nil, options = {})
+          path = [Linkable::root, Linkable::pathmap[cls]].join('/')
+
+          pagination = {}
+          if paginated_r != nil
+            if ! paginated_r.first_page?
+              params = {
+                :page => paginated_r.prev_page, 
+                :per_page => paginated_r.page_size
+              }
+              q = format_params(options, params)
+              pagination[:prev] = {
+                :href => "#{path}/#{pk}#{q}"
+              }
+            end
+
+            if ! paginated_r.last_page?
+              params = {
+                :page => paginated_r.next_page, 
+                :per_page => paginated_r.page_size
+              }
+              q = format_params(options, params)
+              pagination[:next] = {
+                :href => "#{path}/#{pk}#{q}"
+              }
+            end
+          end
+
+
+          # return ["HideeHo", path, pagination]
+          {
+            :_self => {
+              :href => "#{path}/#{pk}"
+            }
+          }.merge!(pagination)
+
+        end
+
+        def self.format_params(current, new={})
           # merge current and new parameters and throw out parameters that we 
           # don't wnat to repeat in the links we're going to construct
           no_repeat = ['no_objects'] 
@@ -43,40 +81,8 @@ module Gugg
           return "?#{query}"
         end
 
-
         def self_link(options = {})
-          path = [Linkable::root, Linkable::pathmap[self.class]].join('/')
-          pagination = {}
-
-          if @obj_pages != nil
-            if ! @obj_pages.first_page?
-              params = {
-                :page => @obj_pages.prev_page, 
-                :per_page => @obj_pages.page_size
-              }
-              q = format_params(options, params)
-              pagination[:prev] = {
-                :href => "#{path}/#{pk}#{q}"
-              }
-            end
-
-            if ! @obj_pages.last_page?
-              params = {
-                :page => @obj_pages.next_page, 
-                :per_page => @obj_pages.page_size
-              }
-              q = format_params(options, params)
-              pagination[:next] = {
-                :href => "#{path}/#{pk}#{q}"
-              }
-            end
-          end
-
-          {
-            :_self => {
-              :href => "#{path}/#{pk}"
-            }
-          }.merge!(pagination)
+          return Linkable::make_links(self.class, @obj_pages, pk, options)
         end
       end
     end

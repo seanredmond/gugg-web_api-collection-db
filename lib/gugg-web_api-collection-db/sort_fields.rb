@@ -9,6 +9,8 @@ module Gugg
     module Collection
       module Db
         class SortFields < Sequel::Model(:collection_sort_fields)
+          one_to_many :object, :class => CollectionObject, :key => :objectid
+
         end
       end
     end
