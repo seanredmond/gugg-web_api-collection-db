@@ -74,7 +74,7 @@ module Gugg
             objects_r = self.paginated_resource(options)
             {
               :objects => objects_r,
-              :_links => Linkable::make_links(@obj_pages, options)              
+              :_links => Linkable::make_links(self, @obj_pages, nil, options)              
             }
           end
 
