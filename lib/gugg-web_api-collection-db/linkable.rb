@@ -28,7 +28,7 @@ module Gugg
         end
 
         def self.make_links(cls = nil, paginated_r = nil, pk = nil, options = {})
-          path = [Linkable::root, Linkable::pathmap[cls]].join('/')
+          path = [@@root, @@pathmap[cls], options[:add_to_path]].join('/')
 
           pagination = {}
           if paginated_r != nil
@@ -55,8 +55,6 @@ module Gugg
             end
           end
 
-
-          # return ["HideeHo", path, pagination]
           {
             :_self => {
               :href => "#{path}/#{pk}"
@@ -68,7 +66,7 @@ module Gugg
         def self.format_params(current, new={})
           # merge current and new parameters and throw out parameters that we 
           # don't wnat to repeat in the links we're going to construct
-          no_repeat = ['no_objects'] 
+          no_repeat = ['no_objects', :add_to_path] 
           p = current.merge(new).reject{|k,v| no_repeat.include?(k)}
 
           # No parameters to format? Goodbye!
