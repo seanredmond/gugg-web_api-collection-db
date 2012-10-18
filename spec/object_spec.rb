@@ -16,6 +16,10 @@ db = cfg['db']['mysql']
 require 'gugg-web_api-collection-db'
 
 MDL = Gugg::WebApi::Collection::Db
+Gugg::WebApi::Collection::Linkable::root = "http://u.r.i/collection"
+Gugg::WebApi::Collection::Linkable::map_path(
+  Gugg::WebApi::Collection::Db::CollectionObject, 'objects'
+)
 
 describe MDL::CollectionObject do
   before :all do
@@ -270,8 +274,26 @@ describe MDL::CollectionObject do
     end
   end
 
-  # describe '#on_view' do
-  #   puts MDL::CollectionObject.on_view().inspect
-  # end
+  describe '#on_view' do
+    before :all do
+      @on_view = MDL::CollectionObject.on_view({:add_to_path => 'on-view'})
+    end
+
+    it "should return a hash" do
+      @on_view.should be_an_instance_of Hash
+    end
+
+    it "should have _links" do
+      @on_view[:_links].should be_an_instance_of Hash
+    end
+
+    it "should link to itself" do
+      @on_view[:_links][:_self][:href].
+        should start_with "http://u.r.i/collection/objects/on-view"
+      @on_view[:_links][:next][:href].
+        should start_with "http://u.r.i/collection/objects/on-view"
+    end
+
+  end
 
 end
