@@ -275,25 +275,40 @@ describe MDL::CollectionObject do
   end
 
   describe '#on_view' do
-    before :all do
-      @on_view = MDL::CollectionObject.on_view({:add_to_path => 'on-view'})
+    context "with defaults" do
+      before :all do
+        @on_view = MDL::CollectionObject.on_view({:add_to_path => 'on-view'})
+      end
+
+      it "should return a hash" do
+        @on_view.should be_an_instance_of Hash
+      end
+
+      it "should have _links" do
+        @on_view[:_links].should be_an_instance_of Hash
+      end
+
+      it "should link to itself" do
+        @on_view[:_links][:_self][:href].
+          should start_with "http://u.r.i/collection/objects/on-view"
+        @on_view[:_links][:next][:href].
+          should start_with "http://u.r.i/collection/objects/on-view"
+      end
     end
 
-    it "should return a hash" do
-      @on_view.should be_an_instance_of Hash
-    end
+    context "with options" do
+      before :all do
+        @on_view = MDL::CollectionObject.on_view(
+          {"page" => 2, "per_page" => 5, :add_to_path => 'on-view'})
+      end
 
-    it "should have _links" do
-      @on_view[:_links].should be_an_instance_of Hash
-    end
+      it "should return the second page"  do
+        @on_view[:objects][:page].should eq 2
+      end
 
-    it "should link to itself" do
-      @on_view[:_links][:_self][:href].
-        should start_with "http://u.r.i/collection/objects/on-view"
-      @on_view[:_links][:next][:href].
-        should start_with "http://u.r.i/collection/objects/on-view"
+      it "should have five objects per page" do
+        @on_view[:objects][:items_per_page].should eq 5
+      end
     end
-
   end
-
 end

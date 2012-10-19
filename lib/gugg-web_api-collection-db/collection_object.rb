@@ -70,7 +70,9 @@ module Gugg
           def self.on_view(options = {})
             @obj_dataset = where(:objectid => 
               SortFields.select(:objectid).where(~ :location => nil))
-            @obj_pages = @obj_dataset.paginate(1, 20)
+            @obj_pages = @obj_dataset.paginate(
+              self.page_option_or_default(options), 
+              self.per_page_option_or_default(options))
             objects_r = self.paginated_resource(options)
             {
               :objects => objects_r,
