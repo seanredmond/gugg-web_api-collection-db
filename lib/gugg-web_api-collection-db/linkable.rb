@@ -28,7 +28,7 @@ module Gugg
         end
 
         def self.make_links(cls = nil, paginated_r = nil, pk = nil, options = {})
-          path = [@@root, @@pathmap[cls], options[:add_to_path]].join('/')
+          path = [@@root, @@pathmap[cls], options[:add_to_path]].reject{|a| a == nil}.join('/')
 
           pagination = {}
           if paginated_r != nil
