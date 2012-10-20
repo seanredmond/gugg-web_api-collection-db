@@ -27,6 +27,34 @@ module Gugg
           end
         end
 
+        # Paginates the {@obj_dataset} dataset according to the per_page option
+        # (or default) and returns a hash representing a paginated object 
+        # resource. Uses Sequel::Dataset#paginate for pagination.
+        # 
+        # Unless the 'no_objects' option is passed, the returned Hash will 
+        # contain the following members:
+        # * :page The current page of the result set
+        # * :pages The total number of pages in the result set
+        # * :items_per_page The number of items in each page
+        # * :count The number of items in the current page,
+        # * :total_count The total number of items in all the pages of the 
+        #   result,
+        # * :items An array of objects 
+        #
+        # If the 'no_objects' parameter is passed, the returned Hash will 
+        # contain only the :total_count.
+        #
+        # @param [Hash] options The options for pagination. Note that keys must 
+        # be Strings since we actually expecting them to come from query 
+        # parameters originating in URLs as calls to an API (which will be 
+        # passed as Strings)
+        #
+        # @option options [Integer] 'page' The page of results to return
+        # @option options [Integer] 'per_page' The number of items in each page
+        # @option options 'no_objects' If this option is passed with any value 
+        # (even nil), the result will contain only a total count of items, not 
+        # a paginated dataset
+        # @return [Hash] The paginated resource.
         def paginated_resource(options = {})
           if options.keys.include?('no_objects')
             @obj_pages = nil
