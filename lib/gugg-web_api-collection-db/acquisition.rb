@@ -50,7 +50,7 @@ module Gugg
             }
           end
 
-          # Returns a representation of the acquisition in a has suitable for
+          # Returns a representation of the acquisition in a hash suitable for
           # output as a JSON resource
           #
           # @param [Hash] options A hash of options to be passed to 
