@@ -1,6 +1,5 @@
-# Interface to Language Code table.
 #
-# Author:: Sean Redmond <sredmond@guggenheim.org>
+# @author Sean Redmond <sredmond@guggenheim.org>
 # Copyright:: Copyright © 2012 Solomon R. Guggenheim Foundation
 # License GPLv3
 #
@@ -10,6 +9,19 @@ module Gugg
   module WebApi
     module Collection
       module Db
+        # An interface to the collection_tms_acquisitions table and its related 
+        # objects.
+        #
+        # An acquisition is a named group of collection objects that came into
+        # the collection together from a single source; for example, as a 
+        # bequest from a donor whose name would be attached to the acquisition.
+        #
+        # For documentation of acquisition endpoints and resources, see
+        # {https://github.com/Guggenheim/Collections-API-Spec/blob/master/acquisitions.md}
+        # 
+        # @author Sean Redmond <sredmond@guggenheim.org>
+        # @copyright Copyright © 2012 Solomon R. Guggenheim Foundation
+        # @license GPLv3
         class Acquisition < Sequel::Model(:collection_acquisitions)
           set_primary_key :acquisitionid
           many_to_many :objects, :class=>CollectionObject, 
@@ -18,11 +30,18 @@ module Gugg
           include Linkable
           include Collectible
 
+          # Initialize Collectible attributes
           def after_initialize
             @obj_dataset = objects_dataset
             @obj_pages = nil
           end
 
+          # Returns a list of acquisitions
+          #
+          # @param [Hash] options A hash of options to be passed to 
+          #   {#as_resource}
+          # @return [Hash] A resource containing a list of acquisition 
+          #   resources
           def self.list(options = {})
             {
               :acquisitions => all.
@@ -31,6 +50,12 @@ module Gugg
             }
           end
 
+          # Returns a representation of the acquisition in a has suitable for
+          # output as a JSON resource
+          #
+          # @param [Hash] options A hash of options to be passed to 
+          #   {Collectible#paginated_resource} and {Linkable#self_link}
+          # @return [Hash] The resource
           def as_resource(options = {})
             objects_r = paginated_resource(options)      
             {
