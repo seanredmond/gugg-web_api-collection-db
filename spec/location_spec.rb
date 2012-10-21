@@ -18,6 +18,10 @@ require 'gugg-web_api-collection-db'
 MDL = Gugg::WebApi::Collection::Db
 
 describe MDL::Location do
+  before :all do
+    @loc = MDL::Location[2]
+  end
+
   it "return rows" do
     # There are 54 locations as of Oct 2012
     MDL::Location.all().count.should be >= 54
@@ -25,6 +29,14 @@ describe MDL::Location do
 
   context "with a known location" do
     before :all do
+      Gugg::WebApi::Collection::Linkable::root = "http://u.r.i/collection"
+      Gugg::WebApi::Collection::Linkable::map_path(
+        Gugg::WebApi::Collection::Db::Location, 'locations'
+      )
+      Gugg::WebApi::Collection::Linkable::map_path(
+        Gugg::WebApi::Collection::Db::Site, 'sites'
+      )
+
       @loc = MDL::Location[2]
     end
 
@@ -39,6 +51,13 @@ describe MDL::Location do
     it 'has a related Site' do
       @loc.site.should be_an_instance_of MDL::Site
       @loc.site.sitename.should eq 'Solomon R. Guggenheim Museum'
+    end
+  end
+
+  describe '#as_resource' do
+    it 'returns a Hash' do
+      puts @loc.as_resource.inspect
+      @loc.as_resource.should be_an_instance_of Hash
     end
   end
 end
