@@ -26,7 +26,7 @@ describe Gugg::WebApi::Collection::Collectible do
   describe "#paginated_resource" do
     context "with defaults" do
       before :all do 
-        @objects = @acq.paginated_resource
+        @objects = @acq.paginated_resource(@acq.objects_dataset)
       end
 
       it "should return a Hash" do
@@ -63,8 +63,8 @@ describe Gugg::WebApi::Collection::Collectible do
 
     context "with a specified page" do
       before :all do
-        @page1 = @acq.paginated_resource
-        @page2 = @acq.paginated_resource({'page' => 2})
+        @page1 = @acq.paginated_resource(@acq.objects_dataset)
+        @page2 = @acq.paginated_resource(@acq.objects_dataset, {'page' => 2})
       end
 
       it "should return 20 items" do
@@ -96,7 +96,7 @@ describe Gugg::WebApi::Collection::Collectible do
 
     context "with a specified number of items per page" do
       before :all do
-        @objects = @acq.paginated_resource({'per_page' => 5})
+        @objects = @acq.paginated_resource(@acq.objects_dataset, {'per_page' => 5})
       end
 
       it "should return 5 items" do
@@ -119,8 +119,8 @@ describe Gugg::WebApi::Collection::Collectible do
 
     context "with a specified page and number of items per page" do
       before :all do
-        @page1 = @acq.paginated_resource({'per_page' => 5})
-        @page2 = @acq.paginated_resource({'page' => 2, 'per_page' => 5})
+        @page1 = @acq.paginated_resource(@acq.objects_dataset, {'per_page' => 5})
+        @page2 = @acq.paginated_resource(@acq.objects_dataset, {'page' => 2, 'per_page' => 5})
       end
 
       it "should return 5 items" do
@@ -156,7 +156,7 @@ describe Gugg::WebApi::Collection::Collectible do
       end
 
       it "should not raise an error" do
-        expect { obj = @acq.paginated_resource(@options)}.
+        expect { obj = @acq.paginated_resource(@acq.objects_dataset, @options)}.
           to_not raise_error
       end
     end
@@ -166,14 +166,14 @@ describe Gugg::WebApi::Collection::Collectible do
         # Options that cannot be converted into integers
         @options = {'page' => 'abc', 'per_page' => 'xyz'}
         expect {
-          @acq.paginated_resource(@options)
+          @acq.paginated_resource(@acq.objects_dataset, @options)
         }.to raise_error(MDL::BadParameterError)
       end
     end
 
     context "with no_objects" do
       before :all do
-        @objects = @acq.paginated_resource({'no_objects' => 1})
+        @objects = @acq.paginated_resource(@acq.objects_dataset, {'no_objects' => 1})
       end
 
       it "should have a count of objects" do

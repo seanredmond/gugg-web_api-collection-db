@@ -68,12 +68,13 @@ module Gugg
           @@web_url = 'http://www.guggenheim.org/new-york/collections/collection-online/show-full/piece/?&search=&f=Title&object='
 
           def self.on_view(options = {})
-            @obj_dataset = where(:objectid => 
+            obj_dset = where(:objectid => 
               SortFields.select(:objectid).where(~ :location => nil))
-            @obj_pages = @obj_dataset.paginate(
+
+            @obj_pages = obj_dset.paginate(
               self.page_option_or_default(options), 
               self.per_page_option_or_default(options))
-            objects_r = self.paginated_resource(options)
+            objects_r = self.paginated_resource(obj_dset, options)
             {
               :objects => objects_r,
               :_links => Linkable::make_links(self, @obj_pages, nil, options)              

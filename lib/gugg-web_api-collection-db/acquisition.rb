@@ -33,7 +33,7 @@ module Gugg
           # Initialize Collectible attributes
           def after_initialize
             @obj_dataset = objects_dataset
-            @obj_pages = nil
+            # @obj_pages = nil
           end
 
           # Returns a list of acquisitions
@@ -57,7 +57,7 @@ module Gugg
           #   {Collectible#paginated_resource} and {Linkable#self_link}
           # @return [Hash] The resource
           def as_resource(options = {})
-            objects_r = paginated_resource(options)      
+            objects_r = paginated_resource(objects_dataset, options)      
             {
               :id => pk,
               :name => acquisition,

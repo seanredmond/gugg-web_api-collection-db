@@ -37,7 +37,7 @@ module Gugg
           end
 
           def as_resource(options = {})
-            objects_r = paginated_resource(options)      
+            objects_r = paginated_resource(objects_dataset, options)      
             {
               :id => pk,
               :name => name,

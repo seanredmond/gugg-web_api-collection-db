@@ -44,7 +44,7 @@ module Gugg
           end
 
           def as_resource(options = {})
-            objects_r = paginated_resource(options)
+            objects_r = paginated_resource(objects_dataset, options)
             {
               :name => name,
               :dates => date_resource(beginisodate, endisodate, displaydate),

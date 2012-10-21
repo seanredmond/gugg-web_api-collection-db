@@ -46,7 +46,7 @@ module Gugg
               :id => pk,
               :name => sitename,
               :location => sitenumber,
-              :objects => paginated_resource(options),
+              :objects => paginated_resource(objects_dataset, options),
               :_links => self_link(options)
             }
           end

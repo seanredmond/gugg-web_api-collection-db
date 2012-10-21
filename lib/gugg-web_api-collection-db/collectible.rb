@@ -44,6 +44,7 @@ module Gugg
         # If the 'no_objects' parameter is passed, the returned Hash will 
         # contain only the :total_count.
         #
+        # @param [Object] dset The dataset to be paginated 
         # @param [Hash] options The options for pagination. Note that keys must 
         # be Strings since we actually expecting them to come from query 
         # parameters originating in URLs as calls to an API (which will be 
@@ -55,11 +56,11 @@ module Gugg
         # (even nil), the result will contain only a total count of items, not 
         # a paginated dataset
         # @return [Hash] The paginated resource.
-        def paginated_resource(options = {})
+        def paginated_resource(dset, options = {})
           if options.keys.include?('no_objects')
             @obj_pages = nil
             return {
-              :total_count => @obj_dataset.count
+              :total_count => dset.count
             }
           end
 
@@ -76,7 +77,7 @@ module Gugg
           if @obj_pages == nil || 
               @obj_pages.current_page != page || 
               @obj_pages.page_size != per_page
-            @obj_pages = @obj_dataset.paginate(page, per_page)
+            @obj_pages = dset.paginate(page, per_page)
           end
 
           {
