@@ -9,6 +9,7 @@ module Gugg
         # Copyright:: Copyright © 2012 Solomon R. Guggenheim Foundation
         # License GPLv3
         class Location < Sequel::Model(:collection_locations)
+          many_to_one :site, :class => Site, :key => :siteid
         end
       end
     end

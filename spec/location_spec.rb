@@ -37,8 +37,8 @@ describe MDL::Location do
     end
 
     it 'has a related Site' do
-      @loc.site.should be_an_instance_od MDL::Site
+      @loc.site.should be_an_instance_of MDL::Site
+      @loc.site.sitename.should eq 'Solomon R. Guggenheim Museum'
     end
-
   end
 end
