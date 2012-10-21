@@ -22,4 +22,18 @@ describe MDL::Location do
     # There are 54 locations as of Oct 2012
     MDL::Location.all().count.should be >= 54
   end
+
+  context "with a known location" do
+    before :all do
+      @loc = MDL::Location[2]
+    end
+
+    it "has an area" do
+      @loc.area.should eq 'Ramp 1'
+    end
+
+    it 'has a location' do
+      @loc.location.should eq 'Bay 11'
+    end
+  end
 end
