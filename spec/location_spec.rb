@@ -35,5 +35,10 @@ describe MDL::Location do
     it 'has a location' do
       @loc.location.should eq 'Bay 11'
     end
+
+    it 'has a related Site' do
+      @loc.site.should be_an_instance_od MDL::Site
+    end
+
   end
 end
