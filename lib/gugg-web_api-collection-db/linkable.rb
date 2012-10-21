@@ -79,8 +79,8 @@ module Gugg
           return "?#{query}"
         end
 
-        def self_link(options = {})
-          return Linkable::make_links(self.class, @obj_pages, pk, options)
+        def self_link(pages = nil, options = {})
+          return Linkable::make_links(self.class, pages, pk, options)
         end
       end
     end

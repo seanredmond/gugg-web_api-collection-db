@@ -18,11 +18,6 @@ module Gugg
           include Collectible
           include Dateable
 
-          def after_initialize
-            @obj_dataset = objects_dataset
-            @obj_pages = nil
-          end
-
           def self.list(options = {})
             {
               :exhibitions => all.
@@ -44,12 +39,13 @@ module Gugg
           end
 
           def as_resource(options = {})
-            objects_r = paginated_resource(objects_dataset, options)
+            (dataset_pages, dateset_resource) = 
+              paginated_resource(objects_dataset, options)
             {
               :name => name,
               :dates => date_resource(beginisodate, endisodate, displaydate),
-              :objects => objects_r,
-              :_links => self_link(options)
+              :objects => dateset_resource,
+              :_links => self_link(dataset_pages, options)
             }
           end
         end

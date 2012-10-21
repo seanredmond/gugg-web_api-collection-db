@@ -57,38 +57,35 @@ module Gugg
         # a paginated dataset
         # @return [Hash] The paginated resource.
         def paginated_resource(dset, options = {})
+          pages = nil
           if options.keys.include?('no_objects')
-            @obj_pages = nil
-            return {
-              :total_count => dset.count
-            }
+            return [
+              pages,
+              {:total_count => dset.count}
+            ]
           end
 
           begin
-            # page = options['page'] == nil ? 1 : Integer(options['page'])
-            # per_page = options['per_page'] == nil ? 
-            #   20 : Integer(options['per_page'])
             page = page_option_or_default(options)
             per_page = per_page_option_or_default(options)
           rescue ArgumentError => e
             raise Db::BadParameterError, e.message
           end
 
-          if @obj_pages == nil || 
-              @obj_pages.current_page != page || 
-              @obj_pages.page_size != per_page
-            @obj_pages = dset.paginate(page, per_page)
-          end
+          pages = dset.paginate(page, per_page)
 
-          {
-            :page => @obj_pages.current_page,
-            :pages => @obj_pages.page_count,
-            :items_per_page => @obj_pages.page_size,
-            :count => @obj_pages.count,
-            :total_count => @obj_pages.pagination_record_count,
-            :items => @obj_pages.count > 0 ? 
-              @obj_pages.map{|i| i.as_resource} : nil
-          }
+          [
+            pages,
+            {
+              :page => pages.current_page,
+              :pages => pages.page_count,
+              :items_per_page => pages.page_size,
+              :count => pages.count,
+              :total_count => pages.pagination_record_count,
+              :items => pages.count > 0 ? 
+                pages.map{|i| i.as_resource} : nil
+            }
+          ]
         end
       end
     end

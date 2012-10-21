@@ -20,10 +20,10 @@ module Gugg
           set_dataset(dataset.filter(
             ~:siteid.qualify(:collection_tms_sites) =>  21))
 
-          def after_initialize
-            @obj_dataset = objects_dataset
-            @obj_pages = nil
-          end
+          # def after_initialize
+          #   @obj_dataset = objects_dataset
+          #   @obj_pages = nil
+          # end
 
           def self.list(options = {})
             {
@@ -42,12 +42,14 @@ module Gugg
           end
 
           def as_resource(options = {})
+            (dataset_pages, dateset_resource) = 
+              paginated_resource(objects_dataset, options)
             {
               :id => pk,
               :name => sitename,
               :location => sitenumber,
-              :objects => paginated_resource(objects_dataset, options),
-              :_links => self_link(options)
+              :objects => dateset_resource,
+              :_links => self_link(dataset_pages, options)
             }
           end
         end

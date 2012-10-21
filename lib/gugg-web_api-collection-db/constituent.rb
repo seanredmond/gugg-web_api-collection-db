@@ -18,11 +18,6 @@ module Gugg
           include Linkable
           include Collectible
 
-          def after_initialize
-            @obj_dataset = objects_dataset
-            @obj_pages = nil
-          end
-
           dataset_module do
             def all
               filter()
@@ -68,6 +63,8 @@ module Gugg
           end
 
           def as_resource(options = {})
+            (dataset_pages, dateset_resource) = 
+              paginated_resource(objects_dataset, options)
             {
               :id => pk,
               :firstname => firstname,
@@ -82,8 +79,8 @@ module Gugg
                 :end => enddate,
                 :display => displaydate
               },
-              :objects => paginated_resource(objects_dataset, options),
-              :_links => self_link(options)
+              :objects => dateset_resource,
+              :_links => self_link(dataset_pages, options)
             }
           end
         end
