@@ -144,7 +144,7 @@ describe MDL::CollectionObject do
 
   describe '#location' do
     it 'returns a Location' do
-      @pwb.location.should be_an_instance_of MDL::Location
+      MDL::SortFields[3417].objlocation.should be_an_instance_of MDL::Location
     end
   end
 

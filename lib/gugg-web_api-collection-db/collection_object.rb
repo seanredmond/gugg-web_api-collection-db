@@ -109,7 +109,7 @@ module Gugg
           end
 
           def location
-            sort_fields.location
+            sort_fields.objlocation
           end
 
           def constituents
