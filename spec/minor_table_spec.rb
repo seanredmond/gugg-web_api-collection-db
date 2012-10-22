@@ -62,6 +62,23 @@ describe MDL::SortFields do
   it "should contain expected values" do
     MDL::SortFields[2].title.should eq('Villa Borghese')
   end
+
+  describe '#location' do
+    before :all do
+      @woman_ironing = MDL::SortFields[3417]
+    end
+
+    it 'returns a Location object' do
+      @woman_ironing.location.should be_an_instance_of MDL::Location
+    end
+
+    it 'is where expected' do
+      @woman_ironing.location.area.should eq 'Ramp 1'
+      @woman_ironing.location.location.should eq 'Bay 14'
+    end
+  end
+end
+
 end
 
 describe MDL::Role do

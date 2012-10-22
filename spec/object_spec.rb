@@ -142,6 +142,12 @@ describe MDL::CollectionObject do
     end
   end
 
+  describe '#location' do
+    it 'returns a Location' do
+      @pwb.location.should be_an_instance_of MDL::Location
+    end
+  end
+
   describe '#as_resource' do
     it "should be a hash" do
       @pwb.as_resource.should be_an_instance_of(Hash)
