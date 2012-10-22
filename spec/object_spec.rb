@@ -262,6 +262,11 @@ describe MDL::CollectionObject do
         @r[:exhibitions].map{|e| e[:name] }.should 
           include('Picasso Black and White')
       end
+
+      it "has a location resource" do
+        @r[:location].should be_an_instance_of Hash
+        @r[:location][:area].should eq 'Ramp 1'
+      end
     end
 
     context "Load for Gutai" do

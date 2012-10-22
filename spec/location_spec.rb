@@ -56,7 +56,6 @@ describe MDL::Location do
 
   describe '#as_resource' do
     it 'returns a Hash' do
-      puts @loc.as_resource.inspect
       @loc.as_resource.should be_an_instance_of Hash
     end
   end

@@ -220,7 +220,7 @@ module Gugg
         			:recent_acquisition => is_recent_acquisition?,
         			:essay => essay,
               :copyright => copyright,
-              :location => location,
+              :location => location == nil ? nil : location.as_resource,
               :_links => links
         		}
         	end
