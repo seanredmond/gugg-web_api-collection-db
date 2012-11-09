@@ -4,18 +4,8 @@
 # Copyright:: Copyright © 2012 Solomon R. Guggenheim Foundation
 # License GPLv3
 
-require "rubygems"
-require "sequel"
-require "yaml"
+require 'spec_helper'
 
-cfg = YAML.load_file('collection_db_spec.yml')
-db = cfg['db']['mysql']
-@DB = Sequel.mysql(db['db'], :user=>db['user'], :password=>db['password'], 
-  :host=>db['host'], :charset=>'utf8')
-
-require 'gugg-web_api-collection-db'
-
-MDL = Gugg::WebApi::Collection::Db
 Gugg::WebApi::Collection::Linkable::root = "http://u.r.i/collection"
 Gugg::WebApi::Collection::Linkable::map_path(
   Gugg::WebApi::Collection::Db::CollectionObject, 'objects'
