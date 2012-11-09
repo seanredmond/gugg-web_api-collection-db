@@ -37,10 +37,15 @@ module Gugg
           # @return [Hash] A resource containing a list of acquisition 
           #   resources
           def self.list(options = {})
+            defaults = {}
+            if !options.keys.include?('per_page')
+              defaults['no_objects'] = true
+            end
+
             {
               :acquisitions => all.
                 reject{|a| a.objects_dataset.count == 0}.
-                map{|a| a.as_resource({'per_page' => 5}.merge!(options))}
+                map{|a| a.as_resource(defaults.merge!(options))}
             }
           end
 
