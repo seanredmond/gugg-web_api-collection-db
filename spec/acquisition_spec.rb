@@ -83,10 +83,9 @@ describe MDL::Acquisition do
         end
       end
 
-      it "should have Acquisition resources with 5 items" do
+      it "should have Acquisition resources with no items" do
         @acq[:acquisitions].each do |a|
-          a[:objects][:items].should have_at_least(1).items
-          a[:objects][:items].should have_at_most(5).items
+          a[:objects][:items].should_not be
         end
       end
     end
@@ -94,7 +93,7 @@ describe MDL::Acquisition do
     context "with options" do
       context "for items per page" do
         before :all do
-          @acq = MDL::Acquisition.list({:per_page => 10})
+          @acq = MDL::Acquisition.list({'per_page' => 10})
         end
 
         it "should have Acquisition resources with 10 items" do
