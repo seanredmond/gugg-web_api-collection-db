@@ -7,10 +7,29 @@
 require 'spec_helper'
 
 describe MDL::Media do
+  before :all do
+    @pwb_img = MDL::Media[47568]
+  end
+
   it "returns rows" do
     # There are 1044 media formats as of Nov 2012
     MDL::Media.all().count.should be >= 1044
   end
+
+  describe "#as_resource" do
+    before :all do
+      @resource = @pwb_img.as_resource
+    end
+
+    it "is a Hash" do
+      @resource.should be_an_instance_of Hash
+    end
+
+    it "gives the orientation" do
+      @resource[:orientation].should eq 'landscape'
+    end
+  end
+
 
   context "landscape oriented image" do
     before :all do
@@ -21,6 +40,7 @@ describe MDL::Media do
       @landscape.orientation.should eq MDL::Media::ORIENTATION_LANDSCAPE
       @landscape.is_landscape?.should eq true
       @landscape.is_portrait?.should eq false
+      @landscape.as_resource[:orientation].should eq 'landscape'
     end
   end
 
@@ -33,6 +53,7 @@ describe MDL::Media do
       @portrait.orientation.should eq MDL::Media::ORIENTATION_PORTRAIT
       @portrait.is_landscape?.should eq false
       @portrait.is_portrait?.should eq true
+      @portrait.as_resource[:orientation].should eq 'portrait'
     end
   end
 end

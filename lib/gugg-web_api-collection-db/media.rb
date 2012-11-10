@@ -35,11 +35,11 @@ module Gugg
           #   {Collectible#paginated_resource} and {Linkable#self_link}
           # @return [Hash] The resource
           def as_resource(options = {})
-            (dataset_pages, dateset_resource) = 
-              paginated_resource(objects_dataset, options)
+            # (dataset_pages, dateset_resource) = 
+            #   paginated_resource(objects_dataset, options)
 
             {
-
+              :orientation => is_landscape? ? 'landscape' : 'portrait'
             }
           end
 
