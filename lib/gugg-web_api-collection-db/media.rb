@@ -39,7 +39,26 @@ module Gugg
             #   paginated_resource(objects_dataset, options)
 
             {
-              :orientation => is_landscape? ? 'landscape' : 'portrait'
+              :orientation => is_landscape? ? 'landscape' : 'portrait',
+              :assets => sizes
+            }
+          end
+
+          # Get the available image sizes
+          #
+          # @return [Hash] A hash containing the various available images sizes,
+          #   with dimensions and links
+          def sizes
+            return {
+              :full => {
+                :width => pixelw,
+                :height => pixelh,
+                :_links => {
+                  :_self => {
+                    :href => filename
+                  }
+                }
+              }
             }
           end
 

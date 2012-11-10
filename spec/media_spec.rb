@@ -16,6 +16,31 @@ describe MDL::Media do
     MDL::Media.all().count.should be >= 1044
   end
 
+  describe "#sizes" do 
+    before :all do
+      @sizes = @pwb_img.sizes
+    end
+
+    it "is a Hash" do 
+      @sizes.should be_an_instance_of Hash
+    end
+
+    context "full size" do
+      before :all do
+        @full = @sizes[:full]
+      end
+
+      it "has a full size" do
+        @full.should be
+      end
+
+      it "should have the dimensions of the object" do
+        @full[:width].should eq @pwb_img.pixelw
+        @full[:height].should eq @pwb_img.pixelh
+      end
+    end
+  end
+
   describe "#as_resource" do
     before :all do
       @resource = @pwb_img.as_resource
