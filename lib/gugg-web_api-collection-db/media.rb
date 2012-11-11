@@ -162,10 +162,17 @@ module Gugg
               end
             end
 
-            return {
-              :width => (pixelw * ratio).round,
-              :height => (pixelh * ratio).round
-            }
+            begin
+              return {
+                :width => (pixelw * ratio).round,
+                :height => (pixelh * ratio).round
+              }
+            rescue FloatDomainError => e
+              return {
+                :width => 0,
+                :height => 0
+              }
+            end
           end
 
           # Returns a constant indicating the orientation of the image
