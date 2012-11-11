@@ -9,7 +9,7 @@ module Gugg
     module Collection
       module Db
         class MediaFormat < Sequel::Model(:collection_tms_mediaformats)
-          many_to_one :type, 
+          many_to_one :mediatype, 
             :class => Gugg::WebApi::Collection::Db::MediaType, :key => :mediatypeid  
         end
       end

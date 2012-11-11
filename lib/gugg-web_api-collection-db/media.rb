@@ -21,9 +21,9 @@ module Gugg
         # @license GPLv3
         class Media < Sequel::Model(:collection_object_images)
           set_primary_key :mediaxrefid
-          many_to_one :format, 
+          many_to_one :mediaformat, 
             :class => Gugg::WebApi::Collection::Db::MediaFormat, 
-              :key => :mediatypeid
+              :key => :formatid
 
             ORIENTATION_LANDSCAPE = 0
             ORIENTATION_PORTRAIT  = 1
@@ -60,6 +60,14 @@ module Gugg
                 }
               }
             }
+          end
+
+          def media_format
+            return mediaformat.format
+          end
+
+          def media_type
+            return mediaformat.mediatype.mediatype
           end
 
           # Returns a constant indicating the orientation of the image

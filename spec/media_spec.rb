@@ -41,6 +41,18 @@ describe MDL::Media do
     end
   end
 
+  describe "#format" do
+    it "is a jpeg" do
+      @pwb_img.media_format.should eq "JPEG"
+    end
+  end
+
+  describe "#type" do
+    it "is an image" do
+      @pwb_img.media_type.should eq "Image"
+    end
+  end
+
   describe "#as_resource" do
     before :all do
       @resource = @pwb_img.as_resource
@@ -94,6 +106,6 @@ describe MDL::MediaFormat do
   end
 
   it "should be able to retrieve associated language code" do
-    MDL::MediaFormat[2].type.mediatype.should eq('Image')
+    MDL::MediaFormat[2].mediatype.mediatype.should eq('Image')
   end
 end
