@@ -10,3 +10,18 @@ db = cfg['db']['mysql']
 require 'gugg-web_api-collection-db'
 
 MDL = Gugg::WebApi::Collection::Db
+
+MDL::Media::media_root = "http://emuseum2.guggenheim.org/media"
+MDL::Media::media_paths = {
+	'full' => 'full',
+	'large' => 'large',
+	'medium' => 'previews',
+	'thumbnail' => 'thumbnails',
+	'tiny' => 'postagestamps'
+}
+MDL::Media::media_dimensions = {
+	'large' => 409,
+	'medium' => 300,
+	'thumbnail' => 160,
+	'tiny' => 62
+}

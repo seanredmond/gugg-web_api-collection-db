@@ -62,6 +62,14 @@ describe MDL::Media do
       @resource.should be_an_instance_of Hash
     end
 
+    it "has format" do
+      @resource[:format].should_not be_nil
+    end
+
+    it "has type" do
+      @resource[:type].should_not be_nil
+    end
+
     it "gives the orientation" do
       @resource[:orientation].should eq 'landscape'
     end

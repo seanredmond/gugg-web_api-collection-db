@@ -25,8 +25,48 @@ module Gugg
             :class => Gugg::WebApi::Collection::Db::MediaFormat, 
               :key => :formatid
 
-            ORIENTATION_LANDSCAPE = 0
-            ORIENTATION_PORTRAIT  = 1
+          ORIENTATION_LANDSCAPE = 0
+          ORIENTATION_PORTRAIT  = 1
+
+          @@media_root = nil
+          @@media_paths = {}
+          @@media_deimensions = {}
+
+          # Get the media root.
+          # @return [String] @@image_root
+          def self.media_root
+            @@media_root
+          end
+
+          # Set the media root.
+          # @return [String] @@image_root
+          def self.media_root=(r)
+            @@media_root = r
+          end
+
+          # Get the media paths.
+          # @return [Hash] @@image_paths
+          def self.media_paths
+            @@media_paths
+          end
+
+          # Set the media paths.
+          # @return [Hash] @@image_paths
+          def self.media_paths=(p)
+            @@media_paths = p
+          end
+
+          # Get the media dimensions.
+          # @return [Hash] @@image_dimensions
+          def self.media_dimensions
+            @@media_dimensions
+          end
+
+          # Set the media paths.
+          # @return [Hash] @@image_paths
+          def self.media_dimensions=(d)
+            @@media_dimensions = d
+          end
 
           # Returns a representation of the media object in a hash suitable for
           # output as a JSON resource
@@ -40,6 +80,8 @@ module Gugg
 
             {
               :orientation => is_landscape? ? 'landscape' : 'portrait',
+              :type => media_type,
+              :format => media_format,
               :assets => sizes
             }
           end
@@ -62,10 +104,17 @@ module Gugg
             }
           end
 
+          # Get the format of the media
+          #
+          # @return [String] The media format (i.e. jpeg)
           def media_format
             return mediaformat.format
           end
 
+
+          # Get the type of the media
+          #
+          # @return [String] The media type (i.e. image)
           def media_type
             return mediaformat.mediatype.mediatype
           end
