@@ -39,3 +39,16 @@ describe "Acquisitions" do
     end
   end
 end
+
+describe "Media" do
+  before :all do
+    @o = MDL::CollectionObject.all
+  end
+
+  context "Media counts" do
+    it "Objects have at most one image" do
+      @o.select{|o| o.media.count > 1}.count.
+        should eq 0
+    end
+  end
+end
