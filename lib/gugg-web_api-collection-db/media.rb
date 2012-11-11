@@ -30,7 +30,7 @@ module Gugg
 
           @@media_root = nil
           @@media_paths = {}
-          @@media_deimensions = {}
+          @@media_dimensions = {}
 
           # Get the media root.
           # @return [String] @@image_root
@@ -91,17 +91,31 @@ module Gugg
           # @return [Hash] A hash containing the various available images sizes,
           #   with dimensions and links
           def sizes
-            return {
+            sz = {
               :full => {
                 :width => pixelw,
                 :height => pixelh,
                 :_links => {
                   :_self => {
-                    :href => media_url('full')
+                    :href => media_url(:full)
                   }
                 }
               }
             }
+
+            @@media_dimensions.keys.map do |s|
+              sz[s] = {
+                :width => dimensions(s)[:width],
+                :height => dimensions(s)[:height],
+                :_links => {
+                  :_self => {
+                    :href => media_url(s)
+                  }
+                }
+              }
+            end
+
+            return sz
           end
 
           # Get the format of the media

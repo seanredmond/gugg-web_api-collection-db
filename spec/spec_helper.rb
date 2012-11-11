@@ -13,11 +13,11 @@ MDL = Gugg::WebApi::Collection::Db
 
 MDL::Media::media_root = "http://emuseum2.guggenheim.org/media"
 MDL::Media::media_paths = {
-	'full' => 'full',
-	'large' => 'large',
-	'medium' => 'previews',
-	'small' => 'thumbnails',
-	'tiny' => 'postagestamps'
+	:full => 'full',
+	:large => 'large',
+	:medium => 'previews',
+	:small => 'thumbnails',
+	:tiny => 'postagestamps'
 }
 MDL::Media::media_dimensions = {
 	:large => 490,

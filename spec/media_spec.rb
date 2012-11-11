@@ -56,7 +56,7 @@ describe MDL::Media do
   describe "#media_path" do
     context "with existing size" do
       it "has a path" do
-        @pwb_img.media_path('full').
+        @pwb_img.media_path(:full).
           should eq 'http://emuseum2.guggenheim.org/media/full'
       end
     end
@@ -71,7 +71,7 @@ describe MDL::Media do
   describe "#media_url" do
     context "with existing size" do
       it "has a url" do
-        @pwb_img.media_url('full').
+        @pwb_img.media_url(:full).
           should  eq 'http://emuseum2.guggenheim.org/media/full/37.245_ph_web.jpg'
       end
     end
@@ -125,6 +125,21 @@ describe MDL::Media do
     it "gives the orientation" do
       @resource[:orientation].should eq 'landscape'
     end
+
+    it "has assets" do
+      @resource[:assets].should be_an_instance_of Hash
+    end
+
+    it "has the right full size" do
+      @resource[:assets][:full][:width].should eq 573
+    end
+
+    it "has the right url for the full size" do
+      @resource[:assets][:full][:_links][:_self][:href].
+        should eq 'http://emuseum2.guggenheim.org/media/full/37.245_ph_web.jpg'
+    end
+
+
   end
 
 
