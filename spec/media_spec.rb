@@ -56,14 +56,29 @@ describe MDL::Media do
   describe "#media_path" do
     context "with existing size" do
       it "has a path" do
-        @pwb_img.media_path('full').should 
-          eq 'http://emuseum2.guggenheim.org/media/full'
+        @pwb_img.media_path('full').
+          should eq 'http://emuseum2.guggenheim.org/media/full'
       end
     end
 
     context "with non-existing size" do
       it "does not have a path" do
         @pwb_img.media_path('nosuchsize').should be_nil
+      end
+    end
+  end
+
+  describe "#media_url" do
+    context "with existing size" do
+      it "has a url" do
+        @pwb_img.media_url('full').
+          should  eq 'http://emuseum2.guggenheim.org/media/full/37.245_ph_web.jpg'
+      end
+    end
+
+    context "with non-existing size" do
+      it "does not have a url" do
+        @pwb_img.media_url('nosuchsize').should be_nil
       end
     end
   end
