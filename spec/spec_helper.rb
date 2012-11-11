@@ -16,12 +16,12 @@ MDL::Media::media_paths = {
 	'full' => 'full',
 	'large' => 'large',
 	'medium' => 'previews',
-	'thumbnail' => 'thumbnails',
+	'small' => 'thumbnails',
 	'tiny' => 'postagestamps'
 }
 MDL::Media::media_dimensions = {
-	'large' => 409,
-	'medium' => 300,
-	'thumbnail' => 160,
-	'tiny' => 62
+	:large => 490,
+	:medium => 300,
+	:small => 160,
+	:tiny => 62
 }
