@@ -48,6 +48,7 @@ module Gugg
         	set_primary_key :objectid
           one_to_many :conxrefs, :class => ConstituentXref, :key => :id
           one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
+          one_to_many :media, :class => Media, :key => :objectid
         	one_to_one :contexts, :class => ObjectContext, :key => :objectid
           one_to_one :sort_fields, :class => SortFields, :key => :objectid
           many_to_many :acquisitions, :class => Acquisition, 
@@ -221,6 +222,9 @@ module Gugg
         			:essay => essay,
               :copyright => copyright,
               :location => location == nil ? nil : location.as_resource,
+              :media => media.count > 0 ? media.map { |m|
+                m.as_resource
+              } : nil,
               :_links => links
         		}
         	end

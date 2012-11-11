@@ -196,6 +196,11 @@ describe MDL::CollectionObject do
       it "should have a location" do
         @r.keys().include?(:location).should be_true
       end
+
+      it "has media" do
+        @r.keys().include?(:media).should be_true
+        @r[:media].should be_an_instance_of Array
+      end
     end
 
     context "For an Anniversary" do
