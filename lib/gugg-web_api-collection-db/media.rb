@@ -119,6 +119,13 @@ module Gugg
             return mediaformat.mediatype.mediatype
           end
 
+          def media_path(size)
+            if @@media_paths[size] == nil
+              return nil
+            end
+            return [@@media_root, @@media_paths[size]].join('/')
+          end
+
           # Returns a constant indicating the orientation of the image
           #
           # @return [Boolean] ORIENTATION_LANDSCAPE if the width it greater than
