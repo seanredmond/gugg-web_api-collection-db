@@ -83,6 +83,28 @@ describe MDL::Media do
     end
   end
 
+  describe "#dimensions" do 
+    it "has the right full size" do
+      @pwb_img.dimensions(:full)[:width].should eq 573
+    end
+
+    it "has the right large size" do
+      @pwb_img.dimensions(:large)[:width].should eq 490
+    end
+
+    it "has the right medium size" do
+      @pwb_img.dimensions(:medium)[:width].should eq 300
+    end
+
+    it "has the right small size" do
+      @pwb_img.dimensions(:small)[:width].should eq 160
+    end
+
+    it "has the right tiny size" do
+      @pwb_img.dimensions(:tiny)[:width].should eq 62
+    end
+  end
+
   describe "#as_resource" do
     before :all do
       @resource = @pwb_img.as_resource

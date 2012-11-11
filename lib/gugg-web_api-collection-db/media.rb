@@ -97,7 +97,7 @@ module Gugg
                 :height => pixelh,
                 :_links => {
                   :_self => {
-                    :href => filename
+                    :href => media_url('full')
                   }
                 }
               }
@@ -129,6 +129,29 @@ module Gugg
           def media_url(size)
             path = media_path(size)
             return path == nil ? nil : [path, filename].join('/')
+          end
+
+          def dimensions(size)
+            if size == :full
+              ratio = 1
+            else 
+              max_dim = @@media_dimensions[size]
+
+              if max_dim == nil
+                return nil
+              end
+
+              if is_landscape?
+                ratio = max_dim.to_f/pixelw
+              else
+                ratio = max_dim.to_f/pixelh
+              end
+            end
+
+            return {
+              :width => (pixelw * ratio).round,
+              :height => (pixelh * ratio).round
+            }
           end
 
           # Returns a constant indicating the orientation of the image
