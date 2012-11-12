@@ -317,4 +317,20 @@ describe MDL::CollectionObject do
       end
     end
   end
+
+  describe ".years" do
+    before :all do
+      @years = MDL::CollectionObject.years({:add_to_path => 'dates'})
+    end
+
+    it "returns an Hash that contains an Array of Hashes" do
+      @years.should be_an_instance_of Hash
+      @years[:dates].should be_an_instance_of Array
+      @years[:dates].first.should be_an_instance_of Hash
+    end
+
+    it "returns counts" do
+      @years[:dates].first[:objects][:total_count].should be > 0
+    end
+  end
 end

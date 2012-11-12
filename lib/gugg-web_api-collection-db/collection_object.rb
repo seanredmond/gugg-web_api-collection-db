@@ -80,6 +80,35 @@ module Gugg
             }
           end
 
+          def self.years(options = {})
+            # "not departmentid = 7" clause should objects to those owned by 
+            # SRGM
+            years = group_and_count(:datebegin.as(:year)).
+              where(~:departmentid=>7)
+
+            years = years.all.map{|y| 
+              {
+                :year => y[:year],
+                :name => "#{y[:year]}",
+                :objects => {
+                  :total_count => y[:count] 
+                },
+                :_links => Linkable::make_links(self, nil, nil, 
+                  {:add_to_path => [options[:add_to_path], y[:year]].join('/')})              
+              }
+            }
+
+            # Shrink this down to decades
+            # years = years.map{|y| (y.to_i/10) * 10}.uniq
+
+            # return Hash[ *years.collect { |y|
+            #   ["#{y}s", {'href' => SelfLinker.SelfLink({:addpath => "#{y}/#{y+9}"})}]
+            # }.flatten]
+            return {
+              :dates => years,
+              :_links => Linkable::make_links(self, nil, nil, options)
+            }
+          end
 
         	def copyright
         		contexts.shorttext7
