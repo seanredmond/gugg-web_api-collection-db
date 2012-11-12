@@ -20,10 +20,15 @@ module Gugg
           include Collectible
 
           def self.list(options = {})
+            defaults = {}
+            if !options.keys.include?('per_page')
+              defaults['no_objects'] = true
+            end
+
             {
               :movements => all.
                 reject{|m| m.objects_dataset.count == 0}.
-                map{|m| m.as_resource({'per_page' => 5}.merge!(options))}
+                map{|m| m.as_resource(defaults.merge!(options))}
             }
           end
 

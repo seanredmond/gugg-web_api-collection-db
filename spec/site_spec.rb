@@ -69,8 +69,7 @@ describe MDL::Site do
 
       it "should have Site resources with 5 items" do
         @site[:sites].each do |s|
-          s[:objects][:items].should have_at_least(1).items
-          s[:objects][:items].should have_at_most(5).items
+          s[:objects][:items].should_not be
         end
       end
     end

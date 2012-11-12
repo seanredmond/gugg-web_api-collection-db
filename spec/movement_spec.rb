@@ -51,8 +51,7 @@ describe MDL::Movement do
 
       it "should have Movement resources with 5 items" do
         @mov[:movements].each do |a|
-          a[:objects][:items].should have_at_least(1).items
-          a[:objects][:items].should have_at_most(5).items
+          a[:objects][:items].should_not be
         end
       end
     end
