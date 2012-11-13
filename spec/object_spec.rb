@@ -323,7 +323,7 @@ describe MDL::CollectionObject do
       @years = MDL::CollectionObject.years({:add_to_path => 'dates'})
     end
 
-    it "returns an Hash that contains an Array of Hashes" do
+    it "returns a Hash that contains an Array of Hashes" do
       @years.should be_an_instance_of Hash
       @years[:dates].should be_an_instance_of Array
       @years[:dates].first.should be_an_instance_of Hash
@@ -331,6 +331,18 @@ describe MDL::CollectionObject do
 
     it "returns counts" do
       @years[:dates].first[:objects][:total_count].should be > 0
+    end
+  end
+
+  describe ".decades" do
+    before :all do
+      @years = MDL::CollectionObject.decades({:add_to_path => 'dates/decades'})
+    end
+
+    it "returns a Hash with _links with a decades property" do
+      @years.should be_an_instance_of Hash
+      @years[:_links].should be_an_instance_of Hash
+      @years[:_links][:decades].should be_an_instance_of Array
     end
   end
 end

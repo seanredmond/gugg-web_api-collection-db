@@ -128,6 +128,26 @@ module Gugg
             }
           end
 
+          def self.decades(options = {})
+            years = select(:datebegin.as(:year)).
+              union(select(:dateend.as(:year))).
+              distinct.filter(~:year => nil).
+              filter(~:year => 0).order(:year).all.
+              map{|y| (y[:year]/10) * 10}.uniq
+
+            links = Linkable::make_links(self, nil, nil, options)
+
+            decades = []
+            years = years.each do |y| 
+              decade_link = Linkable::make_links(self, nil, nil, 
+                {:add_to_path => [options[:add_to_path], y, y+9].join('/')})
+              decades += [decade_link[:_self].merge({:title => "#{y}s"})]
+            end
+
+            # links[:decades] = decades
+            return {:_links => links.merge({:decades => decades})}
+          end
+
           # Get the copyright statement
           #
           # @return [String] The copyright
