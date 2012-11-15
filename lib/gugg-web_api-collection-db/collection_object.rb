@@ -69,6 +69,16 @@ module Gugg
 
           @@web_url = 'http://www.guggenheim.org/new-york/collections/collection-online/show-full/piece/?&search=&f=Title&object='
 
+          def self.list(options = {})
+            (dataset_pages, dateset_resource) = 
+              paginated_resource(dataset, options)
+
+            {
+              :objects => dateset_resource,
+              :_links => Linkable::make_links(self, dataset_pages, nil, options)              
+            }
+          end
+
           # Returns a paginated list of objects on view
           #
           # @param [Hash] options A hash of options to be passed to 

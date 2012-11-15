@@ -402,4 +402,14 @@ describe MDL::CollectionObject do
       end
     end
   end
+
+  describe ".list" do
+    before :all do 
+      @objects =  MDL::CollectionObject.list()
+    end
+
+    it "should return" do
+      puts @objects.inspect
+    end
+  end
 end
