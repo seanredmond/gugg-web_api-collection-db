@@ -116,18 +116,20 @@ module Gugg
               }
             }
 
-            # Shrink this down to decades
-            # years = years.map{|y| (y.to_i/10) * 10}.uniq
-
-            # return Hash[ *years.collect { |y|
-            #   ["#{y}s", {'href' => SelfLinker.SelfLink({:addpath => "#{y}/#{y+9}"})}]
-            # }.flatten]
             return {
               :dates => years,
               :_links => Linkable::make_links(self, nil, nil, options)
             }
           end
 
+          # Returns a list of decades in which objects where created
+          #
+          # @param [Hash] options A hash of options to be passed to 
+          #   {#as_resource}
+          # @return [Hash] A resource containing a list of decades
+          #
+          # This method only counts objects that are owned by SRGM (currently
+          # indicated by having a departmentid other than 7)
           def self.decades(options = {})
             years = select(:datebegin.as(:year)).
               union(select(:dateend.as(:year))).
@@ -144,8 +146,81 @@ module Gugg
               decades += [decade_link[:_self].merge({:title => "#{y}s"})]
             end
 
-            # links[:decades] = decades
             return {:_links => links.merge({:decades => decades})}
+          end
+
+          # Returns a list of objects created in the given year. Every object
+          # is dated with a date range (start, end) and for many objects 
+          # start = end. An object is considered to have been created in a 
+          # given year (y) if start <= y <= end
+          #
+          # @param [integer] year The year to search
+          # @param [Hash] options A hash of options to be passed to 
+          #   {#as_resource}
+          # @return [Hash] A resource containing a list of decades
+          #
+          # This method only counts objects that are owned by SRGM (currently
+          # indicated by having a departmentid other than 7)
+          def self.by_year(year, options = {})
+            begin
+              year = Integer(year)
+              (dataset_pages, dateset_resource) = 
+                paginated_resource(where(:datebegin <= year, :dateend >= year, 
+                    ~:departmentid=>7),
+                options)
+
+              {
+                :objects => dateset_resource,
+                :_links => Linkable::make_links(self, dataset_pages, nil, 
+                  {:add_to_path => [options[:add_to_path], year].join('/')})              
+              }
+            rescue ArgumentError => e
+              raise Db::BadParameterError, e.message
+            end
+          end
+
+          # Returns a list of objects created between the two given years, 
+          # inclusive. Every object is dated with a date range (start, end) 
+          # and for many objects start = end. An object is considered to have 
+          # been created in a given range of years (y1, y2) if:
+          #
+          #     y1 <= start <= y2 ∨ y1 <= end <= y2
+          #
+          # @param [integer] start_year The beginning year of the range
+          # @param [integer] end_year The end year of the range
+          # @param [Hash] options A hash of options to be passed to 
+          #   {#as_resource}
+          # @return [Hash] A resource containing a list of decades
+          #
+          # This method only counts objects that are owned by SRGM (currently
+          # indicated by having a departmentid other than 7)
+          def self.by_year_range(start_year, end_year, options = {})
+            begin
+              start_year = Integer(start_year)
+              end_year = Integer(end_year)
+
+              if (end_year < start_year)
+                raise Db::BadParameterError, 
+                  "Start year of range must be less than end year"
+              end
+
+              (dataset_pages, dateset_resource) = 
+                paginated_resource(
+                  where{
+                    ((:datebegin >= start_year) & (:datebegin <= end_year)) | 
+                    ((:dateend >= start_year) & (:dateend <= end_year))}.
+                  where(~:departmentid=>7),
+                options)
+
+              {
+                :objects => dateset_resource,
+                :_links => Linkable::make_links(self, dataset_pages, nil, 
+                  {:add_to_path => 
+                    [options[:add_to_path], start_year, end_year].join('/')})              
+              }
+            rescue ArgumentError => e
+              raise Db::BadParameterError, e.message
+            end
           end
 
           # Get the copyright statement

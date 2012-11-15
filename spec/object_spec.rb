@@ -345,4 +345,61 @@ describe MDL::CollectionObject do
       @years[:_links][:decades].should be_an_instance_of Array
     end
   end
+
+  describe ".by_year" do
+    before :all do
+      @by_year = MDL::CollectionObject.by_year(1923, {:add_to_path => 'dates'})
+    end
+
+    it "returns a Hash" do
+      @by_year.should be_an_instance_of Hash
+    end
+
+    it "Only has objects created in or around 1923" do
+      @by_year[:objects][:items].each do |o|
+        1923.should be >= o[:dates][:begin]
+        1923.should be <= o[:dates][:end]
+      end
+    end
+
+    it "returns urls that end with the year" do
+      @by_year[:_links][:_self][:href].should end_with('1923/')
+    end
+
+    context "bad requests" do
+      it "should raise an error if the year isn't an integer" do
+        expect {
+          MDL::CollectionObject.by_year('Nineteen-twenty-three')
+        }.to raise_error(MDL::BadParameterError)
+      end
+    end
+  end
+
+  describe ".by_year_range" do
+    before :all do
+      @by_year = MDL::CollectionObject.by_year_range(1923, 1933, {:add_to_path => 'dates'})
+    end
+
+    it "returns a Hash" do
+      @by_year.should be_an_instance_of Hash
+    end
+
+    it "returns urls that end with the years" do
+      @by_year[:_links][:_self][:href].should end_with('1923/1933/')
+    end
+
+    context "bad requests" do
+      it "should raise an error if one of the years isn't an integer" do
+        expect {
+          MDL::CollectionObject.by_year('Nineteen-twenty-three', 1905)
+        }.to raise_error(MDL::BadParameterError)
+      end
+
+      it "should raise an error if the start year isn't less than the end year" do
+        expect {
+          MDL::CollectionObject.by_year_range(1923, 1905)
+        }.to raise_error(MDL::BadParameterError)
+      end
+    end
+  end
 end
