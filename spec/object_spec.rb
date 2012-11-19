@@ -408,8 +408,12 @@ describe MDL::CollectionObject do
       @objects =  MDL::CollectionObject.list()
     end
 
-    it "should return" do
-      puts @objects.inspect
+    it "returns a Hash" do
+      @objects.should be_an_instance_of Hash
+    end
+
+    it "returns enough objects" do
+      @objects[:objects][:total_count].should be > 1000
     end
   end
 end

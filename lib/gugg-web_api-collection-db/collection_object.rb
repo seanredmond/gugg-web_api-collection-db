@@ -69,7 +69,20 @@ module Gugg
 
           @@web_url = 'http://www.guggenheim.org/new-york/collections/collection-online/show-full/piece/?&search=&f=Title&object='
 
+          dataset_module do
+            def basic_order
+              order(:sort_constituent, :sort_date, :sort_title)
+            end
+
+            def permanent_collection
+              self.basic_order.where(~:departmentid => 7)
+            end
+          end
+
+          set_dataset(self.basic_order)
+
           def self.list(options = {})
+            set_dataset(self.permanent_collection)
             (dataset_pages, dateset_resource) = 
               paginated_resource(dataset, options)
 
@@ -109,10 +122,8 @@ module Gugg
           # This method only counts objects that are owned by SRGM (currently
           # indicated by having a departmentid other than 7)
           def self.years(options = {})
-            # "not departmentid = 7" clause should objects to those owned by 
-            # SRGM
-            years = group_and_count(:datebegin.as(:year)).
-              where(~:departmentid=>7)
+            set_dataset(self.permanent_collection)
+            years = group_and_count(:datebegin.as(:year))
 
             years = years.all.map{|y| 
               {
@@ -141,6 +152,7 @@ module Gugg
           # This method only counts objects that are owned by SRGM (currently
           # indicated by having a departmentid other than 7)
           def self.decades(options = {})
+            set_dataset(self.permanent_collection)
             years = select(:datebegin.as(:year)).
               union(select(:dateend.as(:year))).
               distinct.filter(~:year => nil).
@@ -172,11 +184,11 @@ module Gugg
           # This method only counts objects that are owned by SRGM (currently
           # indicated by having a departmentid other than 7)
           def self.by_year(year, options = {})
+            set_dataset(self.permanent_collection)
             begin
               year = Integer(year)
               (dataset_pages, dateset_resource) = 
-                paginated_resource(where(:datebegin <= year, :dateend >= year, 
-                    ~:departmentid=>7),
+                paginated_resource(where(:datebegin <= year, :dateend >= year),
                 options)
 
               {
@@ -205,6 +217,7 @@ module Gugg
           # This method only counts objects that are owned by SRGM (currently
           # indicated by having a departmentid other than 7)
           def self.by_year_range(start_year, end_year, options = {})
+            set_dataset(self.permanent_collection)
             begin
               start_year = Integer(start_year)
               end_year = Integer(end_year)
@@ -218,8 +231,7 @@ module Gugg
                 paginated_resource(
                   where{
                     ((:datebegin >= start_year) & (:datebegin <= end_year)) | 
-                    ((:dateend >= start_year) & (:dateend <= end_year))}.
-                  where(~:departmentid=>7),
+                    ((:dateend >= start_year) & (:dateend <= end_year))},
                 options)
 
               {
@@ -268,18 +280,12 @@ module Gugg
             contexts.flag5 == 1
           end
 
-          # Get the sortable version of the primary title
-          #
-          # @return [String]
-          def sort_title
-            sort_fields.title
-          end
 
           # Get the sortable version of the artist's name
           #
           # @return [String]
           def sort_name
-            sort_fields.constituent
+            sort_constituent
           end
 
           # Get the object's current location
