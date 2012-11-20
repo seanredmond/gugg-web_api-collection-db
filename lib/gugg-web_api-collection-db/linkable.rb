@@ -58,6 +58,7 @@ module Gugg
         # @return [Hash] The link resource
         # @see #self_link
         def self.make_links(cls = nil, paginated_r = nil, pk = nil, options = {})
+          options = Hash[options.map{|(k,v)| [k.to_sym, v]}]
           path = [@@root, @@pathmap[cls], options[:add_to_path]].reject{|a| a == nil}.join('/')
 
           pagination = {}
