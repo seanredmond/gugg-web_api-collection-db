@@ -20,12 +20,14 @@ module Gugg
 
           dataset_module do
             def public_view
-              filter(:conxrefs => ConstituentXref.filter(:displayed => 1))
+              filter(:conxrefs => ConstituentXref.filter(:displayed => 1)).
+              order(:alphasort)
             end
 
             def permanent_collection
               filter(:conxrefs => ConstituentXref.filter(:displayed => 1)).
-              filter(:objects => CollectionObject.filter(~:departmentid => 7))
+              filter(:objects => CollectionObject.filter(~:departmentid => 7)).
+              order(:alphasort)
             end
           end
 
