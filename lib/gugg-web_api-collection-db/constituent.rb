@@ -19,18 +19,20 @@ module Gugg
           include Collectible
 
           dataset_module do
-            def all
-              filter()
+            def public_view
+              filter(:conxrefs => ConstituentXref.filter(:displayed => 1))
             end
 
-            def publicview
-              filter(:conxrefs => ConstituentXref.filter(:displayed => 1))
+            def permanent_collection
+              filter(:conxrefs => ConstituentXref.filter(:displayed => 1)).
+              filter(:objects => CollectionObject.filter(~:departmentid => 7))
             end
           end
 
-          set_dataset(self.publicview)
+          set_dataset(self.public_view)
 
           def self.list(options = {})
+            set_dataset(self.permanent_collection)
             if options.keys.include?('initial')
               begin
                 match = options['initial'].match(/^[a-zA-Z]$/)
