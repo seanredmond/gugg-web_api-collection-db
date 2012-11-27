@@ -9,8 +9,8 @@ require 'spec_helper'
 describe MDL::ConstituentXref do
   context "gutai" do
     before :all do 
-      @xref = MDL::ConstituentXref[123506]
-      @c = MDL::Constituent[11240]
+      @xref = MDL::ConstituentXref[1916]
+      @c = MDL::Constituent[1515]
     end
 
     it "should work" do
