@@ -138,6 +138,20 @@ describe MDL::CollectionObject do
     end
   end
 
+  describe '#permanent_collection' do
+    context 'an object in the permanent collection' do
+      it 'is true' do
+        @pwb.permanent_collection?.should be_true
+      end
+    end
+
+    context 'a loaned object' do
+      it 'is false' do
+        MDL::CollectionObject[31230].permanent_collection?.should be_false
+      end
+    end
+  end
+
   describe '#as_resource' do
     it "should be a hash" do
       @pwb.as_resource.should be_an_instance_of(Hash)

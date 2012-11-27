@@ -40,6 +40,10 @@ module Gugg
           # Temporary dummy class because of circular dependency
         end
 
+        class Location < Sequel::Model(:collection_locations)
+          # Temporary dummy class because of circular dependency
+        end
+
         # An interface to collection_tms_objects and related tables
         class CollectionObject < Sequel::Model(:collection_tms_objects)
           include Linkable
@@ -66,6 +70,17 @@ module Gugg
           many_to_many :sites, :class => Site, 
             :join_table => :collection_objsitexrefs, :left_key => :objectid, 
             :right_key => :siteid
+
+          # Each object can only be in one current exhibition at a time (right?)
+          # but we're going to get it as an array anyway, so for this 
+          # association we'll not worry about getting a 0 or 1 result but leave
+          # that up to methods below
+          many_to_many :current_exhibitions, :class => Exhibition, 
+            :join_table => :collection_tms_exhobjxrefs, 
+            :left_key => :objectid, :right_key => :exhibitionid  do |ds|
+            ds.where{beginisodate <= Date.today}.
+            where{endisodate >= Date.today}
+          end
 
           @@web_url = 'http://www.guggenheim.org/new-york/collections/collection-online/show-full/piece/?&search=&f=Title&object='
 
@@ -288,13 +303,6 @@ module Gugg
             sort_constituent
           end
 
-          # Get the object's current location
-          #
-          # @return [String]
-          def location
-            sort_fields.objlocation
-          end
-
           # Get the object's constituents
           #
           # @return [Array<ConstituentXref>] An array of the {ConstituentXref}
@@ -389,6 +397,20 @@ module Gugg
             return acquisitions.count > 0 ? acquisitions[0] : nil
           end
 
+          def current_exhibition
+            return current_exhibitions.first
+          end
+
+          def current_location
+            return Location[exhibition_xrefs{
+              |ds| ds.where(:exhibitionid => current_exhibition.pk)
+            }.first.section] rescue nil
+          end
+
+          def permanent_collection?
+            return departmentid != 7
+          end
+
           # Returns a representation of the object in a hash suitable for
           # output as a JSON resource
           #
@@ -428,10 +450,12 @@ module Gugg
               :recent_acquisition => is_recent_acquisition?,
               :essay => essay,
               :copyright => copyright,
-              :location => location == nil ? nil : location.as_resource,
+              :location => current_location == nil ? 
+                nil : current_location.as_resource,
               :media => media.count > 0 ? media.map { |m|
                 m.as_resource
               } : nil,
+              :permant_collection => permanent_collection?,
               :_links => links
             }
           end
