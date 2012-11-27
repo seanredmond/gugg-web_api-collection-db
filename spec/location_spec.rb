@@ -8,7 +8,7 @@ require 'spec_helper'
 
 describe MDL::Location do
   before :all do
-    @loc = MDL::Location[2]
+    @loc = MDL::Location['Ramp 1, Bay 11']
   end
 
   it "return rows" do
@@ -26,7 +26,7 @@ describe MDL::Location do
         Gugg::WebApi::Collection::Db::Site, 'sites'
       )
 
-      @loc = MDL::Location[2]
+      @loc = MDL::Location['Ramp 1, Bay 11']
     end
 
     it "has an area" do

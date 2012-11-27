@@ -10,6 +10,7 @@ module Gugg
         # License GPLv3
         class Location < Sequel::Model(:collection_locations)
           many_to_one :site, :class => Site, :key => :siteid
+          set_primary_key :section
 
           # Returns a representation of the loaction in a hash suitable for
           # output as a JSON resource
