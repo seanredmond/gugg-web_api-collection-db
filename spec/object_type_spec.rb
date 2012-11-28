@@ -41,6 +41,11 @@ describe MDL::ObjectType do
         @resource[:objects][:total_count].should be > 0
       end
 
+      it 'links to itself' do
+        @resource[:_links][:_self][:href].
+          should eq "http://u.r.i/collection/objects/types/#{@painting.pk}"
+      end
+
       it 'has embedded objects' do
         @resource[:objects][:items].should be_an_instance_of Array
       end

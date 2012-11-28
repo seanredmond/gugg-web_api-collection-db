@@ -26,6 +26,7 @@ module Gugg
           many_to_many :objects, :class=>CollectionObject, 
             :join_table=>:collection_objtypexrefs, 
             :left_key=>:termid, :right_key=>:id
+          include Linkable
           include Collectible
 
           # @return [String] The name of the object type
@@ -46,8 +47,8 @@ module Gugg
           {
             :id => pk,
             :name => term,
-            :objects => dateset_resource
-            # :_links => self_link(dataset_pages, options)
+            :objects => dateset_resource,
+            :_links => self_link(dataset_pages, options)
           }
         end
         end
