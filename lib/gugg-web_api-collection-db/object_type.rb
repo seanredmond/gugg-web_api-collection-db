@@ -23,6 +23,9 @@ module Gugg
         # @license GPLv3
         class ObjectType < Sequel::Model(:collection_objtypes)
           set_primary_key :termid
+          many_to_many :objects, :class=>CollectionObject, 
+            :join_table=>:collection_objtypexrefs, 
+            :left_key=>:termid, :right_key=>:id
 
           # @return [String] The name of the object type
           def name

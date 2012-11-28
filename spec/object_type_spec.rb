@@ -17,6 +17,16 @@ describe MDL::ObjectType do
     end
   end
 
+  describe '#objects' do
+    it 'has objects' do
+      @painting.objects.should be_an_instance_of Array
+    end
+
+    it 'has CollectionObject objects' do
+      @painting.objects.first.should be_an_instance_of MDL::CollectionObject
+    end
+  end
+
   describe '#as_resource' do
     before :all do
       @resource = @painting.as_resource
