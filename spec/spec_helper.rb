@@ -12,6 +12,16 @@ db = cfg['db']['mysql']
 require 'gugg-web_api-collection-db'
 
 MDL = Gugg::WebApi::Collection::Db
+LNK = Gugg::WebApi::Collection::Linkable
+
+LNK::root = "http://u.r.i/collection"
+LNK::map_path(
+  MDL::CollectionObject, 'objects'
+)
+LNK::map_path(
+  MDL::ObjectType, 'objects/types'
+)
+
 
 MDL::Media::media_root = "http://emuseum2.guggenheim.org/media"
 MDL::Media::media_paths = {
