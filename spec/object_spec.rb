@@ -153,12 +153,16 @@ describe MDL::CollectionObject do
   end
 
   describe '#object_type' do
-    it 'is an ObjectType object' do
-      @pwb.object_type.should be_an_instance_of MDL::ObjectType
+    it 'is an array' do
+      @pwb.object_types.should be_an_instance_of Array
+    end
+
+    it 'contains ObjectType objects' do
+      @pwb.object_types.first.should be_an_instance_of MDL::ObjectType
     end
 
     it 'is the right type' do
-      @pwb.object_type.name.should be 'Painting'
+      @pwb.object_types.first.name.should eq 'Painting'
     end
   end
 
@@ -224,6 +228,10 @@ describe MDL::CollectionObject do
       it "has media" do
         @r.keys().include?(:media).should be_true
         @r[:media].should be_an_instance_of Array
+      end
+
+      it 'has object types' do
+        @r[:object_types].should be_an_instance_of Array
       end
     end
 

@@ -44,6 +44,10 @@ module Gugg
           # Temporary dummy class because of circular dependency
         end
 
+        class ObjectType < Sequel::Model(:collection_objtypes)
+          # Temporary dummy class because of circular dependency
+        end
+
         # An interface to collection_tms_objects and related tables
         class CollectionObject < Sequel::Model(:collection_tms_objects)
           include Linkable
@@ -70,6 +74,9 @@ module Gugg
           many_to_many :sites, :class => Site, 
             :join_table => :collection_objsitexrefs, :left_key => :objectid, 
             :right_key => :siteid
+          many_to_many :object_types, :class => ObjectType, 
+            :join_table => :collection_objtypexrefs, 
+            :left_key => :id, :right_key => :termid
 
           # Each object can only be in one current exhibition at a time (right?)
           # but we're going to get it as an array anyway, so for this 
@@ -454,6 +461,9 @@ module Gugg
                 nil : current_location.as_resource,
               :media => media.count > 0 ? media.map { |m|
                 m.as_resource
+              } : nil,
+              :object_types => object_types.count > 0 ? object_types.map { |t|
+                t.as_resource({'no_objects' => true})
               } : nil,
               :permant_collection => permanent_collection?,
               :_links => links
