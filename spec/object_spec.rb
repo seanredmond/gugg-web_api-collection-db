@@ -152,6 +152,16 @@ describe MDL::CollectionObject do
     end
   end
 
+  describe '#object_type' do
+    it 'is an ObjectType object' do
+      @pwb.object_type.should be_an_instance_of MDL::ObjectType
+    end
+
+    it 'is the right type' do
+      @pwb.object_type.name.should be 'Painting'
+    end
+  end
+
   describe '#as_resource' do
     it "should be a hash" do
       @pwb.as_resource.should be_an_instance_of(Hash)
