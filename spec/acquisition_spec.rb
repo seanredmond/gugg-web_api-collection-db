@@ -7,15 +7,10 @@
 require 'spec_helper'
 
 describe MDL::Acquisition do
-  it "should return rows" do
-    # There are 12 acquisitions as of Aug 2012
-    MDL::Acquisition.all().count.should be >= 12
-  end
-
   describe "One Acquisition object" do
     before :all do 
       # Solomon R. Guggenheim Collection
-      @acq = MDL::Acquisition[6]
+      @acq = MDL::Acquisition[4]
     end
 
     it "should be an Acquisition" do
@@ -23,11 +18,11 @@ describe MDL::Acquisition do
     end
 
     it "should have the right ID" do
-      @acq.pk.should eq 6
+      @acq.pk.should eq 4
     end
 
     it "should have the right name" do
-      @acq.acquisition.should eq 'Solomon R. Guggenheim Founding Collection'
+      @acq.acquisition.should eq 'Thannhauser Collection'
     end
   end
 
@@ -48,6 +43,7 @@ describe MDL::Acquisition do
 
       it "should have objects" do
         @res[:objects].should be_an_instance_of Hash
+        puts @res.inspect
       end
     end
 

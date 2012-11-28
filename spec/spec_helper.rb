@@ -1,11 +1,13 @@
 require "rubygems"
 require "sequel"
+require "sqlite3"
 require "yaml"
 
 cfg = YAML.load_file('collection_db_spec.yml')
 db = cfg['db']['mysql']
-@DB = Sequel.mysql(db['db'], :user=>db['user'], :password=>db['password'], 
-  :host=>db['host'], :charset=>'utf8')
+# @DB = Sequel.mysql(db['db'], :user=>db['user'], :password=>db['password'], 
+#   :host=>db['host'], :charset=>'utf8')
+@DB = Sequel.connect('sqlite://apitest.db');
 
 require 'gugg-web_api-collection-db'
 
