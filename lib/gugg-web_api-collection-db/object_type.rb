@@ -26,6 +26,7 @@ module Gugg
           many_to_many :objects, :class=>CollectionObject, 
             :join_table=>:collection_objtypexrefs, 
             :left_key=>:termid, :right_key=>:id
+          include Collectible
 
           # @return [String] The name of the object type
           def name
@@ -39,13 +40,13 @@ module Gugg
         #   {Collectible#paginated_resource} and {Linkable#self_link}
         # @return [Hash] The resource
         def as_resource(options = {})
-          # (dataset_pages, dateset_resource) = 
-          #   paginated_resource(objects_dataset, options)
+          (dataset_pages, dateset_resource) = 
+            paginated_resource(objects_dataset, options)
 
           {
             :id => pk,
-            :name => term
-            # :objects => dateset_resource,
+            :name => term,
+            :objects => dateset_resource
             # :_links => self_link(dataset_pages, options)
           }
         end

@@ -35,6 +35,30 @@ describe MDL::ObjectType do
     it 'is a Hash' do
       @resource.should be_an_instance_of Hash
     end
+
+    context 'with defaults' do
+      it 'has an object count' do
+        @resource[:objects][:total_count].should be > 0
+      end
+
+      it 'has embedded objects' do
+        @resource[:objects][:items].should be_an_instance_of Array
+      end
+    end
+
+    context 'with no_objects' do
+      before :all do
+        @resource = @painting.as_resource({"no_objects" => true})
+      end
+
+      it 'has an object count' do
+        @resource[:objects][:total_count].should be > 0
+      end
+
+      it 'has no embedded objects' do
+        @resource[:objects][:items].should_not be
+      end
+    end
   end
 end
 
