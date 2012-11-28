@@ -29,6 +29,25 @@ module Gugg
           include Linkable
           include Collectible
 
+          # Returns a list of object types
+          #
+          # @param [Hash] options A hash of options to be passed to 
+          #   {#as_resource}
+          # @return [Hash] A resource containing a list of object type 
+          #   resources
+          def self.list(options = {})
+            defaults = {}
+            if !options.keys.include?('per_page')
+              defaults['no_objects'] = true
+            end
+
+            {
+              :types => all.
+                reject{|a| a.objects_dataset.count == 0}.
+                map{|a| a.as_resource(defaults.merge!(options))}
+            }
+          end
+
           # @return [String] The name of the object type
           def name
             term

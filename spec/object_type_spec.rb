@@ -65,5 +65,54 @@ describe MDL::ObjectType do
       end
     end
   end
+
+  describe '.list' do
+    context 'with defaults' do
+      before :all do
+        @types = MDL::ObjectType.list
+        @first = @types[:types].first
+      end
+
+      it "returns a Hash" do
+        @types.should be_an_instance_of Hash
+      end
+
+      it "has an object count" do
+        @first[:objects][:total_count].should be > 0
+      end
+
+      it 'has no embedded objects' do
+        @first[:objects][:items].should_not be
+      end
+    end
+
+    context 'with objects' do
+      before :all do
+        @types = MDL::ObjectType.list({"per_page" => 20})
+        @first = @types[:types].first
+      end
+
+      it "returns a Hash" do
+        @types.should be_an_instance_of Hash
+      end
+
+      it "has an object count" do
+        @first[:objects][:total_count].should be > 0
+      end
+
+      it 'has embedded objects' do
+        @first[:objects][:items].should be_an_instance_of Array
+      end
+
+      it 'has the right number of embedded objects' do
+        @first[:objects][:items].count.should be <= 20
+      end
+    end
+  end
+
+
+
+
+
 end
 
