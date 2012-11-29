@@ -26,8 +26,8 @@ describe Gugg::WebApi::Collection do
 
     context "with an object that implements Collectible" do
       before :all do
-        # Solomon R. Guggenheim Collection
-        @acq_id = 6
+        # Thannhauser Collection
+        @acq_id = 4
         @acq = MDL::Acquisition[@acq_id]
       end
 
@@ -59,14 +59,14 @@ describe Gugg::WebApi::Collection do
       context "with options" do
         context "for page" do
           before :all do
-            @res = @acq.as_resource({'page' => 2})
+            @res = @acq.as_resource({'per_page' => 5, 'page' => 2})
           end
 
           it "should link to previous page 1" do
             @res[:_links][:prev][:href].should include "page=1"
           end
 
-          it "should link to next page 3" do
+          it "should not link to next page 3" do
             @res[:_links][:next][:href].should include "page=3"
           end
         end
