@@ -115,9 +115,9 @@ describe MDL::CollectionObject do
     end
   end
 
-  describe '#location' do
+  describe '#current_location' do
     it 'returns a Location' do
-      MDL::SortFields[3417].objlocation.should be_an_instance_of MDL::Location
+      @pwb.current_location.should be_an_instance_of MDL::Location
     end
   end
 
@@ -305,14 +305,16 @@ describe MDL::CollectionObject do
         @on_view.should be_an_instance_of Hash
       end
 
+      it "returns 3 objects" do
+        @on_view[:objects][:items].count.should eq 3
+      end
+
       it "should have _links" do
         @on_view[:_links].should be_an_instance_of Hash
       end
 
       it "should link to itself" do
         @on_view[:_links][:_self][:href].
-          should start_with "http://u.r.i/collection/objects/on-view"
-        @on_view[:_links][:next][:href].
           should start_with "http://u.r.i/collection/objects/on-view"
       end
     end
@@ -428,7 +430,7 @@ describe MDL::CollectionObject do
     end
 
     it "returns enough objects" do
-      @objects[:objects][:total_count].should be > 1000
+      @objects[:objects][:total_count].should eq 46
     end
   end
 end
