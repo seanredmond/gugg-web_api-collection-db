@@ -50,6 +50,11 @@ describe MDL::Exhibition do
       it "should have objects" do
         @res[:objects].should be_an_instance_of Hash
       end
+
+      it "has 3 objects" do
+        @res[:objects][:items].count eq 3
+        p  @res[:objects][:items].inspect
+      end
     end
   end
 
