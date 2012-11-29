@@ -8,8 +8,8 @@ require 'spec_helper'
 
 describe Gugg::WebApi::Collection::Collectible do
   before :all do
-    # Solomon R. Guggenheim Collection
-    @acq = MDL::Acquisition[6]
+    # Thannhauser Collection, 26 objects
+    @acq = MDL::Acquisition[4]
   end
 
   describe "#paginated_resource" do
@@ -41,14 +41,16 @@ describe Gugg::WebApi::Collection::Collectible do
         @objects[:page].should eq 1
       end
 
-      it "should have at least 3 pages" do
-        @objects[:pages].should be >= 3
+      it "should have at 2 pages" do
+        @objects[:pages].should eq 2
       end
 
-      it "should have at least 55 total items" do
-        @objects[:total_count].should be >= 55
+      it "should have at least 26 total items" do
+        @objects[:total_count].should be >= 26
       end
     end
+
+
 
     context "with a specified page" do
       before :all do
@@ -57,7 +59,7 @@ describe Gugg::WebApi::Collection::Collectible do
       end
 
       it "should return 20 items" do
-        @page2[:items].count.should eq 20
+        @page2[:items].count.should eq 6
         @page2[:items_per_page].should eq 20
       end
 
@@ -65,12 +67,12 @@ describe Gugg::WebApi::Collection::Collectible do
         @page2[:page].should eq 2
       end
 
-      it "should have at least 3 pages" do
-        @page2[:pages].should be >= 3
+      it "should have at least 2 pages" do
+        @page2[:pages].should be >= 2
       end
 
-      it "should have at least 55 total items" do
-        @page2[:total_count].should be >= 55
+      it "should have at least 26 total items" do
+        @page2[:total_count].should be >= 26
       end
 
       it "should have all different items from page 1" do
@@ -98,11 +100,11 @@ describe Gugg::WebApi::Collection::Collectible do
       end
 
       it "should have at least 11 pages" do
-        @objects[:pages].should be >= 11
+        @objects[:pages].should be >= 4
       end
 
-      it "should have at least 55 total items" do
-        @objects[:total_count].should be >= 55
+      it "should have at least 26 total items" do
+        @objects[:total_count].should be >= 26
       end
     end
 
@@ -121,12 +123,12 @@ describe Gugg::WebApi::Collection::Collectible do
         @page2[:page].should eq 2
       end
 
-      it "should have at least 11 pages" do
-        @page2[:pages].should be >= 11
+      it "should have 6 pages" do
+        @page2[:pages].should eq 6
       end
 
-      it "should have at least 55 total items" do
-        @page2[:total_count].should be >= 55
+      it "should have at least 26 total items" do
+        @page2[:total_count].should be >= 26
       end
 
       it "should have all different items from page 1" do
@@ -166,7 +168,7 @@ describe Gugg::WebApi::Collection::Collectible do
       end
 
       it "should have a count of objects" do
-        @objects[:total_count].should be >= 55
+        @objects[:total_count].should be >= 26
       end
 
       it "should not have an array of items" do
