@@ -123,9 +123,16 @@ module Gugg
           # An object is considered to be "on view" if it has a location in a 
           # currently open exhibition
           def self.on_view(options = {})
+            today = Date.today
             (dataset_pages, dateset_resource) = paginated_resource(
-              where(:objectid => SortFields.select(:objectid).
-                where(~ :location => nil)), 
+              with_sql("SELECT o.* 
+                FROM collection_tms_objects o
+                INNER JOIN collection_tms_exhobjxrefs ex 
+                  ON o.objectid = ex.objectid
+                INNER JOIN collection_tms_exhibitions e 
+                  ON ex.exhibitionid = e.exhibitionid
+                WHERE e.beginisodate <= '#{today}'
+                AND e.endisodate >= '#{today}'"), 
               options)
 
             {
