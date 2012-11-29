@@ -30,7 +30,7 @@ end
 
 describe MDL::ObjectContext do
   it "should return rows" do
-    MDL::ObjectContext.all().count.should eq 46
+    MDL::ObjectContext.all().count.should eq 47
   end
 
   it "should contain expected fields" do
