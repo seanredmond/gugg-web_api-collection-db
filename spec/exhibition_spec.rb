@@ -12,7 +12,6 @@ describe MDL::Exhibition do
   end
 
   it "has objects" do
-    # 160 objects in current as of Sept 2012
     @current.objects.count.should eq 3
   end
 
@@ -42,6 +41,10 @@ describe MDL::Exhibition do
 
       it "should return a Hash" do
         @res.should be_an_instance_of Hash
+      end
+
+      it "has an id" do
+        @res[:id].should eq 2
       end
 
       it "should have objects" do

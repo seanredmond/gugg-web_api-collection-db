@@ -47,6 +47,7 @@ module Gugg
             (dataset_pages, dateset_resource) = 
               paginated_resource(objects_dataset, options)
             {
+              :id => pk,
               :name => name,
               :dates => date_resource(beginisodate, endisodate, displaydate),
               :objects => dateset_resource,
