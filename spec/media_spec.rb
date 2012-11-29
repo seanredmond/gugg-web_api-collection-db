@@ -11,11 +11,6 @@ describe MDL::Media do
     @pwb_img = MDL::Media[47568]
   end
 
-  it "returns rows" do
-    # There are 1044 media formats as of Nov 2012
-    MDL::Media.all().count.should be >= 1044
-  end
-
   describe "#sizes" do 
     before :all do
       @sizes = @pwb_img.sizes
@@ -145,7 +140,7 @@ describe MDL::Media do
 
   context "landscape oriented image" do
     before :all do
-      @landscape = MDL::Media[47378]
+      @landscape = MDL::Media[47797]
     end
 
     it "is landscape" do
@@ -158,7 +153,7 @@ describe MDL::Media do
 
   context "portrait oriented image" do
     before :all do
-      @portrait = MDL::Media[47380]
+      @portrait = MDL::Media[47590]
     end
 
     it "is portrait" do

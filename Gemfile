@@ -10,4 +10,5 @@ gem "gugg-web_api-access", :git =>
 group :development do
   gem 'rspec'
   gem 'mysql'
+  gem 'sqlite3'
 end

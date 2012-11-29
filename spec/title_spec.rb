@@ -82,15 +82,15 @@ describe MDL::TitleGroup do
 
   	context "when there are not other titles" do
   		before :all do 
-  			@doloresjames = MDL::CollectionObject[803].titles
+  			@zouave = MDL::CollectionObject[1487].titles
   		end
 
 	  	it "should have a primary title" do
-	  		@doloresjames.as_resource[:primary].should_not be_nil
+	  		@zouave.as_resource[:primary].should_not be_nil
 	  	end
 
 	  	it "should not have other titles" do
-	  		@doloresjames.as_resource[:other].should be_nil
+	  		@zouave.as_resource[:other].should be_nil
 	  	end
 	  end
 	end

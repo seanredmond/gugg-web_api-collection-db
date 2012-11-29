@@ -11,11 +11,6 @@ describe MDL::Constituent do
     @kandinsky = MDL::Constituent[1515]
   end
 
-  it "should return rows" do
-    # There are 410 publically viewable constituents as of Aug 2012
-    MDL::Constituent.all().count.should be >= 410
-  end
-
   it "should have a last name" do
     @kandinsky.lastname.should eq "Kandinsky"
   end
@@ -39,7 +34,7 @@ describe MDL::Constituent do
   describe ".list" do
     context "with defaults" do
       it "should work" do
-        MDL::Constituent.list[:constituents].count.should be_within(5).of(414)
+        MDL::Constituent.list[:constituents].count.should eq 16
       end
     end
 
