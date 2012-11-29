@@ -43,7 +43,6 @@ describe MDL::Acquisition do
 
       it "should have objects" do
         @res[:objects].should be_an_instance_of Hash
-        puts @res.inspect
       end
     end
 
