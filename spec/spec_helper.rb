@@ -13,7 +13,8 @@ db = cfg['db']['mysql']
 today = Date.today
 pastex = @DB[:collection_tms_exhibitions].where(:exhibitionid => 1)
 currentex = @DB[:collection_tms_exhibitions].where(:exhibitionid => 2)
-futureex = @DB[:collection_tms_exhibitions].where(:exhibitionid => 1)
+futureex = @DB[:collection_tms_exhibitions].where(:exhibitionid => 3)
+
 pastex.update(:beginisodate => today - 365, :endisodate => today - 360)
 currentex.update(:beginisodate => today - 30, :endisodate => today + 30)
 futureex.update(:beginisodate => today + 305, :endisodate => today + 365)
