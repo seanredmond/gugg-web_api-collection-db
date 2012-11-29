@@ -460,8 +460,6 @@ module Gugg
               :medium => medium,
               :dimensions => dimensions,
               :credit => creditline,
-              :highlight => is_highlight?,
-              :recent_acquisition => is_recent_acquisition?,
               :essay => essay,
               :copyright => copyright,
               :location => current_location == nil ? 
