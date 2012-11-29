@@ -8,41 +8,36 @@ require 'spec_helper'
 
 describe MDL::Exhibition do
   before :all do
-    @gutai = MDL::Exhibition[4886]
+    @current = MDL::Exhibition[2]
   end
 
-  it "should return rows" do
-    # There are 2 acquisitions as of Sept 2012
-    MDL::Exhibition.all().count.should be >= 2
-  end
-
-  it "should have objects" do
-    # 160 objects in Gutai as of Sept 2012
-    @gutai.objects.count.should be_within(5).of(177)
+  it "has objects" do
+    # 160 objects in current as of Sept 2012
+    @current.objects.count.should eq 3
   end
 
   it "should have Guggenheim objects" do
-    @gutai.ours.count.should be <= @gutai.objects.count
+    @current.ours.count.should eq 2
   end
 
   it "should have non Guggenheim objects" do
-    @gutai.not_ours.count.should be <= @gutai.objects.count
+    @current.not_ours.count.should eq 1
   end
 
   describe "#name" do
     it "should have a name" do
-      @gutai.name.should eq "GUTAI"
+      @current.name.should eq "Current Exhibition"
     end
   end
 
   describe "#as_resource" do
     it "should work" do
-      @gutai.should be_an_instance_of MDL::Exhibition
+      @current.should be_an_instance_of MDL::Exhibition
     end
 
     context "with defaults" do
       before :all do 
-        @res = MDL::Exhibition[4886].as_resource
+        @res = MDL::Exhibition[2].as_resource
       end
 
       it "should return a Hash" do
