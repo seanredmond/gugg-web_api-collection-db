@@ -33,11 +33,11 @@ describe MDL::CollectionObject do
   end
 
   describe "#acquisition" do
-    it "should return an Acquisition" do
+    it "returns an Acquisition" do
       @pwb.acquisition.should be_an_instance_of MDL::Acquisition
     end
 
-    it "should be Expressionism" do
+    it "returns the right Acquisition" do
       @pwb.acquisition.acquisition.
         should eq "Solomon R. Guggenheim Founding Collection"
     end
@@ -175,10 +175,6 @@ describe MDL::CollectionObject do
         @r[:sort_name].should eq('Kandinsky, Vasily')
       end
 
-      it "should be a highlight" do
-        @r[:highlight].should be_true
-      end
-
       it "should not be a recent acquisition" do
         @r[:recent_acquisition].should be_false
       end
@@ -293,6 +289,17 @@ describe MDL::CollectionObject do
     #     @r[:_links][:web].should_not be
     #   end
     # end
+  end
+
+  context "an object on view" do
+    it 'has a location' do
+      @pwb.current_location.should be_an_instance_of MDL::Location
+    end
+
+    it 'includes its location in its resource' do
+      @pwb.as_resource[:location][:area].should eq "Ramp 2"
+    end
+
   end
 
   describe '#on_view' do
