@@ -72,6 +72,10 @@ describe MDL::Movement do
         @res.should be_an_instance_of Hash
       end
 
+      it "has an id" do
+        @res[:id].should eq 195203
+      end
+
       it "should have objects" do
         @res[:objects].should be_an_instance_of Hash
       end
