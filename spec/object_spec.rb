@@ -299,7 +299,24 @@ describe MDL::CollectionObject do
     it 'includes its location in its resource' do
       @pwb.as_resource[:location][:area].should eq "Ramp 2"
     end
+  end
 
+  context "an object not on view" do
+    before :all do 
+      @in_storage = MDL::CollectionObject[671]
+    end
+
+    it 'has no location' do
+      @in_storage.current_location.should be_nil
+    end
+
+    it 'has no location in its resource' do
+      @in_storage.as_resource[:location].should be_nil
+    end
+
+    it 'still has the key :location in its resource' do
+      @in_storage.as_resource.keys.include?(:location).should be_true
+    end
   end
 
   describe '#on_view' do
