@@ -30,8 +30,7 @@ end
 
 describe MDL::ObjectContext do
   it "should return rows" do
-    # There are 977 object contexts as of Aug 2012
-    MDL::ObjectContext.all().count.should be >= 977
+    MDL::ObjectContext.all().count.should eq 46
   end
 
   it "should contain expected fields" do
@@ -42,31 +41,31 @@ describe MDL::ObjectContext do
   end
 end
 
-describe MDL::SortFields do
-  it "should return rows" do
-    # There are 88 roles as of Aug 2012
-    MDL::SortFields.all().count.should be >= 977
-  end
+# describe MDL::SortFields do
+#   it "should return rows" do
+#     # There are 88 roles as of Aug 2012
+#     MDL::SortFields.all().count.should be >= 977
+#   end
 
-  it "should contain expected values" do
-    MDL::SortFields[2].title.should eq('Villa Borghese')
-  end
+#   it "should contain expected values" do
+#     MDL::SortFields[2].title.should eq('Villa Borghese')
+#   end
 
-  describe '#objlocation' do
-    before :all do
-      @woman_ironing = MDL::SortFields[3417]
-    end
+#   describe '#objlocation' do
+#     before :all do
+#       @woman_ironing = MDL::SortFields[3417]
+#     end
 
-    it 'returns a Location object' do
-      @woman_ironing.objlocation.should be_an_instance_of MDL::Location
-    end
+#     it 'returns a Location object' do
+#       @woman_ironing.objlocation.should be_an_instance_of MDL::Location
+#     end
 
-    it 'is where expected' do
-      @woman_ironing.objlocation.area.should eq 'Ramp 1'
-      @woman_ironing.objlocation.location.should eq 'Bay 14'
-    end
-  end
-end
+#     it 'is where expected' do
+#       @woman_ironing.objlocation.area.should eq 'Ramp 1'
+#       @woman_ironing.objlocation.location.should eq 'Bay 14'
+#     end
+#   end
+# end
 
 describe MDL::Role do
   it "should return rows" do
@@ -81,12 +80,11 @@ end
 
 describe MDL::TextEntry do
   it "should return rows" do
-    # There are 346 text entries as of Aug 2012
-    MDL::TextEntry.all().count.should be >= 346
+    MDL::TextEntry.all().count.should eq 15
   end
 
   it "should contain expected values" do
-    (MDL::TextEntry[17041].textentry =~ /Marina Abramovi&#263;/).should be_true
+    (MDL::TextEntry[17070].textentry =~ /Georges Braque/).should be_true
   end
 end
 
