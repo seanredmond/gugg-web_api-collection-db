@@ -83,7 +83,7 @@ module Gugg
               :count => pages.count,
               :total_count => pages.pagination_record_count,
               :items => pages.count > 0 ? 
-                pages.map{|i| i.as_resource} : nil
+                pages.map{|i| i.as_resource(options)} : nil
             }
           ]
         end

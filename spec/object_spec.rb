@@ -507,5 +507,19 @@ describe MDL::CollectionObject do
     it "returns enough objects" do
       @objects[:objects][:total_count].should eq 46
     end
+
+    it 'returns objects with essays' do
+      @objects[:objects][:items].first.keys.include?(:essay).should be_true
+    end
+
+    context 'without no_essay = true' do
+      before :all do
+        @no_essays = MDL::CollectionObject.list({'no_essay' => 'true'})
+      end
+
+      it 'returns objects without essays' do
+        @no_essays[:objects][:items].first.keys.include?(:essay).should be_false
+      end
+    end
   end
 end
