@@ -288,6 +288,13 @@ module Gugg
             contexts.longtext7
           end
 
+          # Does this object have an essay?
+          #
+          # @return [Boolean] The answer.
+          def has_essay?
+            contexts.longtext7 != nil
+          end
+
           # Is this part of the Collection Online?
           #
           # @return [Boolean] The answer.
@@ -427,9 +434,10 @@ module Gugg
 
           # Returns a representation of the object in a hash suitable for
           # output as a JSON resource
+          # param [Hash] options A Hash of options 
           #
           # @return [Hash] The resource
-          def as_resource
+          def as_resource(options = {})
             links = self_link
 
             if is_collection?
@@ -460,7 +468,7 @@ module Gugg
               :medium => medium,
               :dimensions => dimensions,
               :credit => creditline,
-              :essay => essay,
+              :has_essay => has_essay?,
               :copyright => copyright,
               :location => current_location == nil ? 
                 nil : current_location.as_resource,
@@ -473,6 +481,12 @@ module Gugg
               :permant_collection => permanent_collection?,
               :_links => links
             }
+
+            if options['no_essay'] != 'true'
+              resource[:essay] = essay
+            end
+
+            return resource
           end
         end
       end

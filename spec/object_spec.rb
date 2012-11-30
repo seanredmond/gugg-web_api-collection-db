@@ -14,6 +14,7 @@ Gugg::WebApi::Collection::Linkable::map_path(
 describe MDL::CollectionObject do
   before :all do
     @pwb = MDL::CollectionObject[1867]
+    @has_no_essay = MDL::CollectionObject[784]
   end
 
   it "should return rows" do
@@ -92,8 +93,30 @@ describe MDL::CollectionObject do
   end
 
   describe '#essay' do
-    it "should have an essay" do
-      @pwb.essay.should start_with "<p>With its undulating colored ovals"
+    context 'an object with an essay' do
+      it "returns an essay" do
+        @pwb.essay.should start_with "<p>With its undulating colored ovals"
+      end
+    end
+
+    context 'an object without an essay' do
+      it 'returns nil' do
+        @has_no_essay.essay.should be_nil
+      end
+    end
+  end
+
+  describe '#has_essay' do
+    context 'an object with an essay' do
+      it 'says it has an essay' do
+        @pwb.has_essay?.should be_true
+      end
+    end
+
+    context 'an object without an essay' do
+      it 'says it has no essay' do
+        @has_no_essay.has_essay?.should be_false
+      end
     end
   end
 
@@ -211,6 +234,34 @@ describe MDL::CollectionObject do
 
       it 'has object types' do
         @r[:object_types].should be_an_instance_of Array
+      end
+    end
+
+    context "with no_essays" do
+      before :all do  
+        @pwb_no_essay = @pwb.as_resource({'no_essay' => 'true'})
+        @has_no_essay_really = 
+          @has_no_essay.as_resource({'no_essay' => 'true'})
+      end
+
+      context 'an object with an essay' do
+        it "has no essay" do
+          @pwb_no_essay.keys.include?(:essay).should be_false
+        end
+
+        it "says it has an essay" do
+          @pwb_no_essay[:has_essay].should be_true
+        end
+      end
+
+      context 'an object without an essay' do
+        it "has no essay" do
+          @has_no_essay_really.keys.include?(:essay).should be_false
+        end
+
+        it "says it has an essay" do
+          @has_no_essay_really[:has_essay].should be_false
+        end
       end
     end
 
