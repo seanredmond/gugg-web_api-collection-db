@@ -4,10 +4,11 @@ require "sqlite3"
 require "yaml"
 
 cfg = YAML.load_file('collection_db_spec.yml')
-db = cfg['db']['mysql']
+# db = cfg['db']['mysql']
 # @DB = Sequel.mysql(db['db'], :user=>db['user'], :password=>db['password'], 
 #   :host=>db['host'], :charset=>'utf8')
-@DB = Sequel.connect('sqlite://apitest.db');
+# @DB = Sequel.connect('sqlite://apitest.db');
+@DB = Sequel.sqlite(cfg['test']['db']);
 
 # Set up exhibitions, one past, one current, one future
 today = Date.today
