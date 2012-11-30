@@ -388,6 +388,10 @@ describe MDL::CollectionObject do
         @on_view[:_links].should be_an_instance_of Hash
       end
 
+      it 'returns objects with essays' do
+        @on_view[:objects][:items].first.keys.include?(:essay).should be_true
+      end
+
       it "should link to itself" do
         @on_view[:_links][:_self][:href].
           should start_with "http://u.r.i/collection/objects/on-view"
@@ -406,6 +410,17 @@ describe MDL::CollectionObject do
 
       it "should have five objects per page" do
         @on_view[:objects][:items_per_page].should eq 5
+      end
+    end
+
+    context 'with no_essay = true' do
+      before :all do
+        @on_view = MDL::CollectionObject.on_view(
+          {"no_essay" => 'true', :add_to_path => 'on-view'})
+      end
+
+      it 'returns objects without essays' do
+        @on_view[:objects][:items].first.keys.include?(:essay).should be_false
       end
     end
   end
@@ -456,6 +471,21 @@ describe MDL::CollectionObject do
 
     it "returns urls that end with the year" do
       @by_year[:_links][:_self][:href].should end_with('1923/')
+    end
+
+    it 'returns objects with essays' do
+      @no_essays[:objects][:items].first.keys.include?(:essay).should be_true
+    end
+
+    context 'with no_essay = true' do
+      before :all do 
+        @no_essays = MDL::CollectionObject.
+          by_year(1923, {'no_essay' => 'true', :add_to_path => 'dates'})
+      end
+
+      it 'returns objects without essays' do
+        @no_essays[:objects][:items].first.keys.include?(:essay).should be_false
+      end
     end
 
     context "bad requests" do
@@ -512,7 +542,7 @@ describe MDL::CollectionObject do
       @objects[:objects][:items].first.keys.include?(:essay).should be_true
     end
 
-    context 'without no_essay = true' do
+    context 'with no_essay = true' do
       before :all do
         @no_essays = MDL::CollectionObject.list({'no_essay' => 'true'})
       end
