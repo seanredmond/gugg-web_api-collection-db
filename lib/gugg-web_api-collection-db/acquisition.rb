@@ -1,4 +1,3 @@
-# encoding: utf-8
 #
 # @author Sean Redmond <sredmond@guggenheim.org>
 # Copyright:: Copyright © 2012 Solomon R. Guggenheim Foundation
