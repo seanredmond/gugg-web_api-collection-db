@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Tests for tables without any extra implementation beyond Sequel
 #
 # Author:: Sean Redmond <sredmond@guggenheim.org>
@@ -474,7 +475,7 @@ describe MDL::CollectionObject do
     end
 
     it 'returns objects with essays' do
-      @no_essays[:objects][:items].first.keys.include?(:essay).should be_true
+      @by_year[:objects][:items].first.keys.include?(:essay).should be_true
     end
 
     context 'with no_essay = true' do
