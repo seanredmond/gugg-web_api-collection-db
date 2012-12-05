@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Tests for tables without any extra implementation beyond Sequel
 #
 # Author:: Sean Redmond <sredmond@guggenheim.org>
