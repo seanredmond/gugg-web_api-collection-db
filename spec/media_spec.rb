@@ -187,3 +187,18 @@ describe MDL::MediaFormat do
     MDL::MediaFormat[2].mediatype.mediatype.should eq('Image')
   end
 end
+
+describe "media ranking" do
+  before :all do
+    @ranked = MDL::CollectionObject[28732]
+  end
+  
+  it "has 5 media records" do
+    @ranked.media.count.should eq 5
+  end
+
+  it "has images in the correct order" do
+    @ranked.media.first.rank.should eq 1
+    @ranked.media.last.rank.should eq 5
+  end
+end
