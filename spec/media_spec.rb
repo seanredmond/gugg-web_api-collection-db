@@ -142,7 +142,13 @@ describe MDL::Media do
         should eq 'http://emuseum2.guggenheim.org/media/full/37.245_ph_web.jpg'
     end
 
+    it "has a rank" do
+      @resource[:rank].should eq 1
+    end
 
+    it "has a copyright" do
+      @resource.keys.include?(:copyright).should be_true
+    end
   end
 
 
@@ -192,7 +198,7 @@ describe "media ranking" do
   before :all do
     @ranked = MDL::CollectionObject[28732]
   end
-  
+
   it "has 5 media records" do
     @ranked.media.count.should eq 5
   end
