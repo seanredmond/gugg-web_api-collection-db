@@ -480,7 +480,7 @@ module Gugg
               :object_types => object_types.count > 0 ? object_types.map { |t|
                 t.as_resource({'no_objects' => true})
               } : nil,
-              :permant_collection => permanent_collection?,
+              :permanent_collection => permanent_collection?,
               :_links => links
             }
 
