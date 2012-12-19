@@ -153,7 +153,7 @@ describe MDL::CollectionObject do
 
     context 'a loaned object' do
       it 'is false' do
-        MDL::CollectionObject[25905].permanent_collection?.should be_false
+        MDL::CollectionObject[28666].permanent_collection?.should be_false
       end
     end
   end
