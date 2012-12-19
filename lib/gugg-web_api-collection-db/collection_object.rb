@@ -57,7 +57,7 @@ module Gugg
           set_primary_key :objectid
           one_to_many :conxrefs, :class => ConstituentXref, :key => :id
           one_to_many :objtitles, :class => ObjectTitle, :key => :objectid
-          one_to_many :media, :class => Media, :key => :objectid
+          one_to_many :media, :class => Media, :key => :objectid, :order=>:rank
           one_to_one :contexts, :class => ObjectContext, :key => :objectid
           one_to_one :sort_fields, :class => SortFields, :key => :objectid
           many_to_many :acquisitions, :class => Acquisition, 
