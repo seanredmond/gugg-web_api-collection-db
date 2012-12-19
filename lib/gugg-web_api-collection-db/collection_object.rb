@@ -217,8 +217,8 @@ module Gugg
             begin
               year = Integer(year)
               (dataset_pages, dateset_resource) = 
-                paginated_resource(where(:datebegin <= year, :dateend >= year),
-                options)
+                paginated_resource(where{|o| o.datebegin <= year}.
+                  where{|o| o.dateend >= year}, options)
 
               {
                 :objects => dateset_resource,
@@ -258,10 +258,12 @@ module Gugg
 
               (dataset_pages, dateset_resource) = 
                 paginated_resource(
-                  where{
-                    ((:datebegin >= start_year) & (:datebegin <= end_year)) | 
-                    ((:dateend >= start_year) & (:dateend <= end_year))},
+                  where{|o| 
+                    (o.datebegin >= start_year) & (o.datebegin <= end_year)}.
+                  where{|o| 
+                    (o.dateend >= start_year) & (o.dateend <= end_year)}, 
                 options)
+                    # ((:dateend >= start_year) & (:dateend <= end_year))},
 
               {
                 :objects => dateset_resource,
