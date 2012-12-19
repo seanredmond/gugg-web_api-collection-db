@@ -535,7 +535,7 @@ describe MDL::CollectionObject do
     end
 
     it "returns enough objects" do
-      @objects[:objects][:total_count].should eq 46
+      @objects[:objects][:total_count].should eq 47
     end
 
     it 'returns objects with essays' do
