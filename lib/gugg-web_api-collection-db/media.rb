@@ -82,6 +82,8 @@ module Gugg
               :orientation => is_landscape? ? 'landscape' : 'portrait',
               :type => media_type,
               :format => media_format,
+              :rank => rank,
+              :copyright => copyright,
               :assets => sizes
             }
           end

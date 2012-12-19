@@ -11,6 +11,14 @@ describe MDL::Media do
     @pwb_img = MDL::Media[47568]
   end
 
+  it "has a rank" do
+    @pwb_img.rank.should eq 1
+  end
+
+  it "has a copyright" do
+    @pwb_img.keys.include?(:copyright).should be_true
+  end
+
   describe "#sizes" do 
     before :all do
       @sizes = @pwb_img.sizes
