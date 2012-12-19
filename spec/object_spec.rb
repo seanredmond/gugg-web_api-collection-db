@@ -381,7 +381,7 @@ describe MDL::CollectionObject do
       end
 
       it "returns 3 objects" do
-        @on_view[:objects][:items].count.should eq 3
+        @on_view[:objects][:items].count.should eq 2
       end
 
       it "should have _links" do
