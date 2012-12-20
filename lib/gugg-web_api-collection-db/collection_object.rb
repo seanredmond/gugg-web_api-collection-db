@@ -454,7 +454,9 @@ module Gugg
               :sort_number => sortnumber,
               :sort_title => sort_title,
               :sort_name => sort_name,
-              :constituents => constituents.map {|c| c.as_resource({'no_objects' => true})},
+              :constituents => constituents.map {
+                |c| c.as_resource({'no_objects' => true, 'no_bio' => true})
+              },
               :titles => titles.as_resource,
               :series => series == nil ? nil : series.as_resource,
               :dates => date_resource(datebegin, dateend, dated),

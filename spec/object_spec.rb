@@ -236,6 +236,10 @@ describe MDL::CollectionObject do
       it 'has object types' do
         @r[:object_types].should be_an_instance_of Array
       end
+
+      it 'has a constituent with no bio' do
+        @r[:constituents][0][:bio].should be_nil
+      end
     end
 
     context "with no_essays" do

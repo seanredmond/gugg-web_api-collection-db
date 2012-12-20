@@ -31,6 +31,10 @@ describe MDL::Constituent do
     @kandinsky.alphasort.should eq "Kandinsky, Vasily"
   end
 
+  it "should have a bio" do
+    @kandinsky.bio.should_not be_nil
+  end
+
   describe ".list" do
     context "with defaults" do
       it "should work" do
@@ -65,6 +69,16 @@ describe MDL::Constituent do
   describe "#as_resource" do
     it "should return a Hash" do
       @kandinsky.as_resource.should be_an_instance_of Hash
+    end
+
+    it "has a bio" do
+      @kandinsky.as_resource[:bio].should_not be_nil
+    end
+
+    context "with no_bio" do
+      it "does not have a bio" do
+        @kandinsky.as_resource({'no_bio' => 1})[:bio].should be_nil
+      end
     end
   end
 end

@@ -14,6 +14,7 @@ module Gugg
             :join_table=>:collection_tms_conxrefs, 
             :left_key=>:constituentid, :right_key=>:id
           one_to_many :conxrefs, :class => ConstituentXref, :key => :constituentid
+          one_to_one :bio_entry, :class => TextEntry, :key => :id, :conditions=>{:texttypeid=>135}
 
           include Linkable
           include Collectible
@@ -66,10 +67,18 @@ module Gugg
             }
           end
 
+          def bio
+            if bio_entry == nil
+              nil
+            else
+              bio_entry.textentry
+            end
+          end
+
           def as_resource(options = {})
             (dataset_pages, dateset_resource) = 
               paginated_resource(objects_dataset, options)
-            {
+            resource = {
               :id => pk,
               :firstname => firstname,
               :middlename => middlename,
@@ -86,6 +95,11 @@ module Gugg
               :objects => dateset_resource,
               :_links => self_link(dataset_pages, options)
             }
+            if not options.include?('no_bio')
+              resource[:bio] = bio
+            end
+
+            return resource
           end
         end
       end
