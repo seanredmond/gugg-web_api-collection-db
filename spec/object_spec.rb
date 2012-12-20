@@ -237,8 +237,20 @@ describe MDL::CollectionObject do
         @r[:object_types].should be_an_instance_of Array
       end
 
+      it 'has constituents' do
+        @r[:constituents].should be_an_instance_of Array
+      end
+
+      it 'has at least one constituent' do
+        @r[:constituents][0].should be_an_instance_of Hash
+      end
+
       it 'has a constituent with no bio' do
-        @r[:constituents][0][:bio].should be_nil
+        @r[:constituents][0][:constituent][:bio].should be_nil
+      end
+
+      it 'has a constituent that says it has a bio if you ask' do
+        @r[:constituents][0][:constituent][:has_bio].should be_true
       end
     end
 

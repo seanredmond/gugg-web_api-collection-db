@@ -75,6 +75,14 @@ module Gugg
             end
           end
 
+          # Does this constituent have a bio?
+          #
+          # @return [Boolean]
+          def has_bio?
+            bio != nil
+          end
+
+
           def as_resource(options = {})
             (dataset_pages, dateset_resource) = 
               paginated_resource(objects_dataset, options)
@@ -92,6 +100,7 @@ module Gugg
                 :end => enddate,
                 :display => displaydate
               },
+              :has_bio => has_bio?,
               :objects => dateset_resource,
               :_links => self_link(dataset_pages, options)
             }

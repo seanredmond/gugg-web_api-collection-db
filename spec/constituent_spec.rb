@@ -31,8 +31,16 @@ describe MDL::Constituent do
     @kandinsky.alphasort.should eq "Kandinsky, Vasily"
   end
 
-  it "should have a bio" do
-    @kandinsky.bio.should_not be_nil
+  describe "#bio" do
+    it "should have a bio" do
+      @kandinsky.bio.should_not be_nil
+    end
+  end
+
+  describe "#has_bio?" do
+    it "should say whether it has a bio" do
+      @kandinsky.has_bio?.should be_true
+    end
   end
 
   describe ".list" do
@@ -75,9 +83,17 @@ describe MDL::Constituent do
       @kandinsky.as_resource[:bio].should_not be_nil
     end
 
+    it "says whether it has a bio" do
+      @kandinsky.as_resource[:has_bio].should be_true
+    end
+
     context "with no_bio" do
       it "does not have a bio" do
         @kandinsky.as_resource({'no_bio' => 1})[:bio].should be_nil
+      end
+
+      it "still says it has a bio" do
+        @kandinsky.as_resource({'no_bio' => 1})[:has_bio].should be_true
       end
     end
   end
