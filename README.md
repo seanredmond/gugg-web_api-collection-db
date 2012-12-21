@@ -1,6 +1,9 @@
 # Gugg::WebApi::Collection::Db
 
-TODO: Write a gem description
+Guggenheim Collections API database interface. This library is intended to 
+serve as the data query layer for the Guggenheim Collections API. 
+
+For more details, see the {file:overview.md Overview}
 
 ## Installation
 
@@ -18,7 +21,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    require "gugg-web_api-collection-db"
+
+    Gugg::WebApi::Collection::Db::CollectionObject[1867].as_resource()
 
 ## Contributing
 
