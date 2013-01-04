@@ -365,7 +365,7 @@ describe MDL::CollectionObject do
     end
 
     it 'includes its location in its resource' do
-      @pwb.as_resource[:location][:area].should eq "Ramp 2"
+      @pwb.as_resource[:location][:location].should eq "Rotunda Level 2"
     end
   end
 
