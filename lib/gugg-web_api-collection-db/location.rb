@@ -20,10 +20,8 @@ module Gugg
           # @return [Hash] The resource
           def as_resource(options = {})
             {
-              :id => pk,
               :venue => site.sitename,
-              :area => area,
-              :location => location
+              :location => generic
             }
           end
         end
