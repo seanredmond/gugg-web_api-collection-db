@@ -14,4 +14,10 @@ Gem::Specification.new do |gem|
   gem.name          = "gugg-web_api-collection-db"
   gem.require_paths = ["lib"]
   gem.version       = Gugg::WebApi::Collection::Db::VERSION
+
+  gem.add_dependency "sequel"
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "sqlite3"
+
 end
