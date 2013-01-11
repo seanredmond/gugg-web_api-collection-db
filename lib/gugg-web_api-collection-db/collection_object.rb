@@ -104,14 +104,21 @@ module Gugg
           set_dataset(self.basic_order)
 
           def self.list(options = {})
-            set_dataset(self.permanent_collection)
+            if options['collection'] == 'all'
+              to_paginate = dataset
+            else
+              to_paginate = dataset.where(~:departmentid => 7)
+            end
+            
             (dataset_pages, dateset_resource) = 
-              paginated_resource(dataset, options)
+              paginated_resource(to_paginate, options)
 
-            {
+            resource = {
               :objects => dateset_resource,
               :_links => Linkable::make_links(self, dataset_pages, nil, options)              
             }
+
+            return resource
           end
 
           # Returns a paginated list of objects on view
@@ -151,7 +158,7 @@ module Gugg
           # This method only counts objects that are owned by SRGM (currently
           # indicated by having a departmentid other than 7)
           def self.years(options = {})
-            set_dataset(self.permanent_collection)
+            # set_dataset(self.permanent_collection)
             years = group_and_count(:datebegin.as(:year))
 
             years = years.all.map{|y| 
@@ -181,7 +188,7 @@ module Gugg
           # This method only counts objects that are owned by SRGM (currently
           # indicated by having a departmentid other than 7)
           def self.decades(options = {})
-            set_dataset(self.permanent_collection)
+            # set_dataset(self.permanent_collection)
             years = select(:datebegin.as(:year)).
               union(select(:dateend.as(:year))).
               distinct.filter(~:year => nil).
@@ -213,7 +220,7 @@ module Gugg
           # This method only counts objects that are owned by SRGM (currently
           # indicated by having a departmentid other than 7)
           def self.by_year(year, options = {})
-            set_dataset(self.permanent_collection)
+            # set_dataset(self.permanent_collection)
             begin
               year = Integer(year)
               (dataset_pages, dateset_resource) = 
@@ -246,7 +253,7 @@ module Gugg
           # This method only counts objects that are owned by SRGM (currently
           # indicated by having a departmentid other than 7)
           def self.by_year_range(start_year, end_year, options = {})
-            set_dataset(self.permanent_collection)
+            # set_dataset(self.permanent_collection)
             begin
               start_year = Integer(start_year)
               end_year = Integer(end_year)

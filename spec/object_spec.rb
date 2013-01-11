@@ -543,7 +543,7 @@ describe MDL::CollectionObject do
   end
 
   describe ".list" do
-    before :all do 
+    before :each do 
       @objects =  MDL::CollectionObject.list()
     end
 
@@ -566,6 +566,16 @@ describe MDL::CollectionObject do
 
       it 'returns objects without essays' do
         @no_essays[:objects][:items].first.keys.include?(:essay).should be_false
+      end
+    end
+
+    context 'getting all objects' do
+      before :each do
+        @everything = MDL::CollectionObject.list({'collection' => 'all'})
+      end
+
+      it 'returns every object, not just permanent collection' do
+        @everything[:objects][:total_count].should eq 57
       end
     end
   end
