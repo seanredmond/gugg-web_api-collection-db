@@ -35,12 +35,15 @@ module Gugg
           set_dataset(self.public_view)
 
           def self.list(options = {})
-            set_dataset(self.permanent_collection)
             if options.keys.include?('initial')
               begin
                 match = options['initial'].match(/^[a-zA-Z]$/)
                 if match != nil
-                  selection = where(:alphasort.ilike("#{match[0]}%")).
+                  selection = filter(:conxrefs => ConstituentXref.
+                    filter(:displayed => 1)).
+                    filter(:objects => CollectionObject.
+                      filter(~:departmentid => 7)).
+                    where(:alphasort.ilike("#{match[0]}%")).
                     order(:alphasort).all
                 else
                   # Getting here means that a string was passed via the 
@@ -58,7 +61,11 @@ module Gugg
                   "not '#{options['initial']}'" 
               end
             else
-              selection = all
+              selection = filter(:conxrefs => ConstituentXref.
+                  filter(:displayed => 1)).
+                filter(:objects => CollectionObject.
+                  filter(~:departmentid => 7)).
+                order(:alphasort).all
             end
 
             {
