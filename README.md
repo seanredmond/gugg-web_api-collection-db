@@ -1,5 +1,7 @@
 # Gugg::WebApi::Collection::Db
 
+[![Build Status](https://travis-ci.org/Guggenheim/gugg-web_api-collection-db.png?branch=master)](https://travis-ci.org/Guggenheim/gugg-web_api-collection-db)
+
 Guggenheim Collections API database interface. This library is intended to 
 serve as the data query layer for the Guggenheim Collections API. 
 
