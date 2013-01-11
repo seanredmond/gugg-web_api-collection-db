@@ -30,7 +30,7 @@ describe MDL::Media do
 
     context "full size" do
       before :all do
-        @full = @sizes[:full]
+        @full = @sizes[:fullsize]
       end
 
       it "has a full size" do
@@ -59,8 +59,8 @@ describe MDL::Media do
   describe "#media_path" do
     context "with existing size" do
       it "has a path" do
-        @pwb_img.media_path(:full).
-          should eq 'http://emuseum2.guggenheim.org/media/full'
+        @pwb_img.media_path(:fullsize).
+          should eq 'http://emuseum2.guggenheim.org/media/fullsize'
       end
     end
 
@@ -74,8 +74,8 @@ describe MDL::Media do
   describe "#media_url" do
     context "with existing size" do
       it "has a url" do
-        @pwb_img.media_url(:full).
-          should  eq 'http://emuseum2.guggenheim.org/media/full/37.245_ph_web.jpg'
+        @pwb_img.media_url(:fullsize).
+          should  eq 'http://emuseum2.guggenheim.org/media/fullsize/37.245_ph_web.jpg'
       end
     end
 
@@ -92,19 +92,11 @@ describe MDL::Media do
     end
 
     it "has the right large size" do
-      @pwb_img.dimensions(:large)[:width].should eq 490
-    end
-
-    it "has the right medium size" do
-      @pwb_img.dimensions(:medium)[:width].should eq 300
-    end
-
-    it "has the right small size" do
-      @pwb_img.dimensions(:small)[:width].should eq 160
+      @pwb_img.dimensions(:biggest)[:width].should eq 490
     end
 
     it "has the right tiny size" do
-      @pwb_img.dimensions(:tiny)[:width].should eq 62
+      @pwb_img.dimensions(:smallest)[:width].should eq 62
     end
   end
 
@@ -134,12 +126,12 @@ describe MDL::Media do
     end
 
     it "has the right full size" do
-      @resource[:assets][:full][:width].should eq 573
+      @resource[:assets][:fullsize][:width].should eq 573
     end
 
     it "has the right url for the full size" do
-      @resource[:assets][:full][:_links][:_self][:href].
-        should eq 'http://emuseum2.guggenheim.org/media/full/37.245_ph_web.jpg'
+      @resource[:assets][:fullsize][:_links][:_self][:href].
+        should eq 'http://emuseum2.guggenheim.org/media/fullsize/37.245_ph_web.jpg'
     end
 
     it "has a rank" do

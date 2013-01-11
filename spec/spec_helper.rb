@@ -39,15 +39,12 @@ LNK::map_path(
 
 MDL::Media::media_root = "http://emuseum2.guggenheim.org/media"
 MDL::Media::media_paths = {
-	:full => 'full',
-	:large => 'large',
-	:medium => 'previews',
-	:small => 'thumbnails',
-	:tiny => 'postagestamps'
+	:fullsize => 'fullsize',
+	:biggest => 'biggest',
+	:smallest => 'smallest'
 }
 MDL::Media::media_dimensions = {
-	:large => 490,
-	:medium => 300,
-	:small => 160,
-	:tiny => 62
+	:fullsize => nil,
+	:biggest => 490,
+	:smallest => 62
 }
