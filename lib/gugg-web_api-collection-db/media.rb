@@ -93,18 +93,7 @@ module Gugg
           # @return [Hash] A hash containing the various available images sizes,
           #   with dimensions and links
           def sizes
-            sz = {
-              :full => {
-                :width => pixelw,
-                :height => pixelh,
-                :_links => {
-                  :_self => {
-                    :href => media_url(:full)
-                  }
-                }
-              }
-            }
-
+            sz = {}
             @@media_dimensions.keys.map do |s|
               sz[s] = {
                 :width => dimensions(s)[:width],
@@ -148,15 +137,12 @@ module Gugg
           end
 
           def dimensions(size)
-            if size == :full
+            max_dim = @@media_dimensions[size]
+
+            if max_dim == nil
+              # return nil
               ratio = 1
-            else 
-              max_dim = @@media_dimensions[size]
-
-              if max_dim == nil
-                return nil
-              end
-
+            else
               if is_landscape?
                 ratio = max_dim.to_f/pixelw
               else
