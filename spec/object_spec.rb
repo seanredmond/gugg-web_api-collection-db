@@ -225,7 +225,7 @@ describe MDL::CollectionObject do
       end
 
       it "should have a location" do
-        @r.keys().include?(:location).should be_true
+        @r.keys().include?(:current_location).should be_true
       end
 
       it "has media" do
@@ -365,7 +365,7 @@ describe MDL::CollectionObject do
     end
 
     it 'includes its location in its resource' do
-      @pwb.as_resource[:location][:location].should eq "Rotunda Level 2"
+      @pwb.as_resource[:current_location][:location].should eq "Rotunda Level 2"
     end
   end
 
@@ -383,7 +383,7 @@ describe MDL::CollectionObject do
     end
 
     it 'still has the key :location in its resource' do
-      @in_storage.as_resource.keys.include?(:location).should be_true
+      @in_storage.as_resource.keys.include?(:current_location).should be_true
     end
   end
 

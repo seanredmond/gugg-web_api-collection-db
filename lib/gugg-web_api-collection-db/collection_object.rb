@@ -481,7 +481,7 @@ module Gugg
               :credit => creditline,
               :has_essay => has_essay?,
               :copyright => copyright,
-              :location => current_location == nil ? 
+              :current_location => current_location == nil ? 
                 nil : current_location.as_resource,
               :media => media.count > 0 ? media.map { |m|
                 m.as_resource
