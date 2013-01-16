@@ -437,6 +437,12 @@ module Gugg
             }.first.section] rescue nil
           end
 
+          def location(exh_id)
+            return Location[exhibition_xrefs{
+              |ds| ds.where(:exhibitionid => exh_id)
+            }.first.section] rescue nil
+          end
+
           def permanent_collection?
             return departmentid != 7
           end
@@ -474,7 +480,11 @@ module Gugg
               :acquisition => acquisition != nil ? 
                 acquisition.as_resource({'no_objects' => true}) : nil,
               :exhibitions => exhibitions.count > 0 ? exhibitions.map {
-                |e| e.as_resource({'no_objects' => true})} : nil,
+                |e| {
+                  :location => location(e.pk).as_resource,
+                  :exhibition => e.as_resource({'no_objects' => true})
+                }
+              } : nil,
               :edition => edition,
               :medium => medium,
               :dimensions => dimensions,

@@ -367,6 +367,23 @@ describe MDL::CollectionObject do
     it 'includes its location in its resource' do
       @pwb.as_resource[:current_location][:location].should eq "Rotunda Level 2"
     end
+
+    context "exhibitions" do
+      it "has a list of exhibition" do
+        @pwb.as_resource[:exhibitions].should be_an_instance_of Array
+      end
+
+      it "has exhibition items that are Hashes" do
+        @pwb.as_resource[:exhibitions][0].should be_an_instance_of Hash
+      end
+
+      it "has exhibition items consisting of Location and an Exhibition" do
+        @pwb.as_resource[:exhibitions][0][:location].
+          should be_an_instance_of Hash
+        @pwb.as_resource[:exhibitions][0][:exhibition].
+          should be_an_instance_of Hash
+      end
+    end
   end
 
   context "an object not on view" do
