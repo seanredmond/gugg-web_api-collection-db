@@ -569,7 +569,7 @@ describe MDL::CollectionObject do
     end
 
     it "returns enough objects" do
-      @objects[:objects][:total_count].should eq 47
+      @objects[:objects][:total_count].should eq 48
     end
 
     it 'returns objects with essays' do
@@ -592,7 +592,7 @@ describe MDL::CollectionObject do
       end
 
       it 'returns every object, not just permanent collection' do
-        @everything[:objects][:total_count].should eq 57
+        @everything[:objects][:total_count].should eq 58
       end
     end
   end

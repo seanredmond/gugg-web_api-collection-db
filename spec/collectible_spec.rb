@@ -59,7 +59,7 @@ describe Gugg::WebApi::Collection::Collectible do
       end
 
       it "should return 20 items" do
-        @page2[:items].count.should eq 6
+        @page2[:items].count.should eq 7
         @page2[:items_per_page].should eq 20
       end
 
