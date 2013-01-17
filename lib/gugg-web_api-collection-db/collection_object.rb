@@ -481,7 +481,7 @@ module Gugg
                 acquisition.as_resource({'no_objects' => true}) : nil,
               :exhibitions => exhibitions.count > 0 ? exhibitions.map {
                 |e| {
-                  :location => location(e.pk).as_resource,
+                  :location => location(e.pk) != nil ? location(e.pk).as_resource : nil,
                   :exhibition => e.as_resource({'no_objects' => true})
                 }
               } : nil,

@@ -501,3 +501,6 @@ INSERT INTO `collection_tms_exhobjxrefs`
    VALUES(8, 3, 1972, 'Ramp 1, Bay 12', '2012-10-02 14:32:58');
 INSERT INTO `collection_tms_exhobjxrefs` 
   VALUES(9, 3, 783, 'Ramp 5, Bay 57', '2012-10-02 14:32:58');
+-- Test for objects with NULL locations in exhibitions
+INSERT INTO `collection_tms_exhobjxrefs` 
+  VALUES(10, 3, 1006, NULL, '2012-10-02 14:32:58');
