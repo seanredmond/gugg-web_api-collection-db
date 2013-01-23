@@ -504,7 +504,7 @@ describe MDL::CollectionObject do
     end
 
     it "returns urls that end with the year" do
-      @by_year[:_links][:_self][:href].should end_with('1923/')
+      @by_year[:_links][:_self][:href].should end_with('1923')
     end
 
     it 'returns objects with essays' do
@@ -541,7 +541,7 @@ describe MDL::CollectionObject do
     end
 
     it "returns urls that end with the years" do
-      @by_year[:_links][:_self][:href].should end_with('1923/1933/')
+      @by_year[:_links][:_self][:href].should end_with('1923/1933')
     end
 
     context "bad requests" do
