@@ -27,6 +27,26 @@ describe "Degas should not cause an error" do
   it "Does not crash on Degas" do
     MDL::Constituent[931].as_resource[:objects][:count].should eq 3
   end
+end
 
+describe "Paginated link format" do
+  # API was generating URLs like:
+  # http://api.guggenheim.org/collections/objects/?page=2
+  it "should not have a slash before a question mark" do
+    obj = MDL::CollectionObject.list
+    puts obj[:_links][:next][:href]
+    obj[:_links][:next][:href].should_not include '/?'
+  end
+
+  # Fix for the previous bug also removed trailing slashes from object-by-year
+  # endpoints, which is better anyway
+  it "object-by-year endpoints should not have trailing slashes" do
+    @by_year = MDL::CollectionObject.by_year(1923, {:add_to_path => 'dates'})
+    @by_range = MDL::CollectionObject.
+      by_year_range(1923, 1933, {:add_to_path => 'dates'})
+
+    @by_year[:_links][:_self][:href].should_not end_with('1923/')
+    @by_range[:_links][:_self][:href].should_not end_with('1933/')
+  end
 end
 
