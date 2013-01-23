@@ -101,7 +101,6 @@ module Gugg
               :suffix => suffix,
               :display => displayname,
               :sort => alphasort,
-              :nationality => nationality,
               :dates => {
                 :begin => begindate,
                 :end => enddate,

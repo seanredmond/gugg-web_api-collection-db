@@ -59,7 +59,7 @@ module Gugg
         # @see #self_link
         def self.make_links(cls = nil, paginated_r = nil, pk = nil, options = {})
           options = Hash[options.map{|(k,v)| [k.to_sym, v]}]
-          path = [@@root, @@pathmap[cls], options[:add_to_path]].reject{|a| a == nil}.join('/')
+          path = [@@root, @@pathmap[cls], options[:add_to_path], pk].reject{|a| a == nil}.join('/')
 
           pagination = {}
           if paginated_r != nil
@@ -70,7 +70,7 @@ module Gugg
               }
               q = format_params(options, params)
               pagination[:prev] = {
-                :href => "#{path}/#{pk}#{q}"
+                :href => "#{path}#{q}"
               }
             end
 
@@ -81,14 +81,14 @@ module Gugg
               }
               q = format_params(options, params)
               pagination[:next] = {
-                :href => "#{path}/#{pk}#{q}"
+                :href => "#{path}#{q}"
               }
             end
           end
 
           {
             :_self => {
-              :href => "#{path}/#{pk}"
+              :href => "#{path}"
             }
           }.merge!(pagination)
 
@@ -124,6 +124,10 @@ module Gugg
         # @see #make_links
         def self_link(pages = nil, options = {})
           return Linkable::make_links(self.class, pages, pk, options)
+        end
+
+        def format_path(segments)
+          segments.reject{|p| p == nil}.join('/')
         end
       end
     end

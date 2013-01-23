@@ -79,6 +79,12 @@ describe MDL::Constituent do
       @kandinsky.as_resource.should be_an_instance_of Hash
     end
 
+    # We decided not to export the nationality from TMS because "so many 
+    # different artists have so many different opinions"
+    it "does not have a nationality" do
+      @kandinsky.as_resource[:nationality].should_not be
+    end
+
     it "has a bio" do
       @kandinsky.as_resource[:bio].should_not be_nil
     end
