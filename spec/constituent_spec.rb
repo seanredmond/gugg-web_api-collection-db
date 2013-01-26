@@ -60,8 +60,10 @@ describe MDL::Constituent do
       end
 
       it "contains only permanent collection artists" do
-        @with_t[:constituents].map{|c| c[:lastname]}.include?('Tanaka').
-          should be_false
+        @with_t[:constituents].map{|c| c[:lastname]}.
+          include?('Toulouse Lautrec Monfa').should be_true
+        @with_t[:constituents].map{|c| c[:lastname]}.
+          include?('Tanaka').should be_false
       end
 
       context "that is not a string" do
@@ -78,6 +80,20 @@ describe MDL::Constituent do
             MDL::Constituent.list({'initial' => '0'})            
           }.to raise_error(MDL::BadParameterError, /must be a single letter/)
         end
+      end
+    end
+
+    context "with collection=all option" do
+      before :all do 
+        @with_t = MDL::Constituent.
+          list({'initial' => 't', 'collection' => 'all'})
+      end
+
+      it "should include non-collection artists" do 
+        @with_t[:constituents].map{|c| c[:lastname]}.
+          include?('Tanaka').should be_true
+        @with_t[:constituents].map{|c| c[:lastname]}.
+          include?('Toulouse Lautrec Monfa').should be_true
       end
     end
   end
