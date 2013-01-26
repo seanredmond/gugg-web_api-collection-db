@@ -39,12 +39,19 @@ module Gugg
               begin
                 match = options['initial'].match(/^[a-zA-Z]$/)
                 if match != nil
-                  selection = filter(:conxrefs => ConstituentXref.
-                    filter(:displayed => 1)).
-                    filter(:objects => CollectionObject.
-                      filter(~:departmentid => 7)).
-                    where(:alphasort.ilike("#{match[0]}%")).
-                    order(:alphasort).all
+                  if options['collection'] == 'all'
+                    selection = filter(:conxrefs => ConstituentXref.
+                      filter(:displayed => 1)).
+                      where(:alphasort.ilike("#{match[0]}%")).
+                      order(:alphasort).all
+                  else
+                    selection = filter(:conxrefs => ConstituentXref.
+                      filter(:displayed => 1)).
+                      filter(:objects => CollectionObject.
+                        filter(~:departmentid => 7)).
+                      where(:alphasort.ilike("#{match[0]}%")).
+                      order(:alphasort).all
+                  end
                 else
                   # Getting here means that a string was passed via the 
                   # "initial" parameter but it wasn't a single letter
@@ -61,11 +68,17 @@ module Gugg
                   "not '#{options['initial']}'" 
               end
             else
-              selection = filter(:conxrefs => ConstituentXref.
-                  filter(:displayed => 1)).
-                filter(:objects => CollectionObject.
-                  filter(~:departmentid => 7)).
-                order(:alphasort).all
+              if options['collection'] == 'all'
+                selection = filter(:conxrefs => ConstituentXref.
+                    filter(:displayed => 1)).
+                  order(:alphasort).all
+              else
+                selection = filter(:conxrefs => ConstituentXref.
+                    filter(:displayed => 1)).
+                  filter(:objects => CollectionObject.
+                    filter(~:departmentid => 7)).
+                  order(:alphasort).all
+              end
             end
 
             {

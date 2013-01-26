@@ -51,9 +51,19 @@ describe MDL::Constituent do
     end
 
     context "with initial parameter" do
+      before :all do 
+        @with_t = MDL::Constituent.list({'initial' => 't'})
+      end
+
       it "should return only names beginning with the given letter" do
-        with_b = MDL::Constituent.list({'initial' => 'b'})
-        with_b[:constituents].map{|c| c[:sort][0,1].upcase}.uniq.should eq ["B"]
+        @with_t[:constituents].map{|c| c[:sort][0,1].upcase}.uniq.should eq ["T"]
+      end
+
+      it "contains only permanent collection artists" do
+        @with_t[:constituents].map{|c| c[:lastname]}.
+          include?('Toulouse Lautrec Monfa').should be_true
+        @with_t[:constituents].map{|c| c[:lastname]}.
+          include?('Tanaka').should be_false
       end
 
       context "that is not a string" do
@@ -70,6 +80,20 @@ describe MDL::Constituent do
             MDL::Constituent.list({'initial' => '0'})            
           }.to raise_error(MDL::BadParameterError, /must be a single letter/)
         end
+      end
+    end
+
+    context "with collection=all option" do
+      before :all do 
+        @with_t = MDL::Constituent.
+          list({'initial' => 't', 'collection' => 'all'})
+      end
+
+      it "should include non-collection artists" do 
+        @with_t[:constituents].map{|c| c[:lastname]}.
+          include?('Tanaka').should be_true
+        @with_t[:constituents].map{|c| c[:lastname]}.
+          include?('Toulouse Lautrec Monfa').should be_true
       end
     end
   end
