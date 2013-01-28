@@ -46,7 +46,7 @@ describe MDL::Constituent do
   describe ".list" do
     context "with defaults" do
       it "should work" do
-        MDL::Constituent.list[:constituents].count.should eq 16
+        MDL::Constituent.list[:constituents].count.should eq 17
       end
     end
 

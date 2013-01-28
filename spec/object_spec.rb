@@ -569,7 +569,7 @@ describe MDL::CollectionObject do
     end
 
     it "returns enough objects" do
-      @objects[:objects][:total_count].should eq 48
+      @objects[:objects][:total_count].should eq 52
     end
 
     it 'returns objects with essays' do
@@ -592,8 +592,43 @@ describe MDL::CollectionObject do
       end
 
       it 'returns every object, not just permanent collection' do
-        @everything[:objects][:total_count].should eq 58
+        @everything[:objects][:total_count].should eq 62
       end
+    end
+  end
+
+  context 'objects with extended labels' do
+    before :all do 
+      @extended = MDL::CollectionObject[28707]
+    end
+
+    it 'have extended labels' do
+      @extended.has_extended_label?.should_not be_false
+      @extended.extended_label.should_not be_nil
+    end
+
+    context 'with defaults' do
+      it 'have extended labels in their resources' do
+        @extended.as_resource[:extended_label].should be
+      end
+    end
+
+    context 'with no_essay' do
+      it 'do not have extended labels in their resources' do
+        @extended.as_resource({'no_essay' => 'true'})[:extended_label].
+          should_not be
+      end
+    end
+  end
+
+  context 'objects not in the permanent collection' do
+    before :each do
+      @loan = MDL::CollectionObject[30257]
+    end
+
+    it 'might not have object essays' do
+      @loan.has_essay?.should be_false
+      @loan.essay.should be_nil
     end
   end
 end
