@@ -61,4 +61,13 @@ describe "Correct artist bios" do
   end
 end
 
+describe "Correct object essays" do
+  # Incorrect field was exported as the object essay and some objects lacked
+  # any essay at all
+
+  it "has an essay" do
+    obj = MDL::CollectionObject[116]
+    obj.essay.should_not be_nil
+  end
+end
 
