@@ -30,12 +30,11 @@ end
 
 describe MDL::ObjectContext do
   it "should return rows" do
-    MDL::ObjectContext.all().count.should eq 58
+    MDL::ObjectContext.all().count.should eq 62
   end
 
   it "should contain expected fields" do
     context = MDL::ObjectContext.first
-    context.longtext7.should be
     context.flag5.should be
     context.flag6.should be
   end
@@ -80,11 +79,11 @@ end
 
 describe MDL::TextEntry do
   it "should return rows" do
-    MDL::TextEntry.all().count.should eq 15
+    MDL::TextEntry.all().count.should eq 69
   end
 
   it "should contain expected values" do
-    (MDL::TextEntry[17070].textentry =~ /Georges Braque/).should be_true
+    (MDL::TextEntry[31640].textentry =~ /Georges Braque/).should be_true
   end
 end
 

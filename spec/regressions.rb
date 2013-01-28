@@ -50,3 +50,24 @@ describe "Paginated link format" do
   end
 end
 
+describe "Correct artist bios" do
+  # Incorrect field was exported as the artist bio and some constituents lacked
+  # any bio at all
+
+  it "Afro has a bio" do
+    afro = MDL::Constituent[534]
+    afro.firstname.should eq "Afro"
+    afro.bio.should_not be_nil
+  end
+end
+
+describe "Correct object essays" do
+  # Incorrect field was exported as the object essay and some objects lacked
+  # any essay at all
+
+  it "has an essay" do
+    obj = MDL::CollectionObject[116]
+    obj.essay.should_not be_nil
+  end
+end
+
