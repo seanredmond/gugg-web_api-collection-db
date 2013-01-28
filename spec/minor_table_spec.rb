@@ -30,7 +30,7 @@ end
 
 describe MDL::ObjectContext do
   it "should return rows" do
-    MDL::ObjectContext.all().count.should eq 58
+    MDL::ObjectContext.all().count.should eq 62
   end
 
   it "should contain expected fields" do
@@ -80,7 +80,7 @@ end
 
 describe MDL::TextEntry do
   it "should return rows" do
-    MDL::TextEntry.all().count.should eq 15
+    MDL::TextEntry.all().count.should eq 69
   end
 
   it "should contain expected values" do
