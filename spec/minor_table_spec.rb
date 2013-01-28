@@ -35,7 +35,6 @@ describe MDL::ObjectContext do
 
   it "should contain expected fields" do
     context = MDL::ObjectContext.first
-    context.longtext7.should be
     context.flag5.should be
     context.flag6.should be
   end
