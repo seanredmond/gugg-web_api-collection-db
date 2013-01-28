@@ -84,7 +84,7 @@ describe MDL::TextEntry do
   end
 
   it "should contain expected values" do
-    (MDL::TextEntry[17070].textentry =~ /Georges Braque/).should be_true
+    (MDL::TextEntry[31640].textentry =~ /Georges Braque/).should be_true
   end
 end
 
