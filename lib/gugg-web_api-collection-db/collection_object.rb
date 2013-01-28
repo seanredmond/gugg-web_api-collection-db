@@ -77,6 +77,9 @@ module Gugg
           many_to_many :object_types, :class => ObjectType, 
             :join_table => :collection_objtypexrefs, 
             :left_key => :id, :right_key => :termid
+          one_to_one :object_essay, :class => TextEntry, :key => :id, 
+            :conditions=>{:tableid=>108, :texttypeid=>151}
+
 
           # Each object can only be in one current exhibition at a time (right?)
           # but we're going to get it as an array anyway, so for this 
@@ -294,14 +297,15 @@ module Gugg
           #
           # @return [String] The essay
           def essay
-            contexts.longtext7
+            # contexts.longtext7
+            object_essay.textentry rescue nil
           end
 
           # Does this object have an essay?
           #
           # @return [Boolean] The answer.
           def has_essay?
-            contexts.longtext7 != nil
+            essay != nil
           end
 
           # Is this part of the Collection Online?
