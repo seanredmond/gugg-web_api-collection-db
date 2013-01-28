@@ -14,7 +14,7 @@ module Gugg
             :join_table=>:collection_tms_conxrefs, 
             :left_key=>:constituentid, :right_key=>:id
           one_to_many :conxrefs, :class => ConstituentXref, :key => :constituentid
-          one_to_one :bio_entry, :class => TextEntry, :key => :id, :conditions=>{:texttypeid=>135}
+          one_to_one :bio_entry, :class => TextEntry, :key => :id, :conditions=>{:tableid=>23, :texttypeid=>152}
 
           include Linkable
           include Collectible
