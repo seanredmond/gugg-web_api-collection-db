@@ -1,5 +1,7 @@
 # Changelog
 
+## Version 1.2
+
 * Add extended essay to collection objects
 
 * Correct source of object essays
