@@ -79,6 +79,8 @@ module Gugg
             :left_key => :id, :right_key => :termid
           one_to_one :object_essay, :class => TextEntry, :key => :id, 
             :conditions=>{:tableid=>108, :texttypeid=>151}
+          one_to_one :ext_label, :class => TextEntry, :key => :id, 
+            :conditions=>{:tableid=>108, :texttypeid=>155}
 
 
           # Each object can only be in one current exhibition at a time (right?)
@@ -297,7 +299,6 @@ module Gugg
           #
           # @return [String] The essay
           def essay
-            # contexts.longtext7
             object_essay.textentry rescue nil
           end
 
@@ -306,6 +307,20 @@ module Gugg
           # @return [Boolean] The answer.
           def has_essay?
             essay != nil
+          end
+
+          # Get the extended label
+          #
+          # @return [String] The essay
+          def extended_label
+            ext_label.textentry rescue nil
+          end
+
+          # Does this object have an extended label?
+          #
+          # @return [Boolean] The answer.
+          def has_extended_label?
+            extended_label != nil
           end
 
           # Is this part of the Collection Online?
@@ -494,6 +509,7 @@ module Gugg
               :dimensions => dimensions,
               :credit => creditline,
               :has_essay => has_essay?,
+              :has_extended_label => has_essay?,
               :copyright => copyright,
               :current_location => current_location == nil ? 
                 nil : current_location.as_resource,
@@ -509,6 +525,7 @@ module Gugg
 
             if options['no_essay'] != 'true'
               resource[:essay] = essay
+              resource[:extended_label] = extended_label
             end
 
             return resource
