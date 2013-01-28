@@ -596,4 +596,15 @@ describe MDL::CollectionObject do
       end
     end
   end
+
+  context 'objects not in the permanent collection' do
+    before :each do
+      @loan = MDL::CollectionObject[30257]
+    end
+
+    it 'might not have object essays' do
+      @loan.has_essay?.should be_false
+      @loan.essay.should be_nil
+    end
+  end
 end
