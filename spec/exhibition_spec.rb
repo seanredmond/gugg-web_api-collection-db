@@ -12,7 +12,7 @@ describe MDL::Exhibition do
   end
 
   it "has objects" do
-    @current.objects.count.should eq 2
+    @current.objects.count.should eq 3
   end
 
   it "should have Guggenheim objects" do
@@ -20,7 +20,7 @@ describe MDL::Exhibition do
   end
 
   it "should have non Guggenheim objects" do
-    @current.not_ours.count.should eq 0
+    @current.not_ours.count.should eq 1
   end
 
   describe "#name" do

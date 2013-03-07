@@ -414,7 +414,7 @@ describe MDL::CollectionObject do
         @on_view.should be_an_instance_of Hash
       end
 
-      it "returns 3 objects" do
+      it "returns 2 objects" do
         @on_view[:objects][:items].count.should eq 2
       end
 
@@ -431,6 +431,15 @@ describe MDL::CollectionObject do
           should start_with "http://u.r.i/collection/objects/on-view"
       end
     end
+
+    context "with collection = all" do
+      it "returns 3 objects" do
+        @on_view = MDL::CollectionObject.on_view({:add_to_path => 'on-view', 'collection' => 'all'})
+
+        @on_view[:objects][:items].count.should eq 3
+      end
+    end
+
 
     context "with options" do
       before :all do
