@@ -497,6 +497,8 @@ INSERT INTO `collection_tms_exhobjxrefs`
   VALUES(6, 2, 25905, 'Ramp 6, Bay 63', '2012-10-02 14:32:58');
 INSERT INTO `collection_tms_exhobjxrefs` 
   VALUES(7, 2, 3417, 'Ramp 2, Bay 21', '2012-10-02 14:32:58');
+INSERT INTO `collection_tms_exhobjxrefs` 
+  VALUES(11, 2, 28665, 'Ramp 2, Bay 21', '2012-10-02 14:32:58');
 INSERT INTO `collection_tms_exhobjxrefs`
    VALUES(8, 3, 1972, 'Ramp 1, Bay 12', '2012-10-02 14:32:58');
 INSERT INTO `collection_tms_exhobjxrefs` 
