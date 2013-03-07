@@ -316,6 +316,21 @@ module Gugg
             end
           end
 
+          # Returns recent acquisitions from the permanent collection
+          def self.recent_acquisitions(options = {})
+            objects = join(:collection_tms_objcontext, :objectid => :objectid).
+              filter(:collection_tms_objcontext__flag5 => 1).
+              where(~:departmentid => 7)
+
+            (dataset_pages, dateset_resource) = 
+              paginated_resource(objects, options)
+
+            {
+              :objects => dateset_resource,
+              :_links => Linkable::make_links(self, dataset_pages, nil, options)              
+            }
+          end
+
           # Get the copyright statement
           #
           # @return [String] The copyright
@@ -548,6 +563,7 @@ module Gugg
                 t.as_resource({'no_objects' => true})
               } : nil,
               :permanent_collection => permanent_collection?,
+              :recent_acquisition => is_recent_acquisition?,
               :_links => links
             }
 

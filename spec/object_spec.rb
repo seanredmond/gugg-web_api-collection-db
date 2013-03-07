@@ -199,8 +199,8 @@ describe MDL::CollectionObject do
         @r[:sort_name].should eq('Kandinsky, Vasily')
       end
 
-      it "should not be a recent acquisition" do
-        @r[:recent_acquisition].should be_false
+      it "should say whether or not it's a recent acquisition" do
+        @r[:recent_acquisition].should_not be_nil
       end
 
       it "should have an essay" do
@@ -674,4 +674,12 @@ describe MDL::CollectionObject do
       @loan.essay.should be_nil
     end
   end
+
+  describe ".recent_acquisitions" do
+    it "works" do
+      recent = MDL::CollectionObject.recent_acquisitions
+      recent[:objects][:items].count.should eq 1
+    end
+  end
+
 end
