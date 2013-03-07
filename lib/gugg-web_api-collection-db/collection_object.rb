@@ -136,16 +136,34 @@ module Gugg
           # currently open exhibition
           def self.on_view(options = {})
             today = Date.today
-            (dataset_pages, dateset_resource) = paginated_resource(
-              with_sql("SELECT o.* 
-                FROM collection_tms_objects o
-                INNER JOIN collection_tms_exhobjxrefs ex 
-                  ON o.objectid = ex.objectid
-                INNER JOIN collection_tms_exhibitions e 
-                  ON ex.exhibitionid = e.exhibitionid
-                WHERE e.beginisodate <= '#{today}'
-                AND e.endisodate >= '#{today}'"), 
-              options)
+
+            # TODO: Set this up with proper Sequel methods
+            if options['collection'] == 'all'
+              (dataset_pages, dateset_resource) = paginated_resource(
+                with_sql("SELECT o.* 
+                  FROM collection_tms_objects o
+                  INNER JOIN collection_tms_exhobjxrefs ex 
+                    ON o.objectid = ex.objectid
+                  INNER JOIN collection_tms_exhibitions e 
+                    ON ex.exhibitionid = e.exhibitionid
+                  WHERE e.beginisodate <= '#{today}'
+                  AND e.endisodate >= '#{today}'
+                  ORDER BY o.sort_constituent, o.sort_date, o.sort_title"), 
+                options)
+            else
+              (dataset_pages, dateset_resource) = paginated_resource(
+                with_sql("SELECT o.* 
+                  FROM collection_tms_objects o
+                  INNER JOIN collection_tms_exhobjxrefs ex 
+                    ON o.objectid = ex.objectid
+                  INNER JOIN collection_tms_exhibitions e 
+                    ON ex.exhibitionid = e.exhibitionid
+                  WHERE e.beginisodate <= '#{today}'
+                  AND e.endisodate >= '#{today}'
+                  AND o.departmentid <> 7
+                  ORDER BY o.sort_constituent, o.sort_date, o.sort_title"), 
+                options)
+            end
 
             {
               :objects => dateset_resource,
@@ -228,9 +246,15 @@ module Gugg
             # set_dataset(self.permanent_collection)
             begin
               year = Integer(year)
+              objects = where{|o| o.datebegin <= year}.
+                  where{|o| o.dateend >= year}
+
+              if options['collection'] != 'all'
+                objects = objects.where(~:departmentid => 7)
+              end
+
               (dataset_pages, dateset_resource) = 
-                paginated_resource(where{|o| o.datebegin <= year}.
-                  where{|o| o.dateend >= year}, options)
+                paginated_resource(objects, options)
 
               {
                 :objects => dateset_resource,
@@ -268,13 +292,17 @@ module Gugg
                   "Start year of range must be less than end year"
               end
 
-              (dataset_pages, dateset_resource) = 
-                paginated_resource(
-                  where{|o| 
+              objects = where{|o| 
                     (o.datebegin >= start_year) & (o.datebegin <= end_year)}.
                   where{|o| 
-                    (o.dateend >= start_year) & (o.dateend <= end_year)}, 
-                options)
+                    (o.dateend >= start_year) & (o.dateend <= end_year)}
+
+              if options['collection'] != 'all'
+                objects = objects.where(~:departmentid => 7)
+              end
+
+              (dataset_pages, dateset_resource) = 
+                paginated_resource(objects, options)
                     # ((:dateend >= start_year) & (:dateend <= end_year))},
 
               {

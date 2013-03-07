@@ -414,7 +414,7 @@ describe MDL::CollectionObject do
         @on_view.should be_an_instance_of Hash
       end
 
-      it "returns 3 objects" do
+      it "returns 2 objects" do
         @on_view[:objects][:items].count.should eq 2
       end
 
@@ -431,6 +431,15 @@ describe MDL::CollectionObject do
           should start_with "http://u.r.i/collection/objects/on-view"
       end
     end
+
+    context "with collection = all" do
+      it "returns 3 objects" do
+        @on_view = MDL::CollectionObject.on_view({:add_to_path => 'on-view', 'collection' => 'all'})
+
+        @on_view[:objects][:items].count.should eq 3
+      end
+    end
+
 
     context "with options" do
       before :all do
@@ -511,6 +520,23 @@ describe MDL::CollectionObject do
       @by_year[:objects][:items].first.keys.include?(:essay).should be_true
     end
 
+    # There are five objects in the test data created in 1956, both loans. 
+    context 'without collection = all' do
+      it 'does not return loaned objects' do
+        @objects = MDL::CollectionObject.by_year(1956, 
+          {:add_to_path => 'dates'})
+        @objects[:objects][:items].should be_nil
+      end
+    end
+
+    context 'with collection = all' do
+      it 'returns loaned objects' do
+        @objects = MDL::CollectionObject.by_year(1956, 
+          {:add_to_path => 'dates', 'collection' => 'all'})
+        @objects[:objects][:items].count.should eq 5
+      end
+    end
+
     context 'with no_essay = true' do
       before :all do 
         @no_essays = MDL::CollectionObject.
@@ -542,6 +568,23 @@ describe MDL::CollectionObject do
 
     it "returns urls that end with the years" do
       @by_year[:_links][:_self][:href].should end_with('1923/1933')
+    end
+
+    # There are five objects in the test data created in 1956, both loans. 
+    context 'without collection = all' do
+      it 'does not return loaned objects' do
+        @objects = MDL::CollectionObject.by_year_range(1950, 1959,
+          {:add_to_path => 'dates'})
+        @objects[:objects][:items].count.should eq 3
+      end
+    end
+
+    context 'with collection = all' do
+      it 'returns loaned objects' do
+        @objects = MDL::CollectionObject.by_year_range(1950, 1959,
+          {:add_to_path => 'dates', 'collection' => 'all'})
+        @objects[:objects][:items].count.should eq 9
+      end
     end
 
     context "bad requests" do
