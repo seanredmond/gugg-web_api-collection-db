@@ -228,9 +228,15 @@ module Gugg
             # set_dataset(self.permanent_collection)
             begin
               year = Integer(year)
+              objects = where{|o| o.datebegin <= year}.
+                  where{|o| o.dateend >= year}
+
+              if options['collection'] != 'all'
+                objects = objects.where(~:departmentid => 7)
+              end
+
               (dataset_pages, dateset_resource) = 
-                paginated_resource(where{|o| o.datebegin <= year}.
-                  where{|o| o.dateend >= year}, options)
+                paginated_resource(objects, options)
 
               {
                 :objects => dateset_resource,
