@@ -561,6 +561,23 @@ describe MDL::CollectionObject do
       @by_year[:_links][:_self][:href].should end_with('1923/1933')
     end
 
+    # There are five objects in the test data created in 1956, both loans. 
+    context 'without collection = all' do
+      it 'does not return loaned objects' do
+        @objects = MDL::CollectionObject.by_year_range(1950, 1959,
+          {:add_to_path => 'dates'})
+        @objects[:objects][:items].count.should eq 3
+      end
+    end
+
+    context 'with collection = all' do
+      it 'returns loaned objects' do
+        @objects = MDL::CollectionObject.by_year_range(1950, 1959,
+          {:add_to_path => 'dates', 'collection' => 'all'})
+        @objects[:objects][:items].count.should eq 9
+      end
+    end
+
     context "bad requests" do
       it "should raise an error if one of the years isn't an integer" do
         expect {

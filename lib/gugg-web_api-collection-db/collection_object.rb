@@ -274,13 +274,17 @@ module Gugg
                   "Start year of range must be less than end year"
               end
 
-              (dataset_pages, dateset_resource) = 
-                paginated_resource(
-                  where{|o| 
+              objects = where{|o| 
                     (o.datebegin >= start_year) & (o.datebegin <= end_year)}.
                   where{|o| 
-                    (o.dateend >= start_year) & (o.dateend <= end_year)}, 
-                options)
+                    (o.dateend >= start_year) & (o.dateend <= end_year)}
+
+              if options['collection'] != 'all'
+                objects = objects.where(~:departmentid => 7)
+              end
+
+              (dataset_pages, dateset_resource) = 
+                paginated_resource(objects, options)
                     # ((:dateend >= start_year) & (:dateend <= end_year))},
 
               {
