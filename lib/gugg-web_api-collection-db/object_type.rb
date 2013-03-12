@@ -42,7 +42,7 @@ module Gugg
             end
 
             {
-              :types => all.
+              :types => order(:term).all.
                 reject{|a| a.objects_dataset.count == 0}.
                 map{|a| a.as_resource(defaults.merge!(options))}
             }
