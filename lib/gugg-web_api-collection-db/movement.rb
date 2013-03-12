@@ -26,7 +26,7 @@ module Gugg
             end
 
             {
-              :movements => all.
+              :movements => order(:term).all.
                 reject{|m| m.objects_dataset.count == 0}.
                 map{|m| m.as_resource(defaults.merge!(options))}
             }
