@@ -53,6 +53,13 @@ describe MDL::Movement do
         @mov[:movements].each do |a|
           a[:objects][:items].should_not be
         end
+
+      end
+
+      it "should be in the right order" do
+        # By id, the third movement is School of Expressionism
+        @mov[:movements].map{|m| m[:name] }[0..2].
+          should eq ["Bauhaus", "Cubism", "Expressionism"]
       end
     end
   end
