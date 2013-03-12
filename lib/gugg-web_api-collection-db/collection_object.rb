@@ -318,7 +318,8 @@ module Gugg
 
           # Returns recent acquisitions from the permanent collection
           def self.recent_acquisitions(options = {})
-            objects = join(:collection_tms_objcontext, :objectid => :objectid).
+            objects = select('collection_tms_objects.*'.lit).
+              join(:collection_tms_objcontext, :objectid => :objectid).
               filter(:collection_tms_objcontext__flag5 => 1).
               where(~:departmentid => 7)
 
