@@ -682,4 +682,41 @@ describe MDL::CollectionObject do
     end
   end
 
+  describe ".quicksearch" do
+    it "can find Manet" do
+      manet = MDL::CollectionObject.quicksearch({'q' => 'Manet'})
+      manet.should be_an_instance_of Hash
+      manet[:objects][:total_count].should eq 3
+    end
+
+    it "can find manet" do
+      manet = MDL::CollectionObject.quicksearch({'q' => 'manet'})
+      manet.should be_an_instance_of Hash
+      manet[:objects][:total_count].should eq 3
+    end
+
+    it "Can find names ending in 'net'" do
+      m_net = MDL::CollectionObject.quicksearch({'q' => 'net'})
+      m_net[:objects][:total_count].should eq 4
+    end
+
+    it "Can find Portrait of Countess Albazzi by accession" do
+      countess = MDL::CollectionObject.quicksearch({'q' => '91.3909'})
+      countess[:objects][:total_count].should eq 1
+      countess[:objects][:items][0][:id].should eq 2611
+    end
+
+    it "Can find Portrait of Countess Albazzi by title" do
+      countess = MDL::CollectionObject.quicksearch({'q' => 'Countess Albazzi'})
+      countess[:objects][:total_count].should eq 1
+      countess[:objects][:items][0][:id].should eq 2611
+    end
+
+    it "Can find Portrait of Countess Albazzi by title, insensitively" do
+      countess = MDL::CollectionObject.quicksearch({'q' => 'countess albazzi'})
+      countess[:objects][:total_count].should eq 1
+      countess[:objects][:items][0][:id].should eq 2611
+    end
+  end
+
 end

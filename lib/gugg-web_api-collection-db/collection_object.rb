@@ -332,6 +332,37 @@ module Gugg
             }
           end
 
+          # Searches for a string in accession number, constituent name, and 
+          # title. Returns a list of matching objects. 
+          def self.quicksearch(options = {})
+            q = options['q']
+
+            # Find constituents with matching names and get their alphasort 
+            # version
+            # Case-insensitive substring search of displayname
+            names = Constituent.
+              where(Sequel.ilike(:displayname, "%#{q}%")).
+              all.
+              map {|n| n[:alphasort]}
+
+            # Find objects whose sort_constituent is in the list above, 
+            #   OR whose accession number begins with the search item
+            #   OR whose sort_title contains the search item
+            objects = where(~:departmentid => 7).where(
+              Sequel.expr(Sequel.expr(Sequel.ilike(:objectnumber, "#{q}%")) | 
+              {:sort_constituent => names}) | 
+              Sequel.expr(Sequel.ilike(:sort_title, "%#{q}%"))
+            )
+
+            (dataset_pages, dateset_resource) = 
+              paginated_resource(objects, options)
+
+            {
+              :objects => dateset_resource,
+              :_links => Linkable::make_links(self, dataset_pages, nil, options)              
+            }
+          end
+
           # Get the copyright statement
           #
           # @return [String] The copyright
