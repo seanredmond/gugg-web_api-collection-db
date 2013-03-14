@@ -221,7 +221,7 @@ describe MDL::CollectionObject do
       end
 
       it "should have a web link" do
-        @r[:_links][:web][:href].should include(@r[:accession])
+        @r[:_links][:web][:href].should include("#{@r[:id]}")
       end
 
       it "should have a location" do
