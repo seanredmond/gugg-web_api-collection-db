@@ -94,7 +94,7 @@ module Gugg
             where{endisodate >= Date.today}
           end
 
-          @@web_url = 'http://www.guggenheim.org/new-york/collections/collection-online/show-full/piece/?&search=&f=Title&object='
+          @@web_url = 'http://www.guggenheim.org/new-york/collections/collection-online/artwork'
 
           dataset_module do
             def basic_order
@@ -551,7 +551,7 @@ module Gugg
 
             if is_collection?
               links[:web] = {
-                :href => @@web_url + objectnumber
+                :href => "#{@@web_url}/#{pk}"
               }
             end
             
